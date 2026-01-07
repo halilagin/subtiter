@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subtitle Style 1</title>
+<style>
+  body {
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .subtitle-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px 25px;
+    border-radius: 15px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 6vw;
+    font-weight: 500;
+    color: #a0a0a0; /* Gray for inactive words */
+  }
+
+  .active-word {
+    color: #000000; /* Black for the active word */
+    font-weight: 700; /* Bolder */
+  }
+</style>
+</head>
+<body>
+
+<div class="subtitle-container">
+  <span class="subtitle">
+    to <span class="active-word">break</span> through
+  </span>
+</div>
+
+</body>
+</html>

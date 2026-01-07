@@ -1,0 +1,209 @@
+name: Deploy Klipperscmd to Fargate
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/klipperscmd/**'
+      - 'infra/resources/fargate_task.tf'
+      - '.github/workflows/deploy-fargate.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+env:
+  AWS_REGION: eu-west-1
+  ECR_REPOSITORY: klipperscmd
+  ECS_CLUSTER: klippers-video-processing-cluster
+  ECS_TASK_DEFINITION: klippers-video-processing
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        working-directory: ./app/klipperscmd
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Create .env.fargate from secrets
+          echo "Creating .env.fargate from GitHub secrets..."
+          cat > .env.fargate << EOF
+          WEBAPP_API_HOST=${{ secrets.WEBAPP_API_HOST }}
+          WEBAPP_API_PORT=${{ secrets.WEBAPP_API_PORT }}
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+          ALGORITHM=${{ secrets.ALGORITHM }}
+          ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          GMAIL_EMAIL=${{ secrets.GMAIL_EMAIL }}
+          GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}
+          EMAIL_INTERVAL_SECONDS=${{ secrets.EMAIL_INTERVAL_SECONDS }}
+          EMAIL_SENDER_NAME=${{ secrets.EMAIL_SENDER_NAME }}
+          EMAIL_SENDER_EMAIL=${{ secrets.EMAIL_SENDER_EMAIL }}
+          ACTIVATE_EMAIL_SENDING=${{ secrets.ACTIVATE_EMAIL_SENDING }}
+          SIGNING_CALLBACK_URL=${{ secrets.SIGNING_CALLBACK_URL }}
+          SIGNING_CALLBACK_URL_SIGNED_PDF_VIEW=${{ secrets.SIGNING_CALLBACK_URL_SIGNED_PDF_VIEW }}
+          ACTIVATE_SIGNING_PDF=${{ secrets.ACTIVATE_SIGNING_PDF }}
+          STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_DEFAULT_CURRENCY=${{ secrets.STRIPE_DEFAULT_CURRENCY }}
+          STRIPE_PAY_AS_YOU_GO_PRODUCT_ID=${{ secrets.STRIPE_PAY_AS_YOU_GO_PRODUCT_ID }}
+          STRIPE_METERED_PRODUCT_ID=${{ secrets.STRIPE_METERED_PRODUCT_ID }}
+          STRIPE_MONTHLY_PRODUCT_ID=${{ secrets.STRIPE_MONTHLY_PRODUCT_ID }}
+          STRIPE_PAY_AS_YOU_GO_PRICE=${{ secrets.STRIPE_PAY_AS_YOU_GO_PRICE }}
+          ACTIVATE_STRIPE_METERING=${{ secrets.ACTIVATE_STRIPE_METERING }}
+          ACTIVATE_PSQL_BACKUP=${{ secrets.ACTIVATE_PSQL_BACKUP }}
+          DB_BACKUP_CONTAINER_NAME=${{ secrets.DB_BACKUP_CONTAINER_NAME }}
+          DB_BACKUP_DB_NAME=${{ secrets.DB_BACKUP_DB_NAME }}
+          DB_BACKUP_DB_USER=${{ secrets.DB_BACKUP_DB_USER }}
+          DB_BACKUP_DIR=${{ secrets.DB_BACKUP_DIR }}
+          DB_BACKUP_DATE_FORMAT=${{ secrets.DB_BACKUP_DATE_FORMAT }}
+          DB_BACKUP_FILE=${{ secrets.DB_BACKUP_FILE }}
+          DB_BACKUP_DAYS_TO_KEEP=${{ secrets.DB_BACKUP_DAYS_TO_KEEP }}
+          DB_BACKUP_S3_BUCKET_NAME=${{ secrets.DB_BACKUP_S3_BUCKET_NAME }}
+          VIDEO_WAREHOUSE_ROOT_DIR=/app/klippers_warehouse
+          BACKEND_WORKING_DIR=/app
+          SEGMENT_COUNT=${{ secrets.SEGMENT_COUNT }}
+          KLIPPERS_RUN_SCRIPT=/app/run.sh
+          KLIPPERS_CMD_CLIPPER_PY=/app/clipper.py
+          klippers_level1=${{ secrets.KLIPPERS_LEVEL1 }}
+          klippers_level2=${{ secrets.KLIPPERS_LEVEL2 }}
+          klippers_level3=${{ secrets.KLIPPERS_LEVEL3 }}
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          DEEPGRAM_API_KEY=${{ secrets.DEEPGRAM_API_KEY }}
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION=${{ env.AWS_REGION }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          FACEBOOK_APP_ID=${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_SECRET=${{ secrets.FACEBOOK_APP_SECRET }}
+          USER_ID=
+          VIDEO_ID=
+          DO_DB_OPERATION=true
+          SEND_CHAT=true
+          MOCK_PROCESS=false
+          EOF
+          
+          # Build and push
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          
+          # Also tag as latest
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Image scan results
+        run: |
+          aws ecr describe-image-scan-findings \
+            --repository-name $ECR_REPOSITORY \
+            --image-id imageTag=${{ github.sha }} \
+            --region ${{ env.AWS_REGION }} || echo "Scan not complete yet"
+
+  update-task-definition:
+    name: Update ECS Task Definition
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download current task definition
+        id: download-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --query taskDefinition > task-definition.json
+          
+          cat task-definition.json
+
+      - name: Update task definition with new image
+        id: update-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: klipperscmd
+          image: ${{ needs.build-and-push.outputs.image }}
+
+      - name: Register new task definition
+        run: |
+          aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.update-task-def.outputs.task-definition }}
+
+      - name: Output new task definition ARN
+        run: |
+          NEW_TASK_DEF_ARN=$(aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "New task definition: $NEW_TASK_DEF_ARN"
+
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [build-and-push, update-task-definition]
+    if: always()
+    
+    steps:
+      - name: Deployment Success
+        if: needs.update-task-definition.result == 'success'
+        run: |
+          echo "✅ Deployment successful!"
+          echo "Image: ${{ needs.build-and-push.outputs.image }}"
+          echo "Cluster: ${{ env.ECS_CLUSTER }}"
+          echo "Task Definition: ${{ env.ECS_TASK_DEFINITION }}"
+
+      - name: Deployment Failed
+        if: needs.update-task-definition.result != 'success'
+        run: |
+          echo "❌ Deployment failed!"
+          exit 1
+
+      # Optional: Send Slack notification
+      # - name: Slack Notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     text: 'Klipperscmd deployment ${{ job.status }}'
+      #     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+      #   if: always()
+

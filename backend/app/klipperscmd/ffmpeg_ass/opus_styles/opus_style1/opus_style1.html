@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subtitle Style 1</title>
+<style>
+  body {
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 900; /* Extra bold */
+    font-size: 8vw;
+    color: white;
+    text-align: center;
+    /* Create a strong black outline */
+    text-shadow:
+      -3px -3px 0 #000,
+       3px -3px 0 #000,
+      -3px  3px 0 #000,
+       3px  3px 0 #000,
+      -3px  0   0 #000,
+       3px  0   0 #000,
+       0   -3px 0 #000,
+       0    3px 0 #000;
+    padding: 20px;
+  }
+
+  .highlight {
+    color: #00e600;
+    font-size: 1.2em;
+  }
+</style>
+</head>
+<body>
+
+<div class="subtitle">
+  EVER <span class="highlight">FELT</span>
+</div>
+
+</body>
+</html>

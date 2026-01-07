@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+#  klippers-fastapi-app:
+#    container_name: klippers-fastapi-app
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+#    ports:
+#      - "23081:22081"
+#    volumes:
+#      - ./backend:/app
+#    env_file:
+#      - ./backend/.env.docker
+#    environment:
+#      - PYTHONPATH=/app
+#      - DATABASE_URL=postgresql://klippersuser:klippers_qazwsxqazwsx@klippers-postgres-db:5432/klippers_test
+#      - RAY_OBJECT_STORE_ALLOW_SLOW_STORAGE=1
+#      - RAY_DISABLE_DOCKER_CPU_WARNING=1
+#      - RAY_memory_monitor_refresh_ms=0
+#      - RAY_NODE_IP_ADDRESS=0.0.0.0
+#      - RAY_HEAD_NODE_HOST=127.0.0.1
+#      - RAY_RUNTIME_ENV_SKIP_LOCAL_GIT=1
+#      - RAY_RUNTIME_ENV_LOCAL_MODULES=0
+#      - GRPC_ENABLE_FORK_SUPPORT=0
+#      - RAY_CLIENT_MODE=0
+#      - RAY_USAGE_STATS_ENABLED=0
+#    restart: unless-stopped
+#    depends_on:
+#      - klippers_postgres_db
+#    shm_size: 10gb
+#    ipc: host
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 8G
+#          cpus: '4.0'
+#        reservations:
+#          memory: 4G
+#          cpus: '2.0'
+#    networks:
+#      - app_network
+  # klippers-nodejs-app:
+  #   container_name: klippers-nodejs-app
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   ports:
+  #     - "23080:22080"
+  #     - "23043:22443"
+  #   environment:
+  #     POSTGRES_USER: klippersuser
+  #     POSTGRES_PASSWORD: klippers_qazwsxqazwsx
+  #     POSTGRES_DB: klippers_test
+  #   networks:
+  #     - app_network
+
+  klippers_postgres_db:
+    container_name: klippers-postgres-db
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_USER: klippersuser
+      POSTGRES_PASSWORD: klippers_qazwsxqazwsx
+      POSTGRES_DB: klippers_test
+    volumes:
+      - klippers_postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  redis:
+    container_name: klippers-redis
+    image: redis:7-alpine
+    restart: always
+    environment:
+      REDIS_TOKEN: "token_234_asdf_234_s24v!_$+_234_asdf_324!_sdf"
+    ports:
+      - "26379:6379"
+    command: >
+      sh -c 'exec redis-server
+      --appendonly yes
+      --requirepass "$$REDIS_TOKEN"'
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+
+volumes:
+  redis_data:
+    driver: local
+  klippers_postgres_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge 

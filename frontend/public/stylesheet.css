@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'FC Correntino';
+    src: url('FCCorrentino-Light.eot');
+    src: local('FC Correntino Light'), local('FCCorrentino-Light'),
+        url('FCCorrentino-Light.eot?#iefix') format('embedded-opentype'),
+        url('FCCorrentino-Light.woff2') format('woff2'),
+        url('FCCorrentino-Light.woff') format('woff'),
+        url('FCCorrentino-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FC Correntino';
+    src: url('FCCorrentino-Bold.eot');
+    src: local('FC Correntino Bold'), local('FCCorrentino-Bold'),
+        url('FCCorrentino-Bold.eot?#iefix') format('embedded-opentype'),
+        url('FCCorrentino-Bold.woff2') format('woff2'),
+        url('FCCorrentino-Bold.woff') format('woff'),
+        url('FCCorrentino-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FC Correntino';
+    src: url('FCCorrentino-Regular.eot');
+    src: local('FC Correntino Regular'), local('FCCorrentino-Regular'),
+        url('FCCorrentino-Regular.eot?#iefix') format('embedded-opentype'),
+        url('FCCorrentino-Regular.woff2') format('woff2'),
+        url('FCCorrentino-Regular.woff') format('woff'),
+        url('FCCorrentino-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

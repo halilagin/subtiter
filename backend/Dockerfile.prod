@@ -1,0 +1,25 @@
+# Use Python 3.11 slim image as base (explicit Debian variant for multi-arch)
+FROM halilagin/klippersai:latest
+
+# Set working directory
+WORKDIR /app
+
+COPY . .
+
+# Install Python dependencies (main group only) non-interactively
+RUN poetry config virtualenvs.create false && rm -f poetry.lock && \
+    poetry install && \
+    pip install --upgrade pip && \
+    pip install --upgrade setuptools
+    
+    
+    
+
+# Copy the rest of the application code
+RUN cp .env.docker.prod .env
+
+# Expose port 8000
+EXPOSE 22081
+
+# Command to run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "22081", "--reload"] 

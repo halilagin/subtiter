@@ -1,0 +1,82 @@
+*.mp4
+*.m4a
+*.wav
+*.ogg
+*.flac
+
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Documentation
+*.md
+!README_FARGATE.md
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
+
+# Build artifacts
+*.tar.gz
+*.zip
+
+# Local test data
+podcast-output-*/
+test_*/
+
+# Environment files (template is included, actual .env.fargate should be copied during build)
+.env.local
+.env.test
+.env.prod
+
+# Lock files (we copy them explicitly)
+# uv.lock is needed
+
+# Makefile
+Makefile
+Makefile.fargate
+
+# Python scripts not needed in container
+trigger_fargate.py
+build-and-push.sh
+trigger-step-function.sh
+

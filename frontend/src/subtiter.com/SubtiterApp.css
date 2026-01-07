@@ -1,0 +1,86 @@
+.cube-container {
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cube-face {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Position each face on the cube */
+/* Front face (0) - Video Upload - facing forward */
+.cube-face-front {
+  transform: rotateX(0deg) translateZ(50vh);
+}
+
+/* Top face (1) - Subtitle Library - facing up */
+.cube-face-top {
+  transform: rotateX(-90deg) translateZ(50vh);
+}
+
+/* Back face (2) - Summary - facing backward */
+.cube-face-back {
+  transform: rotateX(-180deg) translateZ(50vh);
+}
+
+/* Bottom face (3) - Payment - facing down */
+.cube-face-bottom {
+  transform: rotateX(90deg) translateZ(50vh);
+}
+
+/* Rotate cube to show each face - continuous rotation */
+.cube.show-front {
+  transform: rotateX(0deg);
+}
+
+.cube.show-top {
+  transform: rotateX(90deg);
+}
+
+.cube.show-back {
+  transform: rotateX(180deg);
+}
+
+.cube.show-bottom {
+  transform: rotateX(270deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cube-face-front {
+    transform: rotateX(0deg) translateZ(50vw);
+  }
+
+  .cube-face-top {
+    transform: rotateX(-90deg) translateZ(50vw);
+  }
+
+  .cube-face-back {
+    transform: rotateX(-180deg) translateZ(50vw);
+  }
+
+  .cube-face-bottom {
+    transform: rotateX(90deg) translateZ(50vw);
+  }
+}

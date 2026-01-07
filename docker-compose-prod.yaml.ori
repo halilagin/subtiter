@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  fastapi-app:
+    container_name: klippers-fastapi-app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "4081:4081"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=postgresql://klippersuser_prod:klippers_qazwsxqazwsx_prod@klippers-postgres-db-prod:5433/klippers_prod
+    restart: unless-stopped
+    depends_on:
+      - postgres_db
+    networks:
+      - app_network
+  nodejs-app:
+    container_name: klippers-nodejs-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    restart: always
+    ports:
+      - "4080:4080"
+      - "4443:4443"
+    networks:
+      - app_network
+
+  postgres_db_prod:
+    container_name: klippers-postgres-db-prod
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_USER: klippersuser_prod
+      POSTGRES_PASSWORD: klippers_qazwsxqazwsx_prod
+      POSTGRES_DB: klippers_prod
+      PGPORT: 5433
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  postgres_db:
+    container_name: klippers-postgres-db
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: klippersuser
+      POSTGRES_PASSWORD: klippers_qazwsxqazwsx
+      POSTGRES_DB: klippers_test
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+    driver: local
+  postgres_data_prod:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge 

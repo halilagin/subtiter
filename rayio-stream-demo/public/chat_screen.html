@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray.io Chat Room</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: #e2e8f0;
+            border-bottom: 1px solid #cbd5e0;
+        }
+        .message-input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        .message-input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            outline: none;
+            font-size: 1rem;
+        }
+        .send-button {
+            margin-left: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            border: none;
+        }
+        .send-button:hover {
+            background-color: #2563eb; /* Blue-600 */
+        }
+        .chat-header {
+            background-color: #4f46e5; /* Indigo-600 */
+            color: white;
+            padding: 1rem 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .message-bubble {
+            background-color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message-bubble strong {
+            color: #4f46e5; /* Indigo-600 */
+        }
+        .message-bubble .timestamp {
+            font-size: 0.75rem;
+            color: #64748b; /* Slate-500 */
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Ray.io Chat Room
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div class="message-input-area">
+            <input type="text" id="messageInput" class="message-input" placeholder="Type your message...">
+            <button id="sendButton" class="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        let clientId = localStorage.getItem('clientId');
+        clientId = 'user-' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('clientId', clientId);
+        
+
+        let roomId = localStorage.getItem('roomId');
+        if (!roomId) {
+            roomId = 'room-' + Math.random().toString(36).substring(2, 9);
+            localStorage.setItem('roomId', roomId);
+        }
+
+        roomId = 'room-1';
+
+        // Establish WebSocket connection
+        // Use ws:// for HTTP and wss:// for HTTPS.
+        // If running locally, it's typically ws://localhost:8000
+        const websocket = new WebSocket("ws://localhost:6201/ws/" + roomId + "/" + clientId);
+
+        websocket.onopen = function(event) {
+            console.log("WebSocket connection opened:", event);
+            // Optional: send a 'user connected' message to the server
+            // websocket.send(JSON.stringify({ type: "connect", message: "User connected" }));
+        };
+
+        websocket.onmessage = function(event) {
+            // Parse the incoming JSON message
+            let data = JSON.parse(event.data);
+            data = JSON.parse(data);
+
+            // Display the message in the chat area
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+
+            console.log("Message received:", data);
+            // Format client and timestamp for display
+            const clientId = data["clientId"].substring(0, 8); // Show first 8 chars of client ID for brevity
+            const timestamp = data["timestamp"] ? data["timestamp"] : 'N/A';
+
+            messageBubble.innerHTML = `<strong>${clientId}:</strong> ${data.message} <span class="timestamp">(${timestamp})</span>`;
+            chatMessages.appendChild(messageBubble);
+
+            // Scroll to the bottom of the chat messages
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        websocket.onclose = function(event) {
+            console.log("WebSocket connection closed:", event);
+            if (event.wasClean) {
+                console.log(`Connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+            } else {
+                console.error("Connection died unexpectedly");
+            }
+            const statusMessage = document.createElement('div');
+            statusMessage.textContent = "Disconnected from chat.";
+            statusMessage.style.color = "red";
+            chatMessages.appendChild(statusMessage);
+        };
+
+        websocket.onerror = function(error) {
+            console.error("WebSocket error:", error);
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = "WebSocket error occurred. See console for details.";
+            errorMessage.style.color = "red";
+            chatMessages.appendChild(errorMessage);
+        };
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            const body = JSON.stringify({ message, roomId, clientId, timestamp: new Date().toISOString() });
+            console.log("Sending message:", body);
+            if (message) {
+                try {
+                    await fetch('http://localhost:6201/chat/message/' + roomId + '/' + clientId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: body,
+                    });
+                    messageInput.value = ''; // Clear input field
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+            }
+        }
+
+        // Event listener for the Send button
+        sendButton.addEventListener('click', sendMessage);
+
+        // Event listener for Enter key in the input field
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

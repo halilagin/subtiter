@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+#  klippers-fastapi-app:
+#    container_name: klippers-fastapi-app
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile.prod
+#    platform: linux/amd64
+#    ports:
+#      - "23081:22081"
+#    volumes:
+#      - ./backend:/app
+#    env_file:
+#      - ./backend/.env.docker
+#    environment:
+#      - PYTHONPATH=/app
+#      - DATABASE_URL=postgresql://klippersuser:klippers_qazwsxqazwsx@klippers-postgres-db:5432/klippers_prod
+#    restart: unless-stopped
+#    depends_on:
+#      - klippers_postgres_db
+#    networks:
+#      - app_network
+  klippers-nodejs-app:
+    container_name: klippers-nodejs-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    platform: linux/amd64
+    restart: always
+    ports:
+      - "23080:22080"
+      - "23043:22443"
+    environment:
+      POSTGRES_USER: klippersuser
+      POSTGRES_PASSWORD: klippers_qazwsxqazwsx
+      POSTGRES_DB: klippers_prod
+    networks:
+      - app_network
+
+
+  klippers_postgres_db:
+    container_name: klippers-postgres-prod-db
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_USER: klippersuser
+      POSTGRES_PASSWORD: klippers_qazwsxqazwsx
+      POSTGRES_DB: klippers_prod
+    volumes:
+      - klippers_postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+
+  redis:
+    container_name: klippers-redis
+    image: redis:7-alpine
+    restart: always
+    environment:
+      REDIS_TOKEN: "token_234_asdf_234_s24v!_$+_234_asdf_324!_sdf"
+    ports:
+      - "27379:6379"
+    command: >
+      sh -c 'exec redis-server
+      --appendonly yes
+      --requirepass "$$REDIS_TOKEN"'
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+
+
+
+volumes:
+  redis_data:
+    driver: local
+  klippers_postgres_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge 
