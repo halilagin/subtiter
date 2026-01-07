@@ -5,7 +5,7 @@ import {
     Typography,
   } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
-import subtiterLogo2 from '../../../public/subtiternewlogo.png';
+import subtiterLogo2 from '/subtiternewlogo.png';
 import LandingPageVideoInput from '@/components/LandingPageVideoInput';
 
 

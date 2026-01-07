@@ -9,7 +9,7 @@ import {
   } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
-import subtiterLogo from '../../public/subtiternewlogo.png';
+import subtiterLogo from '/subtiternewlogo.png';
 
 const NavBarOuter = () => {
 

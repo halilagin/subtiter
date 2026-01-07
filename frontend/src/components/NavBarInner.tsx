@@ -7,7 +7,7 @@ import {
   Toolbar
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import subtiterLogo from '../../public/subtiternewlogo.png';
+import subtiterLogo from '/subtiternewlogo.png';
 import ProfileDropdown from './ProfileDropdown';
 
 

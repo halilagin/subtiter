@@ -23,7 +23,7 @@ import {
 import AppConfig from '@/AppConfig';
 import LoginComponent from '@/components/LoginComponent';
 import NavBar from '@/components/NavBarOuter';
-import subtiterLogo from '../../public/subtiternewlogo.png';
+import subtiterLogo from '/subtiternewlogo.png';
 
 
 const LoginAppBar = () => {
