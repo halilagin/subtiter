@@ -11,7 +11,7 @@ apis/VideoUploadApi.ts
 apis/index.ts
 index.ts
 models/AppDbModelDocumentVideoProcessingApplication.ts
-models/AppKlipperscmdClippercmdModelShortConfigModelVideoProcessingApplication.ts
+models/AppSubtitercmdClippercmdModelShortConfigModelVideoProcessingApplication.ts
 models/BodyCreatePaymentIntentApiV1SubscriptionCreatePaymentIntentPost.ts
 models/BoxRel.ts
 models/ChatMessage.ts

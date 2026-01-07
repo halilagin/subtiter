@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # flake8: noqa: E501
 """
-Script to run Klippers API with Ray Serve
+Script to run Subtiter API with Ray Serve
 """
 
 import sys
@@ -25,7 +25,7 @@ except Exception as e:
 
 if __name__ == "__main__":
     print("RUN_RAY_SERVE: Parsing arguments...")
-    parser = argparse.ArgumentParser(description='Run Klippers API with Ray Serve')
+    parser = argparse.ArgumentParser(description='Run Subtiter API with Ray Serve')
     parser.add_argument('--host', type=str, default='0.0.0.0', help='Host to bind to (default: 0.0.0.0)')
     parser.add_argument('--port', type=int, default=22081, help='Port to bind to (default: 22081)')
     

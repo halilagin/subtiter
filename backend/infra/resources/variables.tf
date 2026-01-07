@@ -14,7 +14,7 @@ variable "region" {
 
 variable "terraform_state_bucket" {
   type        = string
-  default     = "klippers-terraform-state-v2"
+  default     = "subtiter-terraform-state-v2"
   description = "S3 bucket for Terraform state"
 }
 

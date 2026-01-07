@@ -1,5 +1,5 @@
-resource "aws_cognito_user_pool" "klippers" {
-  name = "klippers-user-pool"
+resource "aws_cognito_user_pool" "subtiter" {
+  name = "subtiter-user-pool"
 
   #alias_attributes = ["email"]
 
@@ -22,23 +22,23 @@ resource "aws_cognito_user_pool" "klippers" {
   # We'll build our own custom link using the code placeholder
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
-    email_subject        = "Welcome to Klippers.ai - Verify Your Email"
+    email_subject        = "Welcome to Subtiter.ai - Verify Your Email"
     email_message        = <<-EOT
-Welcome to Klippers.ai!
+Welcome to Subtiter.ai!
 
 Thank you for signing up. To complete your registration, please verify your email address.
 
 Click the link below or copy and paste it into your browser:
-https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}
+https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}
 
 Your verification code is: {####}
 
 This code will expire in 24 hours.
 
-If you didn't create an account with Klippers.ai, you can safely ignore this email.
+If you didn't create an account with Subtiter.ai, you can safely ignore this email.
 
 Best regards,
-The Klippers.ai Team
+The Subtiter.ai Team
     EOT
   }
 
@@ -93,7 +93,7 @@ The Klippers.ai Team
 
 # Facebook Identity Provider
 resource "aws_cognito_identity_provider" "facebook" {
-  user_pool_id  = aws_cognito_user_pool.klippers.id
+  user_pool_id  = aws_cognito_user_pool.subtiter.id
   provider_name = "Facebook"
   provider_type = "Facebook"
 
@@ -111,9 +111,9 @@ resource "aws_cognito_identity_provider" "facebook" {
 }
 
 
-resource "aws_cognito_user_pool_client" "klippers_pool_client" {
-  name         = "klippers-client"
-  user_pool_id = aws_cognito_user_pool.klippers.id
+resource "aws_cognito_user_pool_client" "subtiter_pool_client" {
+  name         = "subtiter-client"
+  user_pool_id = aws_cognito_user_pool.subtiter.id
 
   access_token_validity = 1440 # Access token validity in minutes
 
@@ -142,16 +142,16 @@ resource "aws_cognito_user_pool_client" "klippers_pool_client" {
 
   # Callback URLs for OAuth - support both local development and production
   callback_urls = [
-    "https://klippers.ai/auth-provider/callback",
+    "https://subtiter.ai/auth-provider/callback",
     "http://localhost:22081/auth-provider/callback",
-    "https://klippers.ai/api/v1/auth/google/callback",
+    "https://subtiter.ai/api/v1/auth/google/callback",
     "http://localhost:8000/api/v1/auth/google/callback",
-    "https://klippers.ai/api/v1/auth/facebook/callback",
+    "https://subtiter.ai/api/v1/auth/facebook/callback",
     "http://localhost:8000/api/v1/auth/facebook/callback"
   ]
 
   logout_urls = [
-    "https://klippers.ai/logout",
+    "https://subtiter.ai/logout",
     "http://localhost:22081/logout",
     "http://localhost:23081/logout"
   ]
@@ -161,14 +161,14 @@ resource "aws_cognito_user_pool_client" "klippers_pool_client" {
 
 resource "aws_cognito_user_pool_domain" "main" {
   domain       = "example-terraform-hosted-ui"
-  user_pool_id = aws_cognito_user_pool.klippers.id
+  user_pool_id = aws_cognito_user_pool.subtiter.id
 
 }
 
 
 
 resource "aws_cognito_user" "example_user" {
-  user_pool_id = aws_cognito_user_pool.klippers.id
+  user_pool_id = aws_cognito_user_pool.subtiter.id
   username     = "halilagin"
 
   # Set initial temporary password for the user (use sensitive data management practices)
@@ -212,11 +212,11 @@ variable "facebook_oauth_app_secret" {
 
 # Outputs
 output "user_pool_id" {
-  value = aws_cognito_user_pool.klippers.id
+  value = aws_cognito_user_pool.subtiter.id
 }
 
 output "user_pool_client_id" {
-  value = aws_cognito_user_pool_client.klippers_pool_client.id
+  value = aws_cognito_user_pool_client.subtiter_pool_client.id
 }
 
 output "cognito_domain" {
@@ -224,11 +224,11 @@ output "cognito_domain" {
 }
 
 output "google_oauth_url" {
-  value = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.klippers_pool_client.id}&response_type=code&scope=email+openid+profile&redirect_uri=https://klippers.ai/auth-provider/callback&identity_provider=Google"
+  value = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.subtiter_pool_client.id}&response_type=code&scope=email+openid+profile&redirect_uri=https://subtiter.ai/auth-provider/callback&identity_provider=Google"
 }
 
 output "facebook_oauth_url" {
-  value = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.klippers_pool_client.id}&response_type=code&scope=email+openid+profile&redirect_uri=https://klippers.ai/auth-provider/callback&identity_provider=Facebook"
+  value = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.subtiter_pool_client.id}&response_type=code&scope=email+openid+profile&redirect_uri=https://subtiter.ai/auth-provider/callback&identity_provider=Facebook"
 }
 
 # Data source to get current region

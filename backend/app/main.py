@@ -8,19 +8,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.middleware import auth_middleware, custom_auth_middleware, cognito_auth_middleware
 from app.api.v1.endpoints import auth, users
 from app.api.v1.endpoints import subscription
-from app.api.klippers import api_chat, user_subtitling, user_trimming
+from app.api.subtiter import api_chat, user_subtitling, user_trimming
 from contextlib import asynccontextmanager
 import threading
 # from app.db_polling.stripe_document_meters import send_document_meters_loop
 from fastapi import FastAPI
 from app.config import settings
-from app.api.klippers import video_upload
-from app.api.klippers import user_videos
+from app.api.subtiter import video_upload
+from app.api.subtiter import user_videos
 import os
 from fastapi.staticfiles import StaticFiles
 import ray
 from ray import serve
-from app.api.klippers import user_shorts
+from app.api.subtiter import user_shorts
 
 
 EMAIL_INTERVAL_SECONDS = 60
@@ -88,7 +88,7 @@ def initialize_ray_and_actors():
     
     # Initialize Ray actors after Ray is started (if Ray is available)
     if os.environ.get("RAY_AVAILABLE", "true") != "false":
-        from app.api.klippers.api_chat import initialize_actor
+        from app.api.subtiter.api_chat import initialize_actor
         initialize_actor()
     else:
         print("MAIN: Skipping Ray actor initialization - Ray not available.")
@@ -119,14 +119,14 @@ async def lifespan(app: FastAPI):
         # Even if Ray is initialized, we need to initialize the actors
         if os.environ.get("RAY_AVAILABLE", "true") != "false":
             print("MAIN: Initializing actors...", flush=True)
-            from app.api.klippers.api_chat import initialize_actor
+            from app.api.subtiter.api_chat import initialize_actor
             initialize_actor()
             print("MAIN: Actor initialization completed!", flush=True)
 
     # Initialize Redis listener actor and start background task
     if os.environ.get("RAY_AVAILABLE", "true") != "false":
         print("MAIN: Initializing Redis listener...", flush=True)
-        from app.api.klippers.api_chat import initialize_redis_listener, start_redis_listener_task
+        from app.api.subtiter.api_chat import initialize_redis_listener, start_redis_listener_task
         initialize_redis_listener()
         await start_redis_listener_task()
         print("MAIN: Redis listener initialized and background task started!", flush=True)
@@ -142,7 +142,7 @@ async def lifespan(app: FastAPI):
     # Stop Redis listener task
     if os.environ.get("RAY_AVAILABLE", "true") != "false":
         print("MAIN: Stopping Redis listener task...", flush=True)
-        from app.api.klippers.api_chat import stop_redis_listener_task
+        from app.api.subtiter.api_chat import stop_redis_listener_task
         stop_redis_listener_task()
     
     # Shutdown Ray if it was initialized
@@ -153,7 +153,7 @@ async def lifespan(app: FastAPI):
 
 
 # Create FastAPI app instance
-app = FastAPI(title="Klippers API", lifespan=lifespan, version="1.0.0")
+app = FastAPI(title="Subtiter API", lifespan=lifespan, version="1.0.0")
 
 app.mount("/public", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "public")), name="public")
 
@@ -211,7 +211,7 @@ app.include_router(user_trimming.router, prefix="/api/v1", tags=["user_trimming"
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to Klippers API"}
+    return {"message": "Welcome to Subtiter API"}
 
 
 
@@ -225,14 +225,14 @@ def create_deployment():
         }
     )
     @serve.ingress(app)
-    class KlippersAPIDeployment:
+    class SubtiterAPIDeployment:
         def __init__(self):
             """Initialize the deployment and set up Ray actors."""
-            print("KLIPPERS: Initializing Klippers API Deployment...")
-            print("KLIPPERS: Allocated 1 CPU and 2GB memory for this deployment (Docker optimized)")
-            print("KLIPPERS: Klippers API Deployment initialized successfully.")
+            print("SUBTITER: Initializing Subtiter API Deployment...")
+            print("SUBTITER: Allocated 1 CPU and 2GB memory for this deployment (Docker optimized)")
+            print("SUBTITER: Subtiter API Deployment initialized successfully.")
     
-    return KlippersAPIDeployment
+    return SubtiterAPIDeployment
 
 
 def main(host="0.0.0.0", port=22081):
@@ -256,7 +256,7 @@ def main(host="0.0.0.0", port=22081):
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     
-    print("MAIN: Starting Klippers API with Ray Serve...")
+    print("MAIN: Starting Subtiter API with Ray Serve...")
     
     initialize_ray_and_actors()
     
@@ -274,12 +274,12 @@ def main(host="0.0.0.0", port=22081):
         
         # Create and deploy the application
         print("MAIN: Creating deployment...")
-        KlippersAPIDeployment = create_deployment()
+        SubtiterAPIDeployment = create_deployment()
         
-        print("MAIN: Deploying KlippersAPIDeployment...")
-        deployment_handle = serve.run(KlippersAPIDeployment.bind(), route_prefix="/", blocking=False)
+        print("MAIN: Deploying SubtiterAPIDeployment...")
+        deployment_handle = serve.run(SubtiterAPIDeployment.bind(), route_prefix="/", blocking=False)
         
-        print("MAIN: Klippers API is now running with Ray Serve!")
+        print("MAIN: Subtiter API is now running with Ray Serve!")
         print(f"MAIN: Server is running at http://{host}:{port}")
         print("MAIN: Press Ctrl+C to stop the server...")
     except Exception as e:

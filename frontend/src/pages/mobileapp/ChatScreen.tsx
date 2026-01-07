@@ -144,7 +144,7 @@ const ChatScreen = ({
             )}
           </Box>
 
-          {/* Center - Klippers */}
+          {/* Center - Subtiter */}
           <Box
             sx={{
               position: 'absolute',
@@ -164,7 +164,7 @@ const ChatScreen = ({
                 color: '#000000',
               }}
             >
-              Klippers
+              Subtiter
             </Typography>
           </Box>
 

@@ -11,7 +11,7 @@ export AWS_SECRET_ACCESS_KEY="your_aws_secret_access_key"
 
 REGION="eu-west-1"
 OLD_USER_POOL_ID="eu-west-1_zm3OfnfeQ"
-POOL_NAME="klippers-user-pool-v2"
+POOL_NAME="subtiter-user-pool-v2"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE_DIR="$(dirname "$SCRIPT_DIR")/user_verification_template"
 HTML_TEMPLATE="$TEMPLATE_DIR/email_template.html"
@@ -39,7 +39,7 @@ NEW_POOL_ID=$(aws cognito-idp create-user-pool \
   --username-attributes email \
   --auto-verified-attributes email \
   --email-verification-message "$HTML_CONTENT" \
-  --email-verification-subject "Welcome to Klippers.ai - Verify Your Email 🎬" \
+  --email-verification-subject "Welcome to Subtiter.ai - Verify Your Email 🎬" \
   --policies '{
     "PasswordPolicy": {
       "MinimumLength": 8,
@@ -96,7 +96,7 @@ echo ""
 echo "Step 2: Creating App Client..."
 CLIENT_ID=$(aws cognito-idp create-user-pool-client \
   --user-pool-id "$NEW_POOL_ID" \
-  --client-name "klippers-client" \
+  --client-name "subtiter-client" \
   --region "$REGION" \
   --explicit-auth-flows ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH ALLOW_USER_SRP_AUTH \
   --generate-secret false \
@@ -118,7 +118,7 @@ echo ""
 
 # Create domain (optional, for hosted UI)
 echo "Step 3: Creating User Pool Domain..."
-DOMAIN_NAME="klippers-auth-$(date +%s)"
+DOMAIN_NAME="subtiter-auth-$(date +%s)"
 aws cognito-idp create-user-pool-domain \
   --domain "$DOMAIN_NAME" \
   --user-pool-id "$NEW_POOL_ID" \

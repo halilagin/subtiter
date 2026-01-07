@@ -24,7 +24,7 @@ load_dotenv()
 backend_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 sys.path.insert(0, backend_root)
 
-from app.aws_app_stack.klippers_cognito import klippers_cognito  # noqa: E402
+from app.aws_app_stack.subtiter_cognito import subtiter_cognito  # noqa: E402
 
 def main():
     if len(sys.argv) < 2:
@@ -36,7 +36,7 @@ def main():
 
     try:
         print(f"Deleting user: {email}")
-        klippers_cognito.admin_delete_user(email)
+        subtiter_cognito.admin_delete_user(email)
         print(f"✓ User {email} deleted successfully!")
     except Exception as e:
         print(f"✗ Failed to delete user: {e}")

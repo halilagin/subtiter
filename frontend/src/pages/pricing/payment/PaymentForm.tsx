@@ -29,7 +29,7 @@ interface PaymentFormProps {
   onSuccess: (message: string) => void;
 }
 
-// Style options for Stripe CardElement to match Klippers theme
+// Style options for Stripe CardElement to match Subtiter theme
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {

@@ -27,7 +27,7 @@ The frontend was sending data that didn't match the backend API's expected forma
 ```
 
 ## Solution
-Modified `app/klipperscmd/clippercmd/model/short_config_model.py`:
+Modified `app/subtitercmd/clippercmd/model/short_config_model.py`:
 
 ### 1. Made `subtitle_box_background_color` Optional
 Changed from:
@@ -130,7 +130,7 @@ Simply use the frontend application to:
 4. The API should now accept the request without validation errors
 
 ## Files Modified
-- `app/klipperscmd/clippercmd/model/short_config_model.py`
+- `app/subtitercmd/clippercmd/model/short_config_model.py`
   - Line 2: Added `field_validator` import
   - Line 182: Made `subtitle_box_background_color` Optional
   - Lines 194-216: Added two field validators

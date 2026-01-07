@@ -24,7 +24,7 @@ def lambda_handler(event, context):
 
         # Connect to Redis
         redis_client = redis.Redis(
-            host="klippers.ai",
+            host="subtiter.ai",
             port=27379,
             password="token_234_asdf_234_s24v!_$+_234_asdf_324!_sdf",
             db=0,
@@ -42,8 +42,8 @@ def lambda_handler(event, context):
         }
 
         # Send message to Redis queue
-        redis_client.rpush(f"klippers_video_process:{room_id}", json.dumps(payload))
-        redis_client.lpush("klippers_video_process", json.dumps(payload))
+        redis_client.rpush(f"subtiter_video_process:{room_id}", json.dumps(payload))
+        redis_client.lpush("subtiter_video_process", json.dumps(payload))
         redis_client.close()
         
         print(f"✅ Message sent successfully to Redis queue!")

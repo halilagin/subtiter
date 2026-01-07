@@ -5,7 +5,7 @@ import ActionButtons from '../ActionButtons';
 import VideoNote from './VideoNote';
 import VideoInfo from './VideoInfo';
 
-interface KlipperShortModel {
+interface SubtiteRhortModel {
   id: number;
   title: string;
   viralityScore: number;
@@ -15,7 +15,7 @@ interface KlipperShortModel {
 }
 
 interface VideoVariationProps {
-  short: KlipperShortModel;
+  short: SubtiteRhortModel;
   onPublish: () => void;
   onEdit: () => void;
   onDownload: () => void;

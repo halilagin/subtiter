@@ -6,7 +6,7 @@ import {
   Grid,
 } from '@mui/material';
 
-const KlippersFeaturesAIDetection = () => {
+const SubtiterFeaturesAIDetection = () => {
   return (
     <Box sx={{ bgcolor: '#f5f5f5', pt: 20, pb: 16 }}>
       <Container maxWidth="xl">
@@ -84,7 +84,7 @@ const KlippersFeaturesAIDetection = () => {
                 transform: 'scale(1.2)'
               }}
             >
-              <source src="https://peralabs.co.uk/assets/klippers/landingpage_aidetection_480p.mp4" type="video/mp4" />
+              <source src="https://peralabs.co.uk/assets/subtiter/landingpage_aidetection_480p.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </Box>
@@ -94,5 +94,5 @@ const KlippersFeaturesAIDetection = () => {
   );
 };
 
-export default KlippersFeaturesAIDetection;
+export default SubtiterFeaturesAIDetection;
 

@@ -9,9 +9,9 @@ When a user registers, AWS Cognito automatically replaces template variables in 
 ```
 1. User Registration Request
    ↓
-2. auth.py calls klippers_cognito.register_user()
+2. auth.py calls subtiter_cognito.register_user()
    ↓
-3. klippers_cognito.py calls boto3_cognito_client.sign_up()
+3. subtiter_cognito.py calls boto3_cognito_client.sign_up()
    ↓
 4. AWS Cognito receives sign_up request with:
    - Username: user@example.com (the email)
@@ -33,7 +33,7 @@ When a user registers, AWS Cognito automatically replaces template variables in 
 **Source:** The `Username` parameter in `sign_up()` call
 
 ```python
-# In klippers_cognito.py line 209-212
+# In subtiter_cognito.py line 209-212
 response = boto3_cognito_client.sign_up(
     ClientId=self.client_id,
     Username=email,  # ← This becomes {username} in the template
@@ -45,8 +45,8 @@ response = boto3_cognito_client.sign_up(
 **Example:**
 - Registration: `email="john@example.com"`
 - Cognito receives: `Username="john@example.com"`
-- Template has: `https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}`
-- Email sent: `https://klippers.ai/api/v1/auth/confirm-signup/john@example.com/123456`
+- Template has: `https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}`
+- Email sent: `https://subtiter.ai/api/v1/auth/confirm-signup/john@example.com/123456`
 
 ### `{####}` Variable
 
@@ -63,7 +63,7 @@ response = boto3_cognito_client.sign_up(
 
 ```python
 # Line 148-153
-cognito_result = klippers_cognito.register_user(
+cognito_result = subtiter_cognito.register_user(
     email=user_data.email.strip(),      # e.g., "john@example.com"
     password=user_data.password,
     name=user_data.name,
@@ -71,7 +71,7 @@ cognito_result = klippers_cognito.register_user(
 )
 ```
 
-### 2. Cognito Registration (`klippers_cognito.py`)
+### 2. Cognito Registration (`subtiter_cognito.py`)
 
 ```python
 # Line 209-218
@@ -103,7 +103,7 @@ AWS Cognito internally:
 ### Template (Before Cognito Processing)
 
 ```html
-<a href="https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}">
+<a href="https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}">
     Verify Email Address
 </a>
 
@@ -113,7 +113,7 @@ AWS Cognito internally:
 ### Actual Email Sent (After Cognito Processing)
 
 ```html
-<a href="https://klippers.ai/api/v1/auth/confirm-signup/john@example.com/123456">
+<a href="https://subtiter.ai/api/v1/auth/confirm-signup/john@example.com/123456">
     Verify Email Address
 </a>
 
@@ -124,7 +124,7 @@ AWS Cognito internally:
 
 1. **Username = Email**: In our implementation, we use the email as the username
    ```python
-   Username=email  # Line 211 in klippers_cognito.py
+   Username=email  # Line 211 in subtiter_cognito.py
    ```
 
 2. **Automatic Replacement**: AWS Cognito handles variable replacement automatically - we don't need to do anything
@@ -150,7 +150,7 @@ GET /api/v1/auth/confirm-signup/john@example.com/123456
 
 This endpoint then calls:
 ```python
-klippers_cognito.confirm_user_signup(email=username, confirmation_code=code)
+subtiter_cognito.confirm_user_signup(email=username, confirmation_code=code)
 ```
 
 Which calls AWS Cognito's `confirm_sign_up()` API.
@@ -166,7 +166,7 @@ To test the email template with actual values:
 ## Related Files
 
 - **Registration**: `app/api/v1/endpoints/auth.py` (line 148)
-- **Cognito Client**: `app/aws_app_stack/klippers_cognito.py` (line 209)
+- **Cognito Client**: `app/aws_app_stack/subtiter_cognito.py` (line 209)
 - **Email Template**: `app/aws_app_stack/cognito_email_verification/user_verification_template/email_template.html`
 - **Confirmation**: `app/api/v1/endpoints/auth.py` (confirm-signup endpoint)
 

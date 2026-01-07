@@ -53,7 +53,7 @@ const Footer: React.FC<FooterProps> = ({
                  fontSize: { xs: '1.3rem', md: '1.5rem' },
                  fontFamily: "'Inter', sans-serif"
                }}>
-                 Klippers
+                 Subtiter
                </Typography>
           </Grid>
 
@@ -181,7 +181,7 @@ const Footer: React.FC<FooterProps> = ({
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 1.5, md: 2 } }}>
               <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                info@klippers.ai
+                info@subtiter.ai
               </Typography>
               <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
                 +44 7379 727922

@@ -49,7 +49,7 @@ open user_verification_template/email_template.html
 Check what's currently in Cognito:
 
 ```bash
-/usr/local/bin/kaws_klippers_cli cognito-idp describe-user-pool \
+/usr/local/bin/kaws_subtiter_cli cognito-idp describe-user-pool \
   --user-pool-id eu-west-1_zm3OfnfeQ \
   --region eu-west-1 \
   --query 'UserPool.VerificationMessageTemplate.EmailSubject'
@@ -70,7 +70,7 @@ Keep these intact when editing:
 - Gradient: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
 
 ### Verification Link
-`https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}`
+`https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}`
 
 ## 📚 Full Documentation
 
@@ -86,5 +86,5 @@ See `user_verification_template/README.md` for complete documentation.
 
 ## 🆘 Support
 
-Need help? Contact: support@klippers.ai
+Need help? Contact: support@subtiter.ai
 

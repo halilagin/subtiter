@@ -1,6 +1,6 @@
 # User Verification Email Template
 
-This directory contains the email verification templates used by AWS Cognito when users register for Klippers.ai.
+This directory contains the email verification templates used by AWS Cognito when users register for Subtiter.ai.
 
 ## Files
 
@@ -74,7 +74,7 @@ The HTML template (`email_template.html`) includes:
 
 The HTML template will render as a beautiful, modern email with:
 
-1. **Header**: Purple gradient with 🎬 emoji and "Welcome to Klippers.ai"
+1. **Header**: Purple gradient with 🎬 emoji and "Welcome to Subtiter.ai"
 2. **Body**: Clean white background with clear messaging
 3. **Button**: Large, gradient button for verification
 4. **Code Box**: Dashed border box with large verification code
@@ -94,11 +94,11 @@ Note: The `{username}` and `{####}` placeholders will appear as-is in the browse
 ## Current Configuration
 
 - **User Pool ID**: `eu-west-1_zm3OfnfeQ`
-- **User Pool Name**: `klippers-user-pool`
+- **User Pool Name**: `subtiter-user-pool`
 - **Region**: `eu-west-1`
-- **Verification Link**: `https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}`
+- **Verification Link**: `https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}`
 - **Code Expiration**: 24 hours
-- **Subject**: "Welcome to Klippers.ai - Verify Your Email 🎬"
+- **Subject**: "Welcome to Subtiter.ai - Verify Your Email 🎬"
 
 ## Email Client Compatibility
 

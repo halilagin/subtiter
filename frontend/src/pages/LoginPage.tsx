@@ -23,7 +23,7 @@ import {
 import AppConfig from '@/AppConfig';
 import LoginComponent from '@/components/LoginComponent';
 import NavBar from '@/components/NavBarOuter';
-import klippersLogo from '../../public/klippersnewlogo.png';
+import subtiterLogo from '../../public/subtiternewlogo.png';
 
 
 const LoginAppBar = () => {
@@ -53,8 +53,8 @@ const LoginAppBar = () => {
                 }}
               >
                 <img 
-                  src={klippersLogo} 
-                  alt="Klippers Logo" 
+                  src={subtiterLogo} 
+                  alt="Subtiter Logo" 
                   style={{ 
                            width: 32,
                            height: 32,
@@ -72,7 +72,7 @@ const LoginAppBar = () => {
                     boxShadow: 'none'
                   }
                 }}>
-                  Klippers
+                  Subtiter
                 </Typography>
               </Box>
               <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>

@@ -21,7 +21,7 @@ import PayForUpgrade from './pages/pricing/pay-for-upgrade/PayForUpgrade';
 import ApplyPromotionCode from './pages/dashboard/applypromotioncode/ApplyPromotionCode';
 // import BerfinTest from './pages/landingpage/sections/BerfinTest';
 import BerfinTest from './pages/landingpage/sections/BerfinTest';
-import KlippersChatbot from './pages/mobileapp/KlippersChatbot';
+import SubtiterChatbot from './pages/mobileapp/SubtiterChatbot';
 import { SubtiterApp } from './subtiter.com';
 import ListTrimmedVideosPage from './pages/ListTrimmedVideosPage';
 
@@ -56,7 +56,7 @@ function App() {
         <Route path="/berfin-test" element={<OuterLayout />}>
           <Route index element={<BerfinTest />} />
         </Route>
-        <Route path="/klippers-chatbot" element={<KlippersChatbot />} />
+        <Route path="/subtiter-chatbot" element={<SubtiterChatbot />} />
         <Route path="/subtiter" element={<SubtiterApp />} /> 
 
         {/* Protected routes with InnerLayout */}

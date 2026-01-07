@@ -4,7 +4,7 @@
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_send_message_role" {
-  name = "klippers-lambda-send-message-role"
+  name = "subtiter-lambda-send-message-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -33,7 +33,7 @@ locals {
 resource "aws_lambda_function" "send_completion_message" {
   depends_on = [null_resource.lambda_send_message_package]
   
-  function_name = "klippers-send-completion-message"
+  function_name = "subtiter-send-completion-message"
   role          = aws_iam_role.lambda_send_message_role.arn
   handler       = "index.lambda_handler"
   runtime       = "python3.11"

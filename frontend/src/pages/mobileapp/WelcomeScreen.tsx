@@ -5,7 +5,7 @@ import {
   Button,
   Container,
 } from '@mui/material';
-import klippersLogoGif from '../../../public/logogif.gif';
+import subtiterLogoGif from '../../../public/logogif.gif';
 
 interface WelcomeScreenProps {
   onLogin: () => void;
@@ -38,7 +38,7 @@ const WelcomeScreen = ({ onLogin, onSignUp }: WelcomeScreenProps) => {
           textAlign: 'center',
         }}
       >
-        Klippers
+        Subtiter
       </Typography>
 
       <Container 
@@ -62,8 +62,8 @@ const WelcomeScreen = ({ onLogin, onSignUp }: WelcomeScreenProps) => {
         >
           <Box
             component="img"
-            src={klippersLogoGif}
-            alt="Klippers Logo"
+            src={subtiterLogoGif}
+            alt="Subtiter Logo"
             sx={{
               width: { xs: '80px', sm: '100px' },
               height: 'auto',

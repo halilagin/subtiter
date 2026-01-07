@@ -42,7 +42,7 @@ def lambda_handler(event, context):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Klippers.ai</title>
+    <title>Welcome to Subtiter.ai</title>
     <style>
         body {
             margin: 0;
@@ -133,7 +133,7 @@ def lambda_handler(event, context):
     <div class="container">
         <div class="header">
             <div class="emoji">🎬</div>
-            <h1>Welcome to Klippers.ai</h1>
+            <h1>Welcome to Subtiter.ai</h1>
         </div>
         <div class="content">
             <h2>Thank you for joining!</h2>
@@ -150,7 +150,7 @@ def lambda_handler(event, context):
             <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <p style="font-weight: 600; margin-top: 0;">Or click this link to verify:</p>
                 <p class="verification-link">
-                    https://klippers.ai/api/v1/auth/confirm-signup/{EMAIL}/{CODE}
+                    https://subtiter.ai/api/v1/auth/confirm-signup/{EMAIL}/{CODE}
                 </p>
                 <p style="font-size: 12px; color: #666666; margin-bottom: 0;">
                     Copy and paste this link into your browser.
@@ -162,10 +162,10 @@ def lambda_handler(event, context):
             </div>
         </div>
         <div class="footer">
-            <p><strong>Best regards,</strong><br>The Klippers.ai Team</p>
+            <p><strong>Best regards,</strong><br>The Subtiter.ai Team</p>
             <p style="margin-top: 20px; font-size: 12px; color: #999999;">
-                © 2025 Klippers.ai - AI-Powered Video Clipping<br>
-                <a href="https://klippers.ai">klippers.ai</a>
+                © 2025 Subtiter.ai - AI-Powered Video Clipping<br>
+                <a href="https://subtiter.ai">subtiter.ai</a>
             </p>
         </div>
     </div>
@@ -176,7 +176,7 @@ def lambda_handler(event, context):
         html_content = html_template.replace('{CODE}', code).replace('{EMAIL}', username)
         
         # Set the custom message
-        event['response']['emailSubject'] = 'Welcome to Klippers.ai - Verify Your Email 🎬'
+        event['response']['emailSubject'] = 'Welcome to Subtiter.ai - Verify Your Email 🎬'
         event['response']['emailMessage'] = html_content
     
     return event

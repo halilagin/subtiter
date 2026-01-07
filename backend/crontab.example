@@ -1,9 +1,9 @@
 
 #backup postgres db every 2 minutes
-#*/2 * * * * /home/ubuntu/github/klippers_repo/klippers/backend/scripts/backup_postgres.sh >/dev/null 2>&1
+#*/2 * * * * /home/ubuntu/github/subtiter_repo/subtiter/backend/scripts/backup_postgres.sh >/dev/null 2>&1
 
 #backup postgres db every 12 hours
-0 0,12 * * * /home/ubuntu/github/klippers_repo/klippers/backend/scripts/backup_postgres.sh >/dev/null 2>&12025-06-01 15:06:47 - [PID:172] - INFO - Process 172 checking for emails to send...
+0 0,12 * * * /home/ubuntu/github/subtiter_repo/subtiter/backend/scripts/backup_postgres.sh >/dev/null 2>&12025-06-01 15:06:47 - [PID:172] - INFO - Process 172 checking for emails to send...
 2025-06-01 15:06:47 - [PID:172] - INFO - Found 0 emails to send.
 2025-06-01 15:07:47 - [PID:172] - INFO - Process 172 checking for emails to send...
 2025-06-01 15:07:47 - [PID:172] - INFO - Found 0 emails to send.

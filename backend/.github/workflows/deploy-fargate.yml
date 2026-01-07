@@ -1,11 +1,11 @@
-name: Deploy Klipperscmd to Fargate
+name: Deploy Subtitercmd to Fargate
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'app/klipperscmd/**'
+      - 'app/subtitercmd/**'
       - 'infra/resources/fargate_task.tf'
       - '.github/workflows/deploy-fargate.yml'
   workflow_dispatch:
@@ -21,9 +21,9 @@ on:
 
 env:
   AWS_REGION: eu-west-1
-  ECR_REPOSITORY: klipperscmd
-  ECS_CLUSTER: klippers-video-processing-cluster
-  ECS_TASK_DEFINITION: klippers-video-processing
+  ECR_REPOSITORY: subtitercmd
+  ECS_CLUSTER: subtiter-video-processing-cluster
+  ECS_TASK_DEFINITION: subtiter-video-processing
 
 jobs:
   build-and-push:
@@ -52,7 +52,7 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        working-directory: ./app/klipperscmd
+        working-directory: ./app/subtitercmd
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
@@ -91,14 +91,14 @@ jobs:
           DB_BACKUP_FILE=${{ secrets.DB_BACKUP_FILE }}
           DB_BACKUP_DAYS_TO_KEEP=${{ secrets.DB_BACKUP_DAYS_TO_KEEP }}
           DB_BACKUP_S3_BUCKET_NAME=${{ secrets.DB_BACKUP_S3_BUCKET_NAME }}
-          VIDEO_WAREHOUSE_ROOT_DIR=/app/klippers_warehouse
+          VIDEO_WAREHOUSE_ROOT_DIR=/app/subtiter_warehouse
           BACKEND_WORKING_DIR=/app
           SEGMENT_COUNT=${{ secrets.SEGMENT_COUNT }}
-          KLIPPERS_RUN_SCRIPT=/app/run.sh
-          KLIPPERS_CMD_CLIPPER_PY=/app/clipper.py
-          klippers_level1=${{ secrets.KLIPPERS_LEVEL1 }}
-          klippers_level2=${{ secrets.KLIPPERS_LEVEL2 }}
-          klippers_level3=${{ secrets.KLIPPERS_LEVEL3 }}
+          SUBTITER_RUN_SCRIPT=/app/run.sh
+          SUBTITER_CMD_CLIPPER_PY=/app/clipper.py
+          subtiter_level1=${{ secrets.SUBTITER_LEVEL1 }}
+          subtiter_level2=${{ secrets.SUBTITER_LEVEL2 }}
+          subtiter_level3=${{ secrets.SUBTITER_LEVEL3 }}
           OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
           DEEPGRAM_API_KEY=${{ secrets.DEEPGRAM_API_KEY }}
           AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -161,7 +161,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: klipperscmd
+          container-name: subtitercmd
           image: ${{ needs.build-and-push.outputs.image }}
 
       - name: Register new task definition
@@ -203,7 +203,7 @@ jobs:
       #   uses: 8398a7/action-slack@v3
       #   with:
       #     status: ${{ job.status }}
-      #     text: 'Klipperscmd deployment ${{ job.status }}'
+      #     text: 'Subtitercmd deployment ${{ job.status }}'
       #     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
       #   if: always()
 

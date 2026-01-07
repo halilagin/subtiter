@@ -9,7 +9,7 @@ import {
   } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
-import klippersLogo from '../../public/klippersnewlogo.png';
+import subtiterLogo from '../../public/subtiternewlogo.png';
 
 const NavBarOuter = () => {
 
@@ -45,8 +45,8 @@ sx={{
         }}
       >
                       <img 
-        src={klippersLogo} 
-        alt="Klippers Logo" 
+        src={subtiterLogo} 
+        alt="Subtiter Logo" 
         style={{ 
           width: 32, 
           height: 32,
@@ -65,7 +65,7 @@ sx={{
             boxShadow: 'none'
           }
         }}>
-          Klippers
+          Subtiter
         </Typography>
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>

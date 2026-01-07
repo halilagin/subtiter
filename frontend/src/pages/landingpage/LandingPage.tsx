@@ -5,7 +5,7 @@ import LandingPageProductCarousel from "@/pages/landingpage/sections/AIReframe2"
 import GetStarted from "@/pages/landingpage/sections/GetStarted";
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import KlippersFeaturesAIDetection from "@/pages/landingpage/sections/FeatureAIDetection";
+import SubtiterFeaturesAIDetection from "@/pages/landingpage/sections/FeatureAIDetection";
 import TrimVideoSection from "@/pages/landingpage/sections/TrimVideoSection";
 
 
@@ -49,7 +49,7 @@ const LandingPage = () => {
       <Box sx={{ px: { xs: 2, md: 0 } }}>
         <LandingPageProductCarousel />
         {/* <Features /> */}
-        <KlippersFeaturesAIDetection />
+        <SubtiterFeaturesAIDetection />
         {/* <FeaturesNew2 /> */}
         {/* <UseCases />
         <Benefits /> */}

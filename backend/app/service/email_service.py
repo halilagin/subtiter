@@ -45,7 +45,7 @@ class VerificationEmailService:
             
             # Create the email message
             message = MIMEMultipart('alternative')
-            message['Subject'] = 'Welcome to Klippers.ai - Verify Your Email 🎬'
+            message['Subject'] = 'Welcome to Subtiter.ai - Verify Your Email 🎬'
             message['From'] = self.from_email
             message['To'] = to_email
             
@@ -57,7 +57,7 @@ class VerificationEmailService:
             if not self.smtp_user or not self.smtp_password:
                 logger.warning("SMTP credentials not configured. Email not sent.")
                 logger.info(f"Would send verification email to {to_email} with code {verification_code}")
-                logger.info(f"Verification link: https://klippers.ai/api/v1/auth/confirm-signup/{to_email}/{verification_code}")
+                logger.info(f"Verification link: https://subtiter.ai/api/v1/auth/confirm-signup/{to_email}/{verification_code}")
                 return True  # Return True for development
             
             with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:

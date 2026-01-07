@@ -7,7 +7,7 @@ import {
   Toolbar
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import klippersLogo from '../../public/klippersnewlogo.png';
+import subtiterLogo from '../../public/subtiternewlogo.png';
 import ProfileDropdown from './ProfileDropdown';
 
 
@@ -55,8 +55,8 @@ const NavBarInner = () => {
               onClick={handleLogoClick}
             >
               <img 
-                src={klippersLogo} 
-                alt="Klippers Logo" 
+                src={subtiterLogo} 
+                alt="Subtiter Logo" 
                 style={{ 
                   width: 32, 
                   height: 32,
@@ -68,7 +68,7 @@ const NavBarInner = () => {
                 color: '#2f2e2c',
                 fontFamily: "'Inter', sans-serif"
               }}>
-                Klippers
+                Subtiter
               </Typography>
             </Box>
 

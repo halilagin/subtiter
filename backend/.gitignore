@@ -1,7 +1,7 @@
 .venv
 #this is generated via docker container
-app/klipperscmd_v*
-klippers_warehouse
+app/subtitercmd_v*
+subtiter_warehouse
 secrets
 app.db.backup
 # Python

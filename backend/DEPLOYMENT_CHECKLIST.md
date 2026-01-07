@@ -1,6 +1,6 @@
 # Fargate Deployment Checklist
 
-Use this checklist to ensure a smooth deployment of the Klipperscmd video processing pipeline to AWS Fargate.
+Use this checklist to ensure a smooth deployment of the Subtitercmd video processing pipeline to AWS Fargate.
 
 ## ✅ Pre-Deployment Checklist
 
@@ -27,7 +27,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ### Configuration Files
 - [ ] Created `.env.fargate` from template:
   ```bash
-  cd app/klipperscmd
+  cd app/subtitercmd
   cp env.fargate.template .env.fargate
   ```
 - [ ] Updated `.env.fargate` with actual values:
@@ -42,12 +42,12 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ### S3 Bucket for Terraform State
 - [ ] Created S3 bucket for Terraform state:
   ```bash
-  aws s3 mb s3://klippers-terraform-state-v2 --region eu-west-1
+  aws s3 mb s3://subtiter-terraform-state-v2 --region eu-west-1
   ```
 - [ ] Enabled versioning on the bucket:
   ```bash
   aws s3api put-bucket-versioning \
-    --bucket klippers-terraform-state-v2 \
+    --bucket subtiter-terraform-state-v2 \
     --versioning-configuration Status=Enabled
   ```
 
@@ -96,27 +96,27 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ### Infrastructure Verification
 - [ ] Verified ECS cluster exists:
   ```bash
-  aws ecs describe-clusters --clusters klippers-video-processing-cluster
+  aws ecs describe-clusters --clusters subtiter-video-processing-cluster
   ```
 - [ ] Verified ECR repository exists:
   ```bash
-  aws ecr describe-repositories --repository-names klipperscmd
+  aws ecr describe-repositories --repository-names subtitercmd
   ```
 - [ ] Verified Step Function exists:
   ```bash
-  aws stepfunctions list-state-machines | grep klippers
+  aws stepfunctions list-state-machines | grep subtiter
   ```
 - [ ] Verified CloudWatch log group exists:
   ```bash
-  aws logs describe-log-groups --log-group-name-prefix /ecs/klippers
+  aws logs describe-log-groups --log-group-name-prefix /ecs/subtiter
   ```
 
 ## ✅ Docker Image Build and Push
 
 ### Build Docker Image
-- [ ] Navigated to klipperscmd directory:
+- [ ] Navigated to subtitercmd directory:
   ```bash
-  cd ../../app/klipperscmd
+  cd ../../app/subtitercmd
   ```
 - [ ] Verified `.env.fargate` exists and is configured
 - [ ] Made scripts executable:
@@ -125,7 +125,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
   ```
 - [ ] Built Docker image locally (optional test):
   ```bash
-  docker build -t klipperscmd:latest .
+  docker build -t subtitercmd:latest .
   ```
 - [ ] Verified build successful
 
@@ -141,12 +141,12 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
   ```
 - [ ] Verified image in ECR:
   ```bash
-  aws ecr list-images --repository-name klipperscmd
+  aws ecr list-images --repository-name subtitercmd
   ```
 - [ ] Checked image scan results (if enabled):
   ```bash
   aws ecr describe-image-scan-findings \
-    --repository-name klipperscmd \
+    --repository-name subtitercmd \
     --image-id imageTag=latest
   ```
 
@@ -157,7 +157,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
   ```bash
   docker run --rm \
     -e TASK_INPUT='{"user_id":"test","video_id":"test","mock_process":"true"}' \
-    klipperscmd:latest
+    subtitercmd:latest
   ```
 - [ ] Verified container starts and runs without errors
 
@@ -171,7 +171,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 - [ ] Noted execution ARN: `_________________`
 - [ ] Monitored logs in real-time:
   ```bash
-  aws logs tail /ecs/klippers-video-processing --follow
+  aws logs tail /ecs/subtiter-video-processing --follow
   ```
 - [ ] Verified execution completed successfully:
   ```bash
@@ -213,7 +213,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ### CloudWatch Logs
 - [ ] Verified logs are being written:
   ```bash
-  aws logs tail /ecs/klippers-video-processing --since 1h
+  aws logs tail /ecs/subtiter-video-processing --since 1h
   ```
 - [ ] Set up log retention policy (already set to 7 days in Terraform)
 - [ ] Created log insights queries for common issues
@@ -237,7 +237,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 - [ ] Considered moving secrets to AWS Secrets Manager:
   ```bash
   aws secretsmanager create-secret \
-    --name klippers/openai-api-key \
+    --name subtiter/openai-api-key \
     --secret-string "sk-your-key"
   ```
 - [ ] Updated task definition to reference secrets (if using Secrets Manager)
@@ -332,11 +332,11 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ## 📋 Quick Reference
 
 ### Important ARNs and IDs
-- **ECS Cluster**: `klippers-video-processing-cluster`
-- **ECR Repository**: `klipperscmd`
-- **Task Definition**: `klippers-video-processing`
-- **Step Function**: `klippers-video-processing-workflow`
-- **Log Group**: `/ecs/klippers-video-processing`
+- **ECS Cluster**: `subtiter-video-processing-cluster`
+- **ECR Repository**: `subtitercmd`
+- **Task Definition**: `subtiter-video-processing`
+- **Step Function**: `subtiter-video-processing-workflow`
+- **Log Group**: `/ecs/subtiter-video-processing`
 
 ### Common Commands
 ```bash
@@ -344,7 +344,7 @@ Use this checklist to ensure a smooth deployment of the Klipperscmd video proces
 ./trigger-step-function.sh <USER_ID> <VIDEO_ID>
 
 # View logs
-aws logs tail /ecs/klippers-video-processing --follow
+aws logs tail /ecs/subtiter-video-processing --follow
 
 # Check executions
 make -f Makefile.fargate status
@@ -378,7 +378,7 @@ cd ../../infra/resources && terraform apply
 
 ## 🎉 Congratulations!
 
-Your Klipperscmd video processing pipeline is now deployed to AWS Fargate and ready for production use!
+Your Subtitercmd video processing pipeline is now deployed to AWS Fargate and ready for production use!
 
 For ongoing support, refer to:
 - `DEPLOYMENT_GUIDE.md` - Detailed deployment guide

@@ -35,7 +35,7 @@ const Features = () => {
                   borderRadius: '16px'
                 }}
               >
-                <source src="https://peralabs.co.uk/assets/klippers/klippers_ai_examples/feature1.smaller240.mp4" type="video/mp4" />
+                <source src="https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/feature1.smaller240.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </Box>

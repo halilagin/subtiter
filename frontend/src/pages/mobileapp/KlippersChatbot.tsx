@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import WelcomeScreen from './WelcomeScreen';
 import ChatScreen from './ChatScreen';
-import KlippersAdAnimation from './KlippersAdAnimation';
+import SubtiterAdAnimation from './SubtiterAdAnimation';
 import { Chat, ShortsFlowData } from './types';
 import { useShortsFlow } from './hooks/useShortsFlow';
 import { useChatFlow } from './hooks/useChatFlow';
 
-const KlippersChatbot = () => {
+const SubtiterChatbot = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const KlippersChatbot = () => {
 
   if (showAdAnimation) {
     return (
-      <KlippersAdAnimation 
+      <SubtiterAdAnimation 
         onComplete={() => setShowAdAnimation(false)}
       />
     );
@@ -65,5 +65,5 @@ const KlippersChatbot = () => {
   );
 };
 
-export default KlippersChatbot;
+export default SubtiterChatbot;
 

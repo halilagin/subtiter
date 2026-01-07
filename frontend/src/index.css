@@ -179,14 +179,14 @@ img[alt*="Logo"], img[alt*="logo"], h1, h2, h3, h4, h5, h6 {
 }
 
 /* Remove focus outline for specific elements */
-img[alt*="Klippers Logo"], 
-img[alt*="klippers logo"],
+img[alt*="Subtiter Logo"], 
+img[alt*="subtiter logo"],
 .MuiTypography-h6 {
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Remove focus outline for Klippers title specifically */
+/* Remove focus outline for Subtiter title specifically */
 .MuiTypography-h6:focus,
 .MuiTypography-h6.Mui-focused {
   outline: none !important;
@@ -194,7 +194,7 @@ img[alt*="klippers logo"],
   box-shadow: none !important;
 }
 
-/* Remove focus outline for all Klippers titles and links */
+/* Remove focus outline for all Subtiter titles and links */
 a:focus,
 a:focus-visible,
 a.Mui-focused,

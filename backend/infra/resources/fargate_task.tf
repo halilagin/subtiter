@@ -1,5 +1,5 @@
 # ========================================
-# Minimal Klipperscmd Video Processing Fargate Setup
+# Minimal Subtitercmd Video Processing Fargate Setup
 # ========================================
 # Uses default VPC to minimize infrastructure overhead
 # ========================================
@@ -21,9 +21,9 @@ data "aws_subnets" "default" {
 }
 
 # Security Group for Fargate Task (minimal - only outbound traffic)
-resource "aws_security_group" "klippers_fargate_sg" {
-  name        = "klippers-fargate-sg"
-  description = "Security group for Klippers Fargate tasks"
+resource "aws_security_group" "subtiter_fargate_sg" {
+  name        = "subtiter-fargate-sg"
+  description = "Security group for Subtiter Fargate tasks"
   vpc_id      = data.aws_vpc.default.id
 
   egress {
@@ -34,7 +34,7 @@ resource "aws_security_group" "klippers_fargate_sg" {
   }
 
   tags = {
-    Name = "klippers-fargate-sg"
+    Name = "subtiter-fargate-sg"
   }
 }
 
@@ -44,7 +44,7 @@ resource "aws_security_group" "klippers_fargate_sg" {
 
 # ECS Task Execution Role (for pulling images, logging)
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "klippers-ecs-execution-role"
+  name = "subtiter-ecs-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -65,7 +65,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
 
 # ECS Task Role (for S3 access during video processing)
 resource "aws_iam_role" "ecs_task_role" {
-  name = "klippers-ecs-task-role"
+  name = "subtiter-ecs-task-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -133,8 +133,8 @@ resource "aws_s3_bucket_public_access_block" "videos_warehouse" {
 # CloudWatch Logs
 # ========================================
 
-resource "aws_cloudwatch_log_group" "klippers_logs" {
-  name              = "/ecs/klippers"
+resource "aws_cloudwatch_log_group" "subtiter_logs" {
+  name              = "/ecs/subtiter"
   retention_in_days = 3 # Minimal retention to reduce costs
 }
 
@@ -142,16 +142,16 @@ resource "aws_cloudwatch_log_group" "klippers_logs" {
 # ECS Cluster (Minimal)
 # ========================================
 
-resource "aws_ecs_cluster" "klippers" {
-  name = "klippers-cluster"
+resource "aws_ecs_cluster" "subtiter" {
+  name = "subtiter-cluster"
 }
 
 # ========================================
 # ECR Repository
 # ========================================
 
-resource "aws_ecr_repository" "klipperscmd" {
-  name                 = "klipperscmd"
+resource "aws_ecr_repository" "subtitercmd" {
+  name                 = "subtitercmd"
   image_tag_mutability = "MUTABLE"
 }
 
@@ -159,8 +159,8 @@ resource "aws_ecr_repository" "klipperscmd" {
 # ECS Task Definition
 # ========================================
 
-resource "aws_ecs_task_definition" "klippers_task" {
-  family                   = "klippers-video-processing"
+resource "aws_ecs_task_definition" "subtiter_task" {
+  family                   = "subtiter-video-processing"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "8192"  # 8 vCPU
@@ -175,14 +175,14 @@ resource "aws_ecs_task_definition" "klippers_task" {
   }
 
   container_definitions = jsonencode([{
-    name      = "klipperscmd"
-    image     = "${aws_ecr_repository.klipperscmd.repository_url}:latest"
+    name      = "subtitercmd"
+    image     = "${aws_ecr_repository.subtitercmd.repository_url}:latest"
     essential = true
 
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = aws_cloudwatch_log_group.klippers_logs.name
+        "awslogs-group"         = aws_cloudwatch_log_group.subtiter_logs.name
         "awslogs-region"        = var.region
         "awslogs-stream-prefix" = "task"
       }
@@ -195,19 +195,19 @@ resource "aws_ecs_task_definition" "klippers_task" {
 # ========================================
 
 output "cluster_name" {
-  value = aws_ecs_cluster.klippers.name
+  value = aws_ecs_cluster.subtiter.name
 }
 
 output "task_definition_arn" {
-  value = aws_ecs_task_definition.klippers_task.arn
+  value = aws_ecs_task_definition.subtiter_task.arn
 }
 
 output "ecr_repository_url" {
-  value = aws_ecr_repository.klipperscmd.repository_url
+  value = aws_ecr_repository.subtitercmd.repository_url
 }
 
 output "security_group_id" {
-  value = aws_security_group.klippers_fargate_sg.id
+  value = aws_security_group.subtiter_fargate_sg.id
 }
 
 output "subnet_ids" {

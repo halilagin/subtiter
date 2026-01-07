@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 import json
-from app.klipperscmd.clippercmd.model.short_config_model import KlippersShortsConfig
+from app.subtitercmd.clippercmd.model.short_config_model import SubtiterShortsConfig
 
 load_dotenv()
 
@@ -9,7 +9,7 @@ load_dotenv()
 class Settings(BaseSettings):
     WEBAPP_API_HOST: str = "localhost"
     WEBAPP_API_PORT: int = 22081
-    WEBAPP_API_HOST_FARGATE: str = "klippers.ai"
+    WEBAPP_API_HOST_FARGATE: str = "subtiter.ai"
     WEBAPP_API_PORT_FARGATE: int = 80
     FARGATE_TOKEN: str = "fargate-token"
     SECRET_KEY: str
@@ -47,13 +47,13 @@ class Settings(BaseSettings):
     BACKEND_WORKING_DIR: str
     SEGMENT_COUNT: int
     OPENAI_API_KEY: str
-    RUN_KLIPPERSCMD_ON: str = "local"
-    KLIPPERS_RUN_SCRIPT_FARGATE: str = "run_on_uploaded.sh.prod.fargate.sh"
-    KLIPPERS_RUN_SCRIPT: str
-    KLIPPERS_CMD_CLIPPER_PY: str
-    klippers_level1: str
-    klippers_level2: str
-    klippers_level3: str
+    RUN_SUBTITERCMD_ON: str = "local"
+    SUBTITER_RUN_SCRIPT_FARGATE: str = "run_on_uploaded.sh.prod.fargate.sh"
+    SUBTITER_RUN_SCRIPT: str
+    SUBTITER_CMD_CLIPPER_PY: str
+    subtiter_level1: str
+    subtiter_level2: str
+    subtiter_level3: str
 
     DEEPGRAM_API_KEY: str
     AWS_ACCESS_KEY_ID: str
@@ -80,26 +80,26 @@ class Settings(BaseSettings):
         env_file = ".env"
         extra = "allow"
 
-    def get_klippers_run_script(self) -> str:
-        if self.RUN_KLIPPERSCMD_ON == "fargate":
-            return self.KLIPPERS_RUN_SCRIPT_FARGATE
+    def get_subtiter_run_script(self) -> str:
+        if self.RUN_SUBTITERCMD_ON == "fargate":
+            return self.SUBTITER_RUN_SCRIPT_FARGATE
         else:
-            return self.KLIPPERS_RUN_SCRIPT
+            return self.SUBTITER_RUN_SCRIPT
 
     def get_webapi_host(self) -> str:
-        if self.RUN_KLIPPERSCMD_ON == "fargate":
+        if self.RUN_SUBTITERCMD_ON == "fargate":
             return self.WEBAPP_API_HOST_FARGATE
         else:
             return self.WEBAPP_API_HOST
 
     def get_webapi_port(self) -> int:
-        if self.RUN_KLIPPERSCMD_ON == "fargate":
+        if self.RUN_SUBTITERCMD_ON == "fargate":
             return self.WEBAPP_API_PORT_FARGATE
         else:
             return self.WEBAPP_API_PORT
 
     def get_webapi_url(self) -> str:
-        if self.RUN_KLIPPERSCMD_ON == "fargate":
+        if self.RUN_SUBTITERCMD_ON == "fargate":
             return f"https://{self.get_webapi_host()}"
         else:
             return f"http://{self.get_webapi_host()}:{self.get_webapi_port()}"
@@ -107,11 +107,11 @@ class Settings(BaseSettings):
 settings = Settings()
 
 
-def get_shorts_config() -> KlippersShortsConfig:
+def get_shorts_config() -> SubtiterShortsConfig:
     if not hasattr(get_shorts_config, "shorts_config"):
         json_file_path = f"{settings.VIDEO_WAREHOUSE_ROOT_DIR}/{settings.USER_ID}/{settings.VIDEO_ID}/shorts_config.json"
         with open(json_file_path, 'r') as f:
             data = json.load(f)
-        get_shorts_config.shorts_config = KlippersShortsConfig.model_validate(data)
+        get_shorts_config.shorts_config = SubtiterShortsConfig.model_validate(data)
     return get_shorts_config.shorts_config
 

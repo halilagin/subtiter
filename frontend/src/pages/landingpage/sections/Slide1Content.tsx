@@ -79,7 +79,7 @@ const Slide1Content: React.FC<Slide1ContentProps> = ({
                 zIndex: 2
               }}
             >
-              <source src="https://peralabs.co.uk/assets/klippers/klippers_ai_examples/podcast_sample.smaller240.mp4" type="video/mp4" />
+              <source src="https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/podcast_sample.smaller240.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {rectanglePositions.map((pos, rectIndex) => (
@@ -211,7 +211,7 @@ const Slide1Content: React.FC<Slide1ContentProps> = ({
                 zIndex: 2
               }}
             >
-              <source src="https://peralabs.co.uk/assets/klippers/klippers_ai_examples/segment_2_with_subtitles.smaller240.mp4" type="video/mp4" />
+              <source src="https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/segment_2_with_subtitles.smaller240.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </Box>

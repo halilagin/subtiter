@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AppDbModelDocumentVideoProcessingApplication';
-export * from './AppKlipperscmdClippercmdModelShortConfigModelVideoProcessingApplication';
+export * from './AppSubtitercmdClippercmdModelShortConfigModelVideoProcessingApplication';
 export * from './BodyCreatePaymentIntentApiV1SubscriptionCreatePaymentIntentPost';
 export * from './BoxRel';
 export * from './ChatMessage';

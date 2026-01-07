@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-#  klippers-fastapi-app:
-#    container_name: klippers-fastapi-app
+#  subtiter-fastapi-app:
+#    container_name: subtiter-fastapi-app
 #    build:
 #      context: ./backend
 #      dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
 #      - ./backend/.env.docker
 #    environment:
 #      - PYTHONPATH=/app
-#      - DATABASE_URL=postgresql://klippersuser:klippers_qazwsxqazwsx@klippers-postgres-db:5432/klippers_test
+#      - DATABASE_URL=postgresql://subtiteruser:subtiter_qazwsxqazwsx@subtiter-postgres-db:5432/subtiter_test
 #      - RAY_OBJECT_STORE_ALLOW_SLOW_STORAGE=1
 #      - RAY_DISABLE_DOCKER_CPU_WARNING=1
 #      - RAY_memory_monitor_refresh_ms=0
@@ -27,7 +27,7 @@ services:
 #      - RAY_USAGE_STATS_ENABLED=0
 #    restart: unless-stopped
 #    depends_on:
-#      - klippers_postgres_db
+#      - subtiter_postgres_db
 #    shm_size: 10gb
 #    ipc: host
 #    deploy:
@@ -40,8 +40,8 @@ services:
 #          cpus: '2.0'
 #    networks:
 #      - app_network
-  # klippers-nodejs-app:
-  #   container_name: klippers-nodejs-app
+  # subtiter-nodejs-app:
+  #   container_name: subtiter-nodejs-app
   #   build:
   #     context: ./frontend
   #     dockerfile: Dockerfile
@@ -50,29 +50,29 @@ services:
   #     - "23080:22080"
   #     - "23043:22443"
   #   environment:
-  #     POSTGRES_USER: klippersuser
-  #     POSTGRES_PASSWORD: klippers_qazwsxqazwsx
-  #     POSTGRES_DB: klippers_test
+  #     POSTGRES_USER: subtiteruser
+  #     POSTGRES_PASSWORD: subtiter_qazwsxqazwsx
+  #     POSTGRES_DB: subtiter_test
   #   networks:
   #     - app_network
 
-  klippers_postgres_db:
-    container_name: klippers-postgres-db
+  subtiter_postgres_db:
+    container_name: subtiter-postgres-db
     image: postgres:14-alpine
     restart: always
     ports:
       - "25432:5432"
     environment:
-      POSTGRES_USER: klippersuser
-      POSTGRES_PASSWORD: klippers_qazwsxqazwsx
-      POSTGRES_DB: klippers_test
+      POSTGRES_USER: subtiteruser
+      POSTGRES_PASSWORD: subtiter_qazwsxqazwsx
+      POSTGRES_DB: subtiter_test
     volumes:
-      - klippers_postgres_data:/var/lib/postgresql/data
+      - subtiter_postgres_data:/var/lib/postgresql/data
     networks:
       - app_network
 
   redis:
-    container_name: klippers-redis
+    container_name: subtiter-redis
     image: redis:7-alpine
     restart: always
     environment:
@@ -91,7 +91,7 @@ services:
 volumes:
   redis_data:
     driver: local
-  klippers_postgres_data:
+  subtiter_postgres_data:
     driver: local
 
 networks:

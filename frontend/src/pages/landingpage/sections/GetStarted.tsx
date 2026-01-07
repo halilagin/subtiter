@@ -135,7 +135,7 @@ const GetStarted = () => {
           lineHeight: 1.4,
           mb: 4
         }}>
-          Join Klippers today and turn every video into a hit.
+          Join Subtiter today and turn every video into a hit.
         </Typography>
       </Container>
     </Box>

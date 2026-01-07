@@ -54,7 +54,7 @@ const LandingPageProductCarousel = () => {
       badge: "AI clipping",
       icon: ContentCut,
       component: Slide1Content,
-      backgroundVideo: "https://peralabs.co.uk/assets/klippers/klippers_ai_examples/podcast_sample.smaller240.mp4",
+      backgroundVideo: "https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/podcast_sample.smaller240.mp4",
       backgroundType: "video",
       thumbnail: "/landingpageshortthumbnails/landingpageslide1thumbnail/landingpageslide1thumbnail_256w.avif"
     },
@@ -63,7 +63,7 @@ const LandingPageProductCarousel = () => {
       badge: "AI captioning",
       icon: ClosedCaption,
       component: Slide2Content,
-      backgroundVideo: "https://peralabs.co.uk/assets/klippers/klippers_ai_examples/podcast_sample.smaller240.mp4",
+      backgroundVideo: "https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/podcast_sample.smaller240.mp4",
       backgroundType: "video",
       thumbnail: "/landingpageshortthumbnails/landingpageslide2thumbnail/landingpageslide2thumbnail_256w.avif"
     },
@@ -72,7 +72,7 @@ const LandingPageProductCarousel = () => {
       badge: "AI reframe",
       icon: CropRotate,
       component: Slide3Content,
-      backgroundVideo: "https://peralabs.co.uk/assets/klippers/klippers_ai_examples/podcast_sample.smaller240.mp4",
+      backgroundVideo: "https://peralabs.co.uk/assets/subtiter/subtiter_ai_examples/podcast_sample.smaller240.mp4",
       backgroundType: "video",
       thumbnail: "/landingpageshortthumbnails/landingpageslide3thumbnail/landingpageslide3thumbnail_256w.avif"
     }

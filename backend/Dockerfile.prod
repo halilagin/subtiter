@@ -1,5 +1,5 @@
 # Use Python 3.11 slim image as base (explicit Debian variant for multi-arch)
-FROM halilagin/klippersai:latest
+FROM halilagin/subtiterai:latest
 
 # Set working directory
 WORKDIR /app

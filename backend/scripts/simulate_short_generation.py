@@ -11,7 +11,7 @@ API_TOKEN = "1234567890"
 def get_sample_video_path():
     rootdir = "/".join(os.path.abspath(__file__).split("/")[:-2])
     rootdir_path = Path(rootdir)
-    video_path = rootdir_path / "app" / "klipperscmd" / "test_podcast.mp4"
+    video_path = rootdir_path / "app" / "subtitercmd" / "test_podcast.mp4"
     return video_path
 
 

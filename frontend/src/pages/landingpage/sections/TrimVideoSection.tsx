@@ -121,7 +121,7 @@ const TrimVideoSection = () => {
                 zIndex: 2
               }}
             >
-              <source src="https://peralabs.co.uk/assets/klippers/landingpage_trim_sample_1_480px.mp4" type="video/mp4" />
+              <source src="https://peralabs.co.uk/assets/subtiter/landingpage_trim_sample_1_480px.mp4" type="video/mp4" />
             </video>
           </Box>
         </Box>

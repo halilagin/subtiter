@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
-import { KlippersShortsListView } from '@/pages/dashboard/dashboard/klippersshort/KlippersShortsList';
+import { SubtiterShortsListView } from '@/pages/dashboard/dashboard/subtitershort/SubtiterShortsList';
 
 const ListShortsPage = () => {
     const { videoid } = useParams<{ videoid: string }>();
@@ -32,7 +32,7 @@ const ListShortsPage = () => {
             width: '100%',
             height: '100%'
         }}>
-            <KlippersShortsListView
+            <SubtiterShortsListView
                 videoId={videoid}
                 onClose={() => {}}
                 onPublish={() => {}}

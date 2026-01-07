@@ -49,7 +49,7 @@ if [ "$USE_HTML" = true ]; then
 {
   "EmailMessage": $HTML_CONTENT,
   "EmailMessageByLink": $HTML_CONTENT,
-  "EmailSubject": "Welcome to Klippers.ai - Verify Your Email 🎬",
+  "EmailSubject": "Welcome to Subtiter.ai - Verify Your Email 🎬",
   "DefaultEmailOption": "CONFIRM_WITH_CODE"
 }
 EOF
@@ -70,7 +70,7 @@ else
     cat > "$JSON_OUTPUT" << EOF
 {
   "EmailMessage": $TEXT_CONTENT,
-  "EmailSubject": "Welcome to Klippers.ai - Verify Your Email 🎬",
+  "EmailSubject": "Welcome to Subtiter.ai - Verify Your Email 🎬",
   "DefaultEmailOption": "CONFIRM_WITH_CODE"
 }
 EOF
@@ -105,7 +105,7 @@ aws cognito-idp update-user-pool \
   --user-pool-id "$USER_POOL_ID" \
   --region "$REGION" \
   --email-verification-message "$HTML_CONTENT" \
-  --email-verification-subject "Welcome to Klippers.ai - Verify Your Email" \
+  --email-verification-subject "Welcome to Subtiter.ai - Verify Your Email" \
   --auto-verified-attributes email
 
 echo ""

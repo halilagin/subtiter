@@ -43,7 +43,7 @@ Level0SubscriptionPlanInstance = SubscriptionPlanConfig(
 
 
 Level1SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
-    name="klippers_level1_monthly",
+    name="subtiter_level1_monthly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=2 * 60 * 60,  # 2 hour
     max_monthly_video_count=5,
@@ -55,7 +55,7 @@ Level1SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
 )
 
 Level2SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
-    name="klippers_level2_monthly",
+    name="subtiter_level2_monthly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=Level1SubscriptionPlanInstanceMonthly.max_monthly_video_duration * 4,
     max_monthly_video_count=Level1SubscriptionPlanInstanceMonthly.max_monthly_video_count * 4,
@@ -67,7 +67,7 @@ Level2SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
 )
 
 Level3SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
-    name="klippers_level3_monthly",
+    name="subtiter_level3_monthly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=Level2SubscriptionPlanInstanceMonthly.max_monthly_video_duration * 4,
     max_monthly_video_count=Level2SubscriptionPlanInstanceMonthly.max_monthly_video_count * 4,
@@ -82,7 +82,7 @@ Level3SubscriptionPlanInstanceMonthly = SubscriptionPlanConfig(
 
 
 Level1SubscriptionPlanInstanceYearly = SubscriptionPlanConfig(
-    name="klippers_level1_yearly",
+    name="subtiter_level1_yearly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=10000,
     max_monthly_video_count=1000,
@@ -94,7 +94,7 @@ Level1SubscriptionPlanInstanceYearly = SubscriptionPlanConfig(
 )
 
 Level2SubscriptionPlanInstanceYearly = SubscriptionPlanConfig(
-    name="klippers_level2_yearly",
+    name="subtiter_level2_yearly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=10000,
     max_monthly_video_count=1000,
@@ -106,7 +106,7 @@ Level2SubscriptionPlanInstanceYearly = SubscriptionPlanConfig(
 )
 
 Level3SubscriptionPlanInstanceYearly = SubscriptionPlanConfig(
-    name="klippers_level3_yearly",
+    name="subtiter_level3_yearly",
     recurring_interval=SubscriptionRecurringInterval.MONTHLY,
     max_monthly_video_duration=10000,
     max_monthly_video_count=1000,

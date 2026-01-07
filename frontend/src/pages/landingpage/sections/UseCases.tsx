@@ -53,7 +53,7 @@ const UseCases = () => {
             fontSize: '1.1rem',
             lineHeight: 1.6
           }}>
-            From content creators to marketing teams, Klippers adapts to your workflow and amplifies your impact.
+            From content creators to marketing teams, Subtiter adapts to your workflow and amplifies your impact.
           </Typography>
         </Box>
 

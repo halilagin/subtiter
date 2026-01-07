@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Klippers Database Backup Script
+# Subtiter Database Backup Script
 # This script backs up the PostgreSQL database
 
 # Colors for output
@@ -11,9 +11,9 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-CONTAINER_NAME="klippers-postgres-db"
-DB_NAME="klippers_test"
-DB_USER="klippersuser"
+CONTAINER_NAME="subtiter-postgres-db"
+DB_NAME="subtiter_test"
+DB_USER="subtiteruser"
 BACKUP_DIR="./backups"
 DATE_FORMAT=$(date +"%Y-%m-%d_%H-%M-%S")
 BACKUP_FILE="${BACKUP_DIR}/${DB_NAME}_${DATE_FORMAT}.sql"
@@ -40,7 +40,7 @@ check_container() {
     print_info "Checking container status..."
     if ! docker ps | grep -q "${CONTAINER_NAME}"; then
         print_error "Container '${CONTAINER_NAME}' is not running!"
-        print_info "To start the container: docker-compose up -d klippers_postgres_db"
+        print_info "To start the container: docker-compose up -d subtiter_postgres_db"
         exit 1
     fi
     print_success "Container is running"
@@ -95,7 +95,7 @@ list_backups() {
 # Main function
 main() {
     echo "=========================================="
-    echo "🗄️  Klippers Database Backup Script"
+    echo "🗄️  Subtiter Database Backup Script"
     echo "=========================================="
     
     check_container

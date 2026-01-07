@@ -8,7 +8,7 @@ endif
 
 
 create_tff_s3_bucket:
-	set -a && source ../../.env.docker.prod && set +a && aws s3api create-bucket --bucket klippers-terraform-state-v2 --region eu-west-1 --create-bucket-configuration LocationConstraint=eu-west-1
+	set -a && source ../../.env.docker.prod && set +a && aws s3api create-bucket --bucket subtiter-terraform-state-v2 --region eu-west-1 --create-bucket-configuration LocationConstraint=eu-west-1
 
 cognito_get_user_pool:
 	@set -a && source ../../.env.docker.prod && set +a && \
@@ -81,23 +81,23 @@ state_machine_destroy:
 
 state_machine_status:
 	@echo "Checking state machine status..."
-	@aws stepfunctions list-state-machines --query "stateMachines[?name=='klippers-video-processing']" --region eu-west-1
+	@aws stepfunctions list-state-machines --query "stateMachines[?name=='subtiter-video-processing']" --region eu-west-1
 
 state_machine_list_executions:
 	@echo "Listing recent executions..."
-	@STATE_MACHINE_ARN=$$(aws stepfunctions list-state-machines --query "stateMachines[?name=='klippers-video-processing'].stateMachineArn" --output text --region eu-west-1) && \
+	@STATE_MACHINE_ARN=$$(aws stepfunctions list-state-machines --query "stateMachines[?name=='subtiter-video-processing'].stateMachineArn" --output text --region eu-west-1) && \
 	aws stepfunctions list-executions --state-machine-arn $$STATE_MACHINE_ARN --max-results 10 --region eu-west-1
 
 state_machine_run:
 	@echo "Running state machine..."
-	cd ../../app/klipperscmd && ./run_state_machine.sh
+	cd ../../app/subtitercmd && ./run_state_machine.sh
 
 state_machine_logs:
 	@echo "Tailing state machine logs..."
-	aws logs tail /aws/stepfunctions/klippers-video-processing --follow --region eu-west-1
+	aws logs tail /aws/stepfunctions/subtiter-video-processing --follow --region eu-west-1
 
 fargate_logs:
 	@echo "Tailing Fargate task logs..."
-	aws logs tail /ecs/klippers --follow --region eu-west-1
+	aws logs tail /ecs/subtiter --follow --region eu-west-1
 
 .PHONY: state_machine_deploy state_machine_destroy state_machine_status state_machine_list_executions state_machine_run state_machine_logs fargate_logs

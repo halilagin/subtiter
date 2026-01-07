@@ -6,7 +6,7 @@
 
 **Error Message**:
 ```
-Error: creating Step Functions State Machine (klippers-video-processing): 
+Error: creating Step Functions State Machine (subtiter-video-processing): 
 operation error SFN: CreateStateMachine, https response error StatusCode: 400, 
 RequestID: ccb3e5f2-372f-4ab9-aa63-42f46392e685, 
 api error AccessDeniedException: The state machine IAM Role is not authorized 
@@ -48,7 +48,7 @@ resource "aws_iam_role_policy" "step_functions_logs_policy" {
 
 **Apply Fix**:
 ```bash
-cd /Users/halilagin/root/github/klippers.ai/backend/infra/resources
+cd /Users/halilagin/root/github/subtiter.ai/backend/infra/resources
 terraform apply
 ```
 
@@ -74,8 +74,8 @@ Error: AccessDeniedException: User is not authorized to perform: ecs:RunTask
     "ecs:DescribeTasks"
   ],
   "Resource": [
-    "arn:aws:ecs:REGION:ACCOUNT:task-definition/klippers-video-processing:*",
-    "arn:aws:ecs:REGION:ACCOUNT:task/klippers-cluster/*"
+    "arn:aws:ecs:REGION:ACCOUNT:task-definition/subtiter-video-processing:*",
+    "arn:aws:ecs:REGION:ACCOUNT:task/subtiter-cluster/*"
   ]
 }
 ```
@@ -98,8 +98,8 @@ Error: AccessDeniedException: User is not authorized to perform: iam:PassRole
   "Effect": "Allow",
   "Action": ["iam:PassRole"],
   "Resource": [
-    "arn:aws:iam::ACCOUNT:role/klippers-ecs-execution-role",
-    "arn:aws:iam::ACCOUNT:role/klippers-ecs-task-role"
+    "arn:aws:iam::ACCOUNT:role/subtiter-ecs-execution-role",
+    "arn:aws:iam::ACCOUNT:role/subtiter-ecs-task-role"
   ]
 }
 ```
@@ -156,24 +156,24 @@ The Step Functions role needs three policies:
 
 ### Check Role Exists
 ```bash
-aws iam get-role --role-name klippers-step-functions-role
+aws iam get-role --role-name subtiter-step-functions-role
 ```
 
 ### List Attached Policies
 ```bash
-aws iam list-role-policies --role-name klippers-step-functions-role
+aws iam list-role-policies --role-name subtiter-step-functions-role
 ```
 
 ### Get Specific Policy
 ```bash
 aws iam get-role-policy \
-  --role-name klippers-step-functions-role \
+  --role-name subtiter-step-functions-role \
   --policy-name cloudwatch-logs-access
 ```
 
 ### Test State Machine Creation
 ```bash
-cd /Users/halilagin/root/github/klippers.ai/backend/infra/resources
+cd /Users/halilagin/root/github/subtiter.ai/backend/infra/resources
 terraform plan
 terraform apply
 ```
@@ -185,7 +185,7 @@ terraform apply
 If you prefer to attach policies manually via AWS Console:
 
 1. Go to IAM Console: https://console.aws.amazon.com/iam/
-2. Navigate to Roles → `klippers-step-functions-role`
+2. Navigate to Roles → `subtiter-step-functions-role`
 3. Click "Add permissions" → "Create inline policy"
 4. Use JSON editor and paste the CloudWatch Logs policy above
 5. Name it `cloudwatch-logs-access`
@@ -223,7 +223,7 @@ EOF
 
 # Attach policy
 aws iam put-role-policy \
-  --role-name klippers-step-functions-role \
+  --role-name subtiter-step-functions-role \
   --policy-name cloudwatch-logs-access \
   --policy-document file:///tmp/logs-policy.json
 ```
@@ -242,7 +242,7 @@ To see exactly what permissions are being denied:
 
 ### Use IAM Policy Simulator
 1. Go to: https://policysim.aws.amazon.com/
-2. Select role: `klippers-step-functions-role`
+2. Select role: `subtiter-step-functions-role`
 3. Select service: Step Functions
 4. Select action: CreateStateMachine
 5. Run simulation to see what's denied
@@ -282,7 +282,7 @@ aws service-quotas list-service-quotas \
 
 **Next Steps**:
 ```bash
-cd /Users/halilagin/root/github/klippers.ai/backend/infra/resources
+cd /Users/halilagin/root/github/subtiter.ai/backend/infra/resources
 terraform apply
 ```
 

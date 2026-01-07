@@ -1,2 +1,2 @@
-export PGPASSWORD=klippers_qazwsxqazwsx
-psql -h localhost -p 25432 -U klippersuser   -d klippers_test $@
+export PGPASSWORD=subtiter_qazwsxqazwsx
+psql -h localhost -p 25432 -U subtiteruser   -d subtiter_test $@

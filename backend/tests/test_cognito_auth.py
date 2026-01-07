@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch
 from botocore.exceptions import ClientError
 from app.aws_app_stack import cognito_config
-from app.aws_app_stack.cognito import get_access_token, KlippersCognito
+from app.aws_app_stack.cognito import get_access_token, SubtiterCognito
 
 
 class TestCognitoAuth:
@@ -16,8 +16,8 @@ class TestCognitoAuth:
 
     @pytest.fixture
     def cognito_instance(self):
-        """Create a KlippersCognito instance for testing"""
-        return KlippersCognito(
+        """Create a SubtiterCognito instance for testing"""
+        return SubtiterCognito(
             user_pool_id=cognito_config.aws_cognito_user_pool_id,
             client_id=cognito_config.aws_cognito_user_pool_client_id,
             region=cognito_config.region

@@ -21,7 +21,7 @@ export const plans: Plan[] = [
     color: '#000000'
   },
   {
-    id: 'klippers_level1',
+    id: 'subtiter_level1',
     name: 'Starter',
     monthlyPrice: 29,
     yearlyPrice: 290,
@@ -36,7 +36,7 @@ export const plans: Plan[] = [
     color: '#5a4eff'
   },
   {
-    id: 'klippers_level2',
+    id: 'subtiter_level2',
     name: 'Pro',
     monthlyPrice: 79,
     yearlyPrice: 790,
@@ -53,7 +53,7 @@ export const plans: Plan[] = [
     color: '#e05a29'
   },
   {
-    id: 'klippers_level3',
+    id: 'subtiter_level3',
     name: 'Enterprise',
     monthlyPrice: 199,
     yearlyPrice: 1990,

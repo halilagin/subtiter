@@ -327,34 +327,34 @@ const ManageSubscription = () => {
               </PricingCardSubscriptionWrapper>
             </Grid>}
             <Grid item xs={9} sm={7} md={2.8}>
-                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "klippers_level1"}>       
-                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level1')!} >
+                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "subtiter_level1"}>       
+                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level1')!} >
                         <InternalCardButton viewOnly={false} 
-                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "klippers_level1")}
-                        isCurrentPlan={subscriptionPlan === "klippers_level1"}
-                        planId="klippers_level1"
+                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "subtiter_level1")}
+                        isCurrentPlan={subscriptionPlan === "subtiter_level1"}
+                        planId="subtiter_level1"
                         />
                     </PricingCard>
                 </PricingCardSubscriptionWrapper>
             </Grid>  
             <Grid item xs={9} sm={7} md={2.8}>
-                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "klippers_level2"}>
-                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level2')!}>
+                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "subtiter_level2"}>
+                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level2')!}>
                         <InternalCardButton viewOnly={false} 
-                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "klippers_level2")} 
-                        isCurrentPlan={subscriptionPlan === "klippers_level2"}
-                        planId="klippers_level2"
+                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "subtiter_level2")} 
+                        isCurrentPlan={subscriptionPlan === "subtiter_level2"}
+                        planId="subtiter_level2"
                         />
                     </PricingCard>
                 </PricingCardSubscriptionWrapper>
             </Grid>
             <Grid item xs={9} sm={7} md={2.8}>
-                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "klippers_level3"}>
-                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level3')!}>
+                <PricingCardSubscriptionWrapper currentPlan={subscriptionPlan === "subtiter_level3"}>
+                    <PricingCard viewOnly={false} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level3')!}>
                         <InternalCardButton viewOnly={false} 
-                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "klippers_level3")} 
-                        isCurrentPlan={subscriptionPlan === "klippers_level3"}
-                        planId="klippers_level3"
+                        handleButtonClick={(action)=>handleButtonClick(action, isYearly, "subtiter_level3")} 
+                        isCurrentPlan={subscriptionPlan === "subtiter_level3"}
+                        planId="subtiter_level3"
                         />
                     </PricingCard>
                 </PricingCardSubscriptionWrapper>

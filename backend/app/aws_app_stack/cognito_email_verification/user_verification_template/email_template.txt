@@ -1,14 +1,14 @@
-Subject: Welcome to Klippers.ai - Verify Your Email 🎬
+Subject: Welcome to Subtiter.ai - Verify Your Email 🎬
 
 ---
 
-Welcome to Klippers.ai! 🎬
+Welcome to Subtiter.ai! 🎬
 
-Thank you for joining Klippers.ai - your AI-powered video clipping assistant!
+Thank you for joining Subtiter.ai - your AI-powered video clipping assistant!
 
 To get started and access all features, please verify your email address by clicking the link below:
 
-https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}
+https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}
 
 Or enter this verification code manually: {####}
 
@@ -20,13 +20,13 @@ Once verified, you'll be able to:
 ✓ Access your personalized dashboard
 ✓ Start creating engaging content
 
-If you didn't create an account with Klippers.ai, please ignore this email.
+If you didn't create an account with Subtiter.ai, please ignore this email.
 
-Need help? Contact us at support@klippers.ai
+Need help? Contact us at support@subtiter.ai
 
 Best regards,
-The Klippers.ai Team
+The Subtiter.ai Team
 
 ---
-© 2025 Klippers.ai - AI-Powered Video Clipping
+© 2025 Subtiter.ai - AI-Powered Video Clipping
 

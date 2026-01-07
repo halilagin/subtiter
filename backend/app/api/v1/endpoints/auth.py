@@ -15,7 +15,7 @@ from app.schemas.schema_user import Token, User as UserSchema
 from app.core.auth import get_current_active_user
 from app.config import settings
 from app.schemas import schema_user
-from app.aws_app_stack.klippers_cognito import klippers_cognito
+from app.aws_app_stack.subtiter_cognito import subtiter_cognito
 from app.aws_app_stack.google_token_verifier import GoogleTokenVerifier
 from app.aws_app_stack.facebook_token_verifier import FacebookTokenVerifier
 from app.aws_app_stack import cognito_config
@@ -83,7 +83,7 @@ async def login_cognito(
 
     try:
         # Authenticate with AWS Cognito
-        auth_result = klippers_cognito.get_access_token(
+        auth_result = subtiter_cognito.get_access_token(
             username=form_data.username,
             password=form_data.password
         )
@@ -158,7 +158,7 @@ async def register(
         db.flush()  # This assigns an ID to db_user
 
         # Register user in AWS Cognito
-        cognito_response = klippers_cognito.register_user(
+        cognito_response = subtiter_cognito.register_user(
             email=user_data.email.strip(),
             password=user_data.password,
             name=user_data.name,
@@ -171,7 +171,7 @@ async def register(
             db_user.username = cognito_response['user_sub']
 
         # Automatically confirm the user (bypass email verification)
-        # klippers_cognito.admin_confirm_user(user_data.email.strip())
+        # subtiter_cognito.admin_confirm_user(user_data.email.strip())
         # If Cognito registration is successful, commit to the database
         db.commit()
 
@@ -217,7 +217,7 @@ async def register_and_confirm(
 
         # Register user in AWS Cognito
         try:
-            cognito_result = klippers_cognito.register_user(
+            cognito_result = subtiter_cognito.register_user(
                 email=user_data.email.strip(),
                 password=user_data.password,
                 name=user_data.name,
@@ -235,7 +235,7 @@ async def register_and_confirm(
         # If confirmation code is provided, confirm the user immediately
         if user_data.confirmation_code:
             try:
-                klippers_cognito.confirm_user_signup(
+                subtiter_cognito.confirm_user_signup(
                     email=user_data.email.strip(),
                     confirmation_code=user_data.confirmation_code
                 )
@@ -288,7 +288,7 @@ async def confirm_signup(
     This is required when email verification is enabled in Cognito.
     """
     try:
-        klippers_cognito.confirm_user_signup(
+        subtiter_cognito.confirm_user_signup(
             email=confirm_data.email.strip(),
             confirmation_code=confirm_data.confirmation_code
         )
@@ -311,7 +311,7 @@ async def confirm_signup_link(
     """
     try:
         # Perform the actual confirmation with Cognito
-        klippers_cognito.confirm_user_signup(
+        subtiter_cognito.confirm_user_signup(
             email=email.strip(),
             confirmation_code=confirmation_code
         )
@@ -320,7 +320,7 @@ async def confirm_signup_link(
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Email Confirmed - Klippers.ai</title>
+            <title>Email Confirmed - Subtiter.ai</title>
             <style>
                 body {
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -371,8 +371,8 @@ async def confirm_signup_link(
             <div class="container">
                 <div class="success-icon">✅</div>
                 <h1>Email Confirmed Successfully!</h1>
-                <p>Your email has been verified. You can now log in to your Klippers.ai account.</p>
-                <a href="https://klippers.ai/login" class="button">Go to Login</a>
+                <p>Your email has been verified. You can now log in to your Subtiter.ai account.</p>
+                <a href="https://subtiter.ai/login" class="button">Go to Login</a>
             </div>
         </body>
         </html>
@@ -385,7 +385,7 @@ async def confirm_signup_link(
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Confirmation Failed - Klippers.ai</title>
+            <title>Confirmation Failed - Subtiter.ai</title>
             <style>
                 body {{
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -454,7 +454,7 @@ async def admin_confirm_user(
         if not email:
             raise HTTPException(status_code=400, detail="Email is required")
 
-        klippers_cognito.admin_confirm_user(email.strip())
+        subtiter_cognito.admin_confirm_user(email.strip())
         return {"message": f"User {email} confirmed successfully. They can now login."}
     except Exception as e:
         error_msg = str(e)
@@ -533,11 +533,11 @@ async def update_subscription_id(
         db_user.subscription_updated_at = datetime.now()
 
 
-        if db_user.subscription_plan == "klippers_level1":
+        if db_user.subscription_plan == "subtiter_level1":
             db_user.subscription_config_json = Level1SubscriptionPlanInstanceMonthly.model_dump()
-        elif db_user.subscription_plan == "klippers_level2":
+        elif db_user.subscription_plan == "subtiter_level2":
             db_user.subscription_config_json = Level2SubscriptionPlanInstanceMonthly.model_dump()
-        elif db_user.subscription_plan == "klippers_level3":
+        elif db_user.subscription_plan == "subtiter_level3":
             db_user.subscription_config_json = Level3SubscriptionPlanInstanceMonthly.model_dump()
 
 
@@ -911,7 +911,7 @@ async def google_callback(
         logger.info("Successfully exchanged code for tokens")
 
         # Verify and decode the ID token to get user info
-        claims = klippers_cognito.verify_token(id_token, token_use="id")
+        claims = subtiter_cognito.verify_token(id_token, token_use="id")
 
         if not claims:
             logger.error("Failed to verify ID token")

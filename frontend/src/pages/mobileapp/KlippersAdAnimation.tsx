@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import klippersLogoGif from '../../../public/logogif.gif';
+import subtiterLogoGif from '../../../public/logogif.gif';
 
-interface KlippersAdAnimationProps {
+interface SubtiterAdAnimationProps {
   onComplete?: () => void;
   duration?: number; // Total duration in seconds
 }
 
-const KlippersAdAnimation: React.FC<KlippersAdAnimationProps> = ({ 
+const SubtiterAdAnimation: React.FC<SubtiterAdAnimationProps> = ({ 
   onComplete, 
   duration = 15 
 }) => {
@@ -16,7 +16,7 @@ const KlippersAdAnimation: React.FC<KlippersAdAnimationProps> = ({
 
   const scenes = [
     {
-      title: 'Klippers AI',
+      title: 'Subtiter AI',
       subtitle: 'Your AI-powered video assistant',
       icon: '🎬',
       duration: 2.5,
@@ -205,8 +205,8 @@ const KlippersAdAnimation: React.FC<KlippersAdAnimationProps> = ({
           >
             <Box
               component="img"
-              src={klippersLogoGif}
-              alt="Klippers Logo"
+              src={subtiterLogoGif}
+              alt="Subtiter Logo"
               sx={{
                 width: { xs: '120px', sm: '150px' },
                 height: 'auto',
@@ -351,5 +351,5 @@ const KlippersAdAnimation: React.FC<KlippersAdAnimationProps> = ({
   );
 };
 
-export default KlippersAdAnimation;
+export default SubtiterAdAnimation;
 

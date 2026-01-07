@@ -162,11 +162,11 @@ def send_emails_in_batches():
                 email = signer_item.email
 
                 if signer_item.email_type == "signer_email_queue":
-                    subject = f"Klippers: Sign Request"
+                    subject = f"Subtiter: Sign Request"
                     # Render the template with the required variables
                     body = prepare_request_signing_email_body(SIGNING_CALLBACK_URL, document_id, signer_id)
                 elif signer_item.email_type == "signed_pdf_view":
-                    subject = f"Klippers: View Signed Document"
+                    subject = f"Subtiter: View Signed Document"
                     body = f"""
                             You can view the signed document here:
                         {SIGNING_CALLBACK_URL_SIGNED_PDF_VIEW}?documentId={document_id}

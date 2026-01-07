@@ -1,6 +1,6 @@
-# Klippers.ai Backend
+# Subtiter.ai Backend
 
-FastAPI backend service for Klippers.ai with Ray Serve for distributed computing.
+FastAPI backend service for Subtiter.ai with Ray Serve for distributed computing.
 
 ## Quick Start
 
@@ -43,7 +43,7 @@ backend/
 │   ├── actors/           # Ray actors (e.g., ActorChat)
 │   ├── api/              # API routes
 │   │   ├── v1/endpoints/ # API v1 endpoints
-│   │   └── klippers/     # Klippers-specific endpoints
+│   │   └── subtiter/     # Subtiter-specific endpoints
 │   ├── aws_app_stack/    # AWS Cognito integration
 │   ├── core/             # Core functionality (auth, security)
 │   ├── db/               # Database models and migrations
@@ -63,7 +63,7 @@ backend/
 - **AWS Cognito**: Authentication and user management
 - **PostgreSQL**: Database for user data
 - **WebSocket**: Real-time chat functionality
-- **Video Processing**: Klippers video generation pipeline
+- **Video Processing**: Subtiter video generation pipeline
 
 ## Environment Variables
 
@@ -71,7 +71,7 @@ Create a `.env` file:
 
 ```env
 # Database
-DATABASE_URL=postgresql://user:password@localhost:5432/klippers
+DATABASE_URL=postgresql://user:password@localhost:5432/subtiter
 
 # AWS Cognito
 COGNITO_USER_POOL_ID=your-pool-id
@@ -83,7 +83,7 @@ SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 
 # Application
-VIDEO_WAREHOUSE_ROOT_DIR=./app/klippers_warehouse
+VIDEO_WAREHOUSE_ROOT_DIR=./app/subtiter_warehouse
 ```
 
 ## API Endpoints
@@ -167,18 +167,18 @@ poetry run flake8 app/
 
 1. Build image:
    ```bash
-   docker build -t klippers-backend .
+   docker build -t subtiter-backend .
    ```
 
 2. Run container with proper shared memory:
    ```bash
    docker run -d \
-     --name klippers-backend \
+     --name subtiter-backend \
      --shm-size=2g \
      --cpus=4 \
      --memory=6g \
      -p 22081:22081 \
-     klippers-backend
+     subtiter-backend
    ```
 
 ### Cloud Deployment
@@ -191,7 +191,7 @@ Ray Dashboard is available at `http://localhost:8265` when running locally.
 
 ## License
 
-Proprietary - Klippers.ai
+Proprietary - Subtiter.ai
 
 ## Support
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Klippers Auto Backup Setup Script
+# Subtiter Auto Backup Setup Script
 # This script sets up automatic backups using cron jobs
 
 # Colors for output
@@ -11,7 +11,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-SCRIPT_DIR="/Users/berfinagin/projects/klippers/backend"
+SCRIPT_DIR="/Users/berfinagin/projects/subtiter/backend"
 BACKUP_SCRIPT="${SCRIPT_DIR}/scripts/backup_database.sh"
 CRON_LOG="${SCRIPT_DIR}/backup_cron.log"
 
@@ -72,12 +72,12 @@ add_cron_job() {
 # List cron jobs
 list_cron_jobs() {
     print_info "Current cron jobs:"
-    crontab -l 2>/dev/null | grep -E "(backup|klippers)" || print_warning "No Klippers backup cron jobs found"
+    crontab -l 2>/dev/null | grep -E "(backup|subtiter)" || print_warning "No Subtiter backup cron jobs found"
 }
 
 # Remove cron jobs
 remove_cron_jobs() {
-    print_info "Removing Klippers backup cron jobs..."
+    print_info "Removing Subtiter backup cron jobs..."
     crontab -l 2>/dev/null | grep -v "backup_database.sh" | crontab -
     print_success "Cron jobs removed!"
 }
@@ -92,7 +92,7 @@ test_backup() {
 # Main function
 main() {
     echo "=========================================="
-    echo "⏰ Klippers Auto Backup Setup"
+    echo "⏰ Subtiter Auto Backup Setup"
     echo "=========================================="
     
     case "${1:-help}" in

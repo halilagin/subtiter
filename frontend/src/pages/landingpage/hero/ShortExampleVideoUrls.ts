@@ -1,16 +1,16 @@
 const ShortExampleVideoUrls = [
     
 
-    "https://peralabs.co.uk/assets/klippers/podcastsamples/podcast1.smaller240.mp4",
-    "https://peralabs.co.uk/assets/klippers/podcastsamples/podcast2.smaller240.mp4",
-    "https://peralabs.co.uk/assets/klippers/1.smaller240.mp4",
+    "https://peralabs.co.uk/assets/subtiter/podcastsamples/podcast1.smaller240.mp4",
+    "https://peralabs.co.uk/assets/subtiter/podcastsamples/podcast2.smaller240.mp4",
+    "https://peralabs.co.uk/assets/subtiter/1.smaller240.mp4",
 
-    "https://peralabs.co.uk/assets/klippers/22.smaller240.mp4",
+    "https://peralabs.co.uk/assets/subtiter/22.smaller240.mp4",
 
-    "https://peralabs.co.uk/assets/klippers/6.smaller240.mp4" ,
-    "https://peralabs.co.uk/assets/klippers/4.smaller240.mp4",
+    "https://peralabs.co.uk/assets/subtiter/6.smaller240.mp4" ,
+    "https://peralabs.co.uk/assets/subtiter/4.smaller240.mp4",
 
-   "https://peralabs.co.uk/assets/klippers/5.smaller240.mp4",
+   "https://peralabs.co.uk/assets/subtiter/5.smaller240.mp4",
 
 ]
 

@@ -9,7 +9,7 @@ from app.dao.user_dao import get_or_create_user
 
 # from app.main import app
 from app.config import settings
-from app.aws_app_stack.klippers_cognito import klippers_cognito
+from app.aws_app_stack.subtiter_cognito import subtiter_cognito
 
 # Configure logger
 logger = logging.getLogger(__name__) 
@@ -167,12 +167,12 @@ async def cognito_auth_middleware(request: Request, call_next: Callable):
         # Try to verify as Cognito JWT token first
         # First try to verify as access token, then as ID token if that fails
         logger.debug("cognito_middleware: Attempting to verify token as Cognito access token")
-        decoded_token = klippers_cognito.verify_token(token, token_use="access")
+        decoded_token = subtiter_cognito.verify_token(token, token_use="access")
 
         if not decoded_token:
             # Try as ID token
             logger.debug("cognito_middleware: Access token verification failed, trying as Cognito ID token")
-            decoded_token = klippers_cognito.verify_token(token, token_use="id")
+            decoded_token = subtiter_cognito.verify_token(token, token_use="id")
 
         if not decoded_token:
             # If Cognito verification fails, try as custom JWT (for Google sign-in users)

@@ -99,18 +99,18 @@ const PricingPlans = ({ viewOnly }: { viewOnly: boolean }) => {
         {/* Pricing Cards */}
         <Grid container spacing={{ xs: 2, md: 3 }} justifyContent="center">
           <Grid item xs={9} sm={7} md={2.3}>
-            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level1')!}>
-              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="klippers_level1" handleButtonClick={()=>handleButtonClick(isYearly, "klippers_level1")} />
+            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level1')!}>
+              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="subtiter_level1" handleButtonClick={()=>handleButtonClick(isYearly, "subtiter_level1")} />
             </PricingCard>
           </Grid>
           <Grid item xs={9} sm={7} md={2.3}>    
-            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level2')!}>
-              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="klippers_level2" handleButtonClick={()=>handleButtonClick(isYearly, "klippers_level2")} />
+            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level2')!}>
+              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="subtiter_level2" handleButtonClick={()=>handleButtonClick(isYearly, "subtiter_level2")} />
             </PricingCard>
           </Grid>
           <Grid item xs={9} sm={7} md={2.3}>
-            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'klippers_level3')!}>
-              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="klippers_level3" handleButtonClick={()=>handleButtonClick(isYearly, "klippers_level3")} />
+            <PricingCard viewOnly={viewOnly} isYearly={isYearly} plan={plans.find(p => p.id === 'subtiter_level3')!}>
+              <InternalCardButton viewOnly={viewOnly} isCurrentPlan={false} planId="subtiter_level3" handleButtonClick={()=>handleButtonClick(isYearly, "subtiter_level3")} />
             </PricingCard>
           </Grid>
         </Grid>

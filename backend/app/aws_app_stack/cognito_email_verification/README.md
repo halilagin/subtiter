@@ -1,6 +1,6 @@
 # AWS Cognito Email Verification
 
-This directory contains all AWS Cognito email verification templates, scripts, and documentation for Klippers.ai user authentication.
+This directory contains all AWS Cognito email verification templates, scripts, and documentation for Subtiter.ai user authentication.
 
 ## 📚 Documentation Index
 
@@ -74,7 +74,7 @@ The email template uses two variables that AWS Cognito automatically replaces:
 
 ### `{username}` Variable
 - **Source:** `Username` parameter in `boto3_cognito_client.sign_up()`
-- **Location:** `app/aws_app_stack/klippers_cognito.py` line 211
+- **Location:** `app/aws_app_stack/subtiter_cognito.py` line 211
 - **Value:** The user's email address (e.g., `john@example.com`)
 - **Code:** `Username=email`
 
@@ -88,9 +88,9 @@ The email template uses two variables that AWS Cognito automatically replaces:
 ## ⚙️ Cognito Configuration
 
 - **User Pool ID**: `eu-west-1_zm3OfnfeQ`
-- **User Pool Name**: `klippers-user-pool`
+- **User Pool Name**: `subtiter-user-pool`
 - **Client ID**: `4ucvrbiupts4bs4bdt8mstedsm`
-- **Client Name**: `klippers-client`
+- **Client Name**: `subtiter-client`
 - **Region**: `eu-west-1`
 - **Domain**: `example-terraform-hosted-ui`
 
@@ -98,12 +98,12 @@ The email template uses two variables that AWS Cognito automatically replaces:
 
 ### Main Application Code
 - `app/api/v1/endpoints/auth.py` (line 148) - Registration endpoint
-- `app/aws_app_stack/klippers_cognito.py` (line 209) - Cognito integration
+- `app/aws_app_stack/subtiter_cognito.py` (line 209) - Cognito integration
 - `app/aws_app_stack/cognito_config.py` - Configuration values
 - `app/core/auth.py` - Authentication logic
 
 ### The Critical Line
-**File:** `app/aws_app_stack/klippers_cognito.py` line 211
+**File:** `app/aws_app_stack/subtiter_cognito.py` line 211
 ```python
 Username=email,  # ← {username} in email template = this value
 ```
@@ -128,8 +128,8 @@ Username=email,  # ← {username} in email template = this value
 
 ```
 1. User registers → POST /api/v1/auth/register
-2. auth.py calls klippers_cognito.register_user(email=...)
-3. klippers_cognito.py calls sign_up(Username=email)
+2. auth.py calls subtiter_cognito.register_user(email=...)
+3. subtiter_cognito.py calls sign_up(Username=email)
 4. AWS Cognito generates code and sends email
 5. User clicks link or enters code
 6. User is confirmed in Cognito
@@ -155,7 +155,7 @@ cd scripts
 ### Change Verification Link
 Edit line 179 in `email_template.html`:
 ```html
-<a href="https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}">
+<a href="https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}">
 ```
 
 **⚠️ Important:** Keep `{username}` and `{####}` placeholders intact!
@@ -164,7 +164,7 @@ Edit line 179 in `email_template.html`:
 
 All operations use the custom AWS CLI wrapper:
 ```bash
-/usr/local/bin/kaws_klippers_cli
+/usr/local/bin/kaws_subtiter_cli
 ```
 
 ## 📊 Token Configuration

@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
     echo "Usage: $0 <path_to_ai_cost_total.json>"
     echo ""
     echo "Example:"
-    echo "  $0 app/klippers_warehouse/user123/video456/ai_cost_total.json"
+    echo "  $0 app/subtiter_warehouse/user123/video456/ai_cost_total.json"
     exit 1
 fi
 

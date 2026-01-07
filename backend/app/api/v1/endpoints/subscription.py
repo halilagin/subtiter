@@ -3,7 +3,7 @@ from app.db.model_document import PromotionCode, User, UserPromotionCode, UserVi
 from app.schemas import schema_user
 from app.schemas.schema_user import UserCreate
 from app.config import settings
-from app.aws_app_stack.klippers_cognito import klippers_cognito
+from app.aws_app_stack.subtiter_cognito import subtiter_cognito
 import stripe
 from stripe import InvalidRequestError
 import os
@@ -33,12 +33,12 @@ router = APIRouter(
 
 
 def get_stripe_product_id(product_id):
-    if product_id == 'klippers_level1':
-        return os.getenv('klippers_level1')
-    elif product_id == 'klippers_level2':
-        return os.getenv('klippers_level2')
-    elif product_id == 'klippers_level3':
-        return os.getenv('klippers_level3')
+    if product_id == 'subtiter_level1':
+        return os.getenv('subtiter_level1')
+    elif product_id == 'subtiter_level2':
+        return os.getenv('subtiter_level2')
+    elif product_id == 'subtiter_level3':
+        return os.getenv('subtiter_level3')
     else:
         raise HTTPException(status_code=400, detail="Invalid product ID")
 
@@ -351,7 +351,7 @@ def delete_account(request: Request,
 
         # delete cognito user (using email as username, which is how users are registered in Cognito)
         try:
-            klippers_cognito.admin_delete_user(db_user.email)
+            subtiter_cognito.admin_delete_user(db_user.email)
             print(f"Deleted Cognito user: {db_user.email}")
         except Exception as e:
             # Log but don't fail - user may not exist in Cognito (e.g., social login, already deleted)

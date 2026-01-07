@@ -4,9 +4,9 @@
 set -e
 
 # Variables from .env (though we'll use the direct value here for simplicity in the script)
-DB_BACKUP_S3_BUCKET_NAME="klippers-psql-backup"
-IAM_ROLE_NAME="klippers-backup"
-IAM_POLICY_NAME="KlippersBackupS3PutObjectPolicy"
+DB_BACKUP_S3_BUCKET_NAME="subtiter-psql-backup"
+IAM_ROLE_NAME="subtiter-backup"
+IAM_POLICY_NAME="SubtiterBackupS3PutObjectPolicy"
 
 # Prompt for user-specific AWS information
 read -p "Enter your AWS Region (e.g., us-east-1, eu-west-2): " AWS_REGION

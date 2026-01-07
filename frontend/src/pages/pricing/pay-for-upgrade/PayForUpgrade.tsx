@@ -29,7 +29,7 @@ interface PaymentFormProps {
   onSuccess: (message: string) => void;
 }
 
-// Style options for Stripe CardElement to match Klippers theme
+// Style options for Stripe CardElement to match Subtiter theme
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
@@ -394,7 +394,7 @@ const PayForUpgrade = () => {
     const location = useLocation();
     const [planId, setPlanId] = useState<string>("no_plan");
     const [isYearly, setIsYearly] = useState<boolean >(false);
-    const [plan, setPlan] = useState<Plan>(plans.find(p => p.id === "klippers_level1")!);
+    const [plan, setPlan] = useState<Plan>(plans.find(p => p.id === "subtiter_level1")!);
     useEffect(() => {
         if (location.state) {
             const currentPlanId = location.state.planId;

@@ -3,7 +3,7 @@ import { Box, Grid, } from "@mui/material";
 import { SubtitleConfigurationUI, UserSubtitlingApi } from "@/api";
 import { createApiConfiguration } from "@/apiConfig";
 import EmbeddedSubtitleCard from "./EmbeddedSubtitleCard";
-import VideoClipSegmentsFlow from "../klippersshort/generatedvideo/VideoClipSegmentsFlow";
+import VideoClipSegmentsFlow from "../subtitershort/generatedvideo/VideoClipSegmentsFlow";
 
 
 

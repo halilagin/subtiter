@@ -169,7 +169,7 @@ class CognitoTokenVerifier:
             return None
 
 
-class KlippersCognito:
+class SubtiterCognito:
     def __init__(self, user_pool_id, client_id, region):
         self.user_pool_id = user_pool_id
         self.client_id = client_id
@@ -361,7 +361,7 @@ class KlippersCognito:
             raise Exception(f"User deletion failed: {str(e)}")
 
 
-klippers_cognito = KlippersCognito(
+subtiter_cognito = SubtiterCognito(
     cognito_config.aws_cognito_user_pool_id,
     cognito_config.aws_cognito_user_pool_client_id,
     cognito_config.region

@@ -4,7 +4,7 @@
 #set -a;. .env.docker;set +a
 unset RAY_USE_MULTIPROCESSING_CPU_COUNT
 
-echo "Starting Klippers API with uvicorn and Ray actors..."
+echo "Starting Subtiter API with uvicorn and Ray actors..."
 
 # Run with uvicorn directly (single worker to avoid Ray forking issues)
 # Ray actors will be initialized in the FastAPI lifespan

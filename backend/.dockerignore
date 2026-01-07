@@ -1,6 +1,6 @@
-app/klipperscmd/podcast-output-*
-app/klipperscmd/*.mp4
-app/klippers_warehouse
+app/subtitercmd/podcast-output-*
+app/subtitercmd/*.mp4
+app/subtiter_warehouse
 *.mp4
 *.m4a
 *.wav
@@ -11,15 +11,15 @@ app/klippers_warehouse
 *.ogg
 *.flac
 *.ass
-app/klipperscmd/ffmpeg_ass/*.mp4
-app/klipperscmd/ffmpeg_ass/*.m4a
-app/klipperscmd/ffmpeg_ass/*.wav
-app/klipperscmd/ffmpeg_ass/*.ogg
-app/klipperscmd/ffmpeg_ass/*.flac
-app/klipperscmd/ffmpeg_ass/*.ass
-app/klipperscmd/ffmpeg_ass/*.txt
-app/klipperscmd/ffmpeg_ass/*.json
-app/klipperscmd/ffmpeg_ass/*.yaml
+app/subtitercmd/ffmpeg_ass/*.mp4
+app/subtitercmd/ffmpeg_ass/*.m4a
+app/subtitercmd/ffmpeg_ass/*.wav
+app/subtitercmd/ffmpeg_ass/*.ogg
+app/subtitercmd/ffmpeg_ass/*.flac
+app/subtitercmd/ffmpeg_ass/*.ass
+app/subtitercmd/ffmpeg_ass/*.txt
+app/subtitercmd/ffmpeg_ass/*.json
+app/subtitercmd/ffmpeg_ass/*.yaml
 
 **/.venv
 .venv

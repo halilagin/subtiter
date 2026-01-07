@@ -28,7 +28,7 @@ const ViemoVideoPlayer = ({url}: ViemoVideoPlayerProps)  => {
       frameBorder="0" 
       allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
       referrerPolicy="strict-origin-when-cross-origin" 
-      title="klippers1"
+      title="subtiter1"
     />
     </>
     )

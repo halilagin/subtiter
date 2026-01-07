@@ -43,14 +43,14 @@ def run_cmd_process_video(user_video: UserVideo, simulate: bool = False):
     try:
         os.makedirs(f"{os.getenv('VIDEO_WAREHOUSE_ROOT_DIR')}/{user_video.user_id}/{user_video.video_id}", exist_ok=True)
 
-        # Use appropriate script based on RUN_KLIPPERSCMD_ON setting
-        # Local: uses KLIPPERS_RUN_SCRIPT (e.g., run_on_uploaded.sh.prod.sh for local execution)
-        # Fargate: uses KLIPPERS_RUN_SCRIPT_FARGATE (e.g., run_state_machine.sh for AWS execution)
-        print(f"RUN_KLIPPERSCMD_ON: {settings.RUN_KLIPPERSCMD_ON}")
-        if settings.RUN_KLIPPERSCMD_ON == "fargate":
-            cmd_client_path = settings.KLIPPERS_RUN_SCRIPT_FARGATE
+        # Use appropriate script based on RUN_SUBTITERCMD_ON setting
+        # Local: uses SUBTITER_RUN_SCRIPT (e.g., run_on_uploaded.sh.prod.sh for local execution)
+        # Fargate: uses SUBTITER_RUN_SCRIPT_FARGATE (e.g., run_state_machine.sh for AWS execution)
+        print(f"RUN_SUBTITERCMD_ON: {settings.RUN_SUBTITERCMD_ON}")
+        if settings.RUN_SUBTITERCMD_ON == "fargate":
+            cmd_client_path = settings.SUBTITER_RUN_SCRIPT_FARGATE
         else:
-            cmd_client_path = settings.KLIPPERS_RUN_SCRIPT
+            cmd_client_path = settings.SUBTITER_RUN_SCRIPT
         
         command = ["/bin/bash", cmd_client_path]
         
@@ -61,8 +61,8 @@ def run_cmd_process_video(user_video: UserVideo, simulate: bool = False):
         input_env["CHAT_ROOM_ID"] = input_env.get("VIDEO_ID","room-1")
         
         # Create file paths for stdout/stderr
-        stdout_path = f"{os.getenv('VIDEO_WAREHOUSE_ROOT_DIR')}/{user_video.user_id}/{user_video.video_id}/klippers.stdout"
-        stderr_path = f"{os.getenv('VIDEO_WAREHOUSE_ROOT_DIR')}/{user_video.user_id}/{user_video.video_id}/klippers.stderr"
+        stdout_path = f"{os.getenv('VIDEO_WAREHOUSE_ROOT_DIR')}/{user_video.user_id}/{user_video.video_id}/subtiter.stdout"
+        stderr_path = f"{os.getenv('VIDEO_WAREHOUSE_ROOT_DIR')}/{user_video.user_id}/{user_video.video_id}/subtiter.stderr"
         
         print(f"Running command: {command}")
         

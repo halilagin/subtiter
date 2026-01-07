@@ -91,7 +91,7 @@ const Slide2Content: React.FC<Slide2ContentProps> = ({
                 zIndex: 2
               }}
             >
-              <source src="https://peralabs.co.uk/assets/klippers/landingpagevideo1.smaller240.mp4" type="video/mp4" />
+              <source src="https://peralabs.co.uk/assets/subtiter/landingpagevideo1.smaller240.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             

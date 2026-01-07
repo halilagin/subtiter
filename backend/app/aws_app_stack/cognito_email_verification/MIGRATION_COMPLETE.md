@@ -39,7 +39,7 @@ When a user registers with email `user@example.com`:
 The email template (`email_template.html`) now correctly substitutes:
 - **Verification Code**: `{####}` → actual 6-digit code
 - **Username/Email**: `{username}` → user's email address
-- **Verification Link**: `https://klippers.ai/api/v1/auth/confirm-signup/{username}/{####}` → fully functional link
+- **Verification Link**: `https://subtiter.ai/api/v1/auth/confirm-signup/{username}/{####}` → fully functional link
 
 ## Testing
 
@@ -61,7 +61,7 @@ Status: Verification email sent ✅
 Test the complete registration flow with your application:
 ```bash
 # Start your backend server
-cd /Users/halilagin/root/github/klippers.ai/backend
+cd /Users/halilagin/root/github/subtiter.ai/backend
 python -m app.main
 ```
 

@@ -28,8 +28,8 @@ const defaultSteps: StepItem[] = [
     description: 'Simply paste a link to your YouTube video, or upload a video file. Our rule of thumb: a one-minute long video produces about 5 video clips.'
   },
   {
-    title: 'Let Klippers\' AI magically create vertical videos',
-    description: 'Just sit back and relax, while Klippers does all the work for you. In a matter of minutes, we will give you multiple viral-worthy clips.'
+    title: 'Let Subtiter\' AI magically create vertical videos',
+    description: 'Just sit back and relax, while Subtiter does all the work for you. In a matter of minutes, we will give you multiple viral-worthy clips.'
   },
   {
     title: 'Post your videos and grow your followers',
@@ -39,7 +39,7 @@ const defaultSteps: StepItem[] = [
 
 const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ 
   id = "how-it-works",
-  title = "How Klippers works?",
+  title = "How Subtiter works?",
   steps = defaultSteps,
   bgColor = '#f5f5f5',
   textColor = '#000000',

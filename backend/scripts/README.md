@@ -1,6 +1,6 @@
-# 🗄️ Klippers Backend Scripts
+# 🗄️ Subtiter Backend Scripts
 
-This directory contains utility scripts for managing the Klippers backend, including AI cost analysis, database backup/restore, and user management.
+This directory contains utility scripts for managing the Subtiter backend, including AI cost analysis, database backup/restore, and user management.
 
 ## 💰 AI Cost Analysis Scripts
 
@@ -11,7 +11,7 @@ Provides detailed breakdown of AI provider costs from `ai_cost.json` files.
 python scripts/calculate_ai_costs.py <path_to_ai_cost.json>
 
 # Example:
-python scripts/calculate_ai_costs.py app/klippers_warehouse/user123/video456/ai_cost.json
+python scripts/calculate_ai_costs.py app/subtiter_warehouse/user123/video456/ai_cost.json
 ```
 
 **Output includes:**
@@ -45,7 +45,7 @@ Quick bash script to sum up total AI costs.
 ./scripts/sum_ai_costs.sh <path_to_ai_cost.json>
 
 # Example:
-./scripts/sum_ai_costs.sh app/klippers_warehouse/user123/video456/ai_cost.json
+./scripts/sum_ai_costs.sh app/subtiter_warehouse/user123/video456/ai_cost.json
 ```
 
 **Output:**
@@ -80,7 +80,7 @@ Restores the database from a backup.
 ./scripts/restore_database.sh latest
 
 # Restore specific backup
-./scripts/restore_database.sh klippers_test_2025-10-28_21-48-21.sql
+./scripts/restore_database.sh subtiter_test_2025-10-28_21-48-21.sql
 
 # List available backups
 ./scripts/restore_database.sh
@@ -119,7 +119,7 @@ Sets up automatic backups using cron jobs.
 
 ### 1. First Backup
 ```bash
-cd /Users/berfinagin/projects/klippers/backend
+cd /Users/berfinagin/projects/subtiter/backend
 ./scripts/backup_database.sh
 ```
 
@@ -141,16 +141,16 @@ ls -lah ./backups/
 ## 📊 Backup Files
 
 Backups are stored in `./backups/` directory:
-- Format: `klippers_test_YYYY-MM-DD_HH-MM-SS.sql`
+- Format: `subtiter_test_YYYY-MM-DD_HH-MM-SS.sql`
 - Size: ~32KB (empty database)
 - Automatic cleanup: Files older than 7 days are deleted
 
 ## ⚙️ Configuration
 
 Default settings in scripts:
-- **Container**: `klippers-postgres-db`
-- **Database**: `klippers_test`
-- **User**: `klippersuser`
+- **Container**: `subtiter-postgres-db`
+- **Database**: `subtiter_test`
+- **User**: `subtiteruser`
 - **Backup Directory**: `./backups/`
 
 ## 🔧 Troubleshooting
@@ -158,19 +158,19 @@ Default settings in scripts:
 ### Container Not Running
 ```bash
 # Start container
-docker-compose up -d klippers_postgres_db
+docker-compose up -d subtiter_postgres_db
 
 # Check container status
-docker ps | grep klippers-postgres-db
+docker ps | grep subtiter-postgres-db
 ```
 
 ### Backup Failed
 ```bash
 # Check container logs
-docker logs klippers-postgres-db
+docker logs subtiter-postgres-db
 
 # Test database connection
-docker exec klippers-postgres-db psql -U klippersuser -d klippers_test -c "\dt"
+docker exec subtiter-postgres-db psql -U subtiteruser -d subtiter_test -c "\dt"
 ```
 
 ### Restore Failed
@@ -179,7 +179,7 @@ docker exec klippers-postgres-db psql -U klippersuser -d klippers_test -c "\dt"
 ls -lah ./backups/
 
 # Check backup file contents
-head -20 ./backups/klippers_test_*.sql
+head -20 ./backups/subtiter_test_*.sql
 ```
 
 ## 📝 Log Files

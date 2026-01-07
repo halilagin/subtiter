@@ -1,7 +1,7 @@
 dockerhub_build:
-	docker build --platform linux/amd64 -t halilagin/klippersai:latest -f Dockerfile.dockerhub .
+	docker build --platform linux/amd64 -t halilagin/subtiterai:latest -f Dockerfile.dockerhub .
 dockerhub_push:
-	docker push halilagin/klippersai:latest
+	docker push halilagin/subtiterai:latest
 
 sqlite_clear_docs:
 	sqlite3 app.db " \
@@ -21,9 +21,9 @@ psql_reinit:
 psql_seed:
 	python app/init/dbmanager.py seed
 psql_reinit_docker:
-	docker exec klippers-fastapi-app python /app/app/init/dbmanager.py reinitialize
+	docker exec subtiter-fastapi-app python /app/app/init/dbmanager.py reinitialize
 psql_seed_docker:
-	docker exec klippers-fastapi-app python /app/app/init/dbmanager.py seed
+	docker exec subtiter-fastapi-app python /app/app/init/dbmanager.py seed
 
 test_local:
 	cp .env.local .env
@@ -35,19 +35,19 @@ run_with_docker:
 	sh run_docker.sh
 pytest_init:
 	cp .env.local .env
-	docker exec klippers-fastapi-app python app/init/dbmanager.py reinitialize
-	docker exec klippers-fastapi-app python app/init/dbmanager.py seed
+	docker exec subtiter-fastapi-app python app/init/dbmanager.py reinitialize
+	docker exec subtiter-fastapi-app python app/init/dbmanager.py seed
 
 pytest: pytest_init
 	pytest -s
 
 upload_video:
 	@curl -X POST "http://localhost:22081/api/v1/videoupload/upload" \
-		  -F "file=@app/klipperscmd/podcast01.mp4;type=video/mp4" \
+		  -F "file=@app/subtitercmd/podcast01.mp4;type=video/mp4" \
 			  -F "user_id=user123"\
 				  --no-buffer
 upload_video_docker:
 	@curl -X POST "http://localhost:23081/api/v1/videoupload/upload" \
-		  -F "file=@app/klipperscmd/podcast01.mp4;type=video/mp4" \
+		  -F "file=@app/subtitercmd/podcast01.mp4;type=video/mp4" \
 			  -F "user_id=user123"\
 				  --no-buffer

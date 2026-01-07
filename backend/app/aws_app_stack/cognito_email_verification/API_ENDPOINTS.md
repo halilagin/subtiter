@@ -58,7 +58,7 @@ This document describes the authentication endpoints for user registration and e
 2. Backend registers user in Cognito
 3. Cognito sends verification email with code
 4. User receives email with:
-   - Verification link: `https://klippers.ai/api/v1/auth/confirm-signup/{email}/{code}`
+   - Verification link: `https://subtiter.ai/api/v1/auth/confirm-signup/{email}/{code}`
    - 6-digit code: `123456`
 5. User clicks link or enters code separately
 
@@ -194,7 +194,7 @@ Register and confirm in a single API call.
 ### Example URL
 
 ```
-https://klippers.ai/api/v1/auth/confirm-signup/user@example.com/123456
+https://subtiter.ai/api/v1/auth/confirm-signup/user@example.com/123456
 ```
 
 ### Response (Success)
@@ -202,7 +202,7 @@ https://klippers.ai/api/v1/auth/confirm-signup/user@example.com/123456
 Returns HTML page with:
 - ✅ Success icon
 - "Email Confirmed Successfully!" message
-- "Go to Login" button → redirects to `https://klippers.ai/login`
+- "Go to Login" button → redirects to `https://subtiter.ai/login`
 
 ### Response (Error)
 
@@ -303,7 +303,7 @@ Verification codes expire after **24 hours**.
 ### Test Registration
 
 ```bash
-curl -X POST https://klippers.ai/api/v1/auth/register \
+curl -X POST https://subtiter.ai/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -316,7 +316,7 @@ curl -X POST https://klippers.ai/api/v1/auth/register \
 ### Test Register and Confirm
 
 ```bash
-curl -X POST https://klippers.ai/api/v1/auth/register-and-confirm \
+curl -X POST https://subtiter.ai/api/v1/auth/register-and-confirm \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -329,7 +329,7 @@ curl -X POST https://klippers.ai/api/v1/auth/register-and-confirm \
 ### Test Confirmation
 
 ```bash
-curl -X POST https://klippers.ai/api/v1/auth/confirm-signup \
+curl -X POST https://subtiter.ai/api/v1/auth/confirm-signup \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -343,7 +343,7 @@ curl -X POST https://klippers.ai/api/v1/auth/confirm-signup \
 
 - **Endpoints:** `app/api/v1/endpoints/auth.py`
 - **Schemas:** `app/schemas/schema_user.py`
-- **Cognito Client:** `app/aws_app_stack/klippers_cognito.py`
+- **Cognito Client:** `app/aws_app_stack/subtiter_cognito.py`
 - **Email Template:** `app/aws_app_stack/cognito_email_verification/user_verification_template/email_template.html`
 
 ---

@@ -8,7 +8,7 @@
 
 # IAM Role for Step Functions
 resource "aws_iam_role" "step_functions_role" {
-  name = "klippers-step-functions-role"
+  name = "subtiter-step-functions-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -38,8 +38,8 @@ resource "aws_iam_role_policy" "step_functions_ecs_policy" {
           "ecs:DescribeTasks"
         ]
         Resource = [
-          aws_ecs_task_definition.klippers_task.arn,
-          "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task/klippers-cluster/*"
+          aws_ecs_task_definition.subtiter_task.arn,
+          "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task/subtiter-cluster/*"
         ]
       },
       {
@@ -103,13 +103,13 @@ resource "aws_iam_role_policy" "step_functions_logs_policy" {
 
 # CloudWatch Logs for Step Functions
 resource "aws_cloudwatch_log_group" "step_functions_logs" {
-  name              = "/aws/stepfunctions/klippers-video-processing"
+  name              = "/aws/stepfunctions/subtiter-video-processing"
   retention_in_days = 3
 }
 
 # Step Functions State Machine
 resource "aws_sfn_state_machine" "video_processing" {
-  name     = "klippers-video-processing"
+  name     = "subtiter-video-processing"
   role_arn = aws_iam_role.step_functions_role.arn
 
   logging_configuration {
@@ -128,19 +128,19 @@ resource "aws_sfn_state_machine" "video_processing" {
         Resource = "arn:aws:states:::ecs:runTask.sync"
         Parameters = {
           LaunchType     = "FARGATE"
-          Cluster        = aws_ecs_cluster.klippers.arn
-          TaskDefinition = aws_ecs_task_definition.klippers_task.arn
+          Cluster        = aws_ecs_cluster.subtiter.arn
+          TaskDefinition = aws_ecs_task_definition.subtiter_task.arn
           NetworkConfiguration = {
             AwsvpcConfiguration = {
               Subnets        = data.aws_subnets.default.ids
-              SecurityGroups = [aws_security_group.klippers_fargate_sg.id]
+              SecurityGroups = [aws_security_group.subtiter_fargate_sg.id]
               AssignPublicIp = "ENABLED"
             }
           }
           Overrides = {
             ContainerOverrides = [
               {
-                Name = "klipperscmd"
+                Name = "subtitercmd"
                 Environment = [
                   {
                     Name      = "TASK_INPUT"
@@ -216,19 +216,19 @@ resource "aws_sfn_state_machine" "video_processing" {
               Resource = "arn:aws:states:::ecs:runTask.sync"
               Parameters = {
                 LaunchType     = "FARGATE"
-                Cluster        = aws_ecs_cluster.klippers.arn
-                TaskDefinition = aws_ecs_task_definition.klippers_task.arn
+                Cluster        = aws_ecs_cluster.subtiter.arn
+                TaskDefinition = aws_ecs_task_definition.subtiter_task.arn
                 NetworkConfiguration = {
                   AwsvpcConfiguration = {
                     Subnets        = data.aws_subnets.default.ids
-                    SecurityGroups = [aws_security_group.klippers_fargate_sg.id]
+                    SecurityGroups = [aws_security_group.subtiter_fargate_sg.id]
                     AssignPublicIp = "ENABLED"
                   }
                 }
                 Overrides = {
                   ContainerOverrides = [
                     {
-                      Name = "klipperscmd"
+                      Name = "subtitercmd"
                       Environment = [
                         {
                           Name      = "TASK_INPUT"

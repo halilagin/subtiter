@@ -4,12 +4,12 @@
 
 AWS Cognito was not substituting `{username}` and `{####}` variables in verification emails, resulting in URLs like:
 ```
-https://klippers.ai/api/v1/auth/confirm-signup/{username}/712956
+https://subtiter.ai/api/v1/auth/confirm-signup/{username}/712956
 ```
 
 Instead of:
 ```
-https://klippers.ai/api/v1/auth/confirm-signup/user@example.com/712956
+https://subtiter.ai/api/v1/auth/confirm-signup/user@example.com/712956
 ```
 
 ## Root Cause
@@ -148,7 +148,7 @@ Test by registering a new user!
 
 1. Register a new user via your API
 2. Check the verification email
-3. The link should now show: `https://klippers.ai/api/v1/auth/confirm-signup/user@example.com/123456`
+3. The link should now show: `https://subtiter.ai/api/v1/auth/confirm-signup/user@example.com/123456`
 4. Click the link to verify it works!
 
 ## Troubleshooting
@@ -173,7 +173,7 @@ Test by registering a new user!
 To verify the Lambda trigger is attached:
 
 1. Go to AWS Cognito Console
-2. Select your User Pool (`klippers-user-pool`)
+2. Select your User Pool (`subtiter-user-pool`)
 3. Click "Triggers" tab
 4. Verify "Custom message" shows your Lambda function ARN
 

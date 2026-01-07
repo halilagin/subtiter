@@ -22,9 +22,9 @@ fi
 # Default values will be used if not set in .env or overridden by backup script's vars.
 # These will preferentially use DB_BACKUP_ environment variables if they are set,
 # otherwise they fall back to specific defaults.
-DB_RESTORE_CONTAINER_NAME="${DB_BACKUP_CONTAINER_NAME:-klippers-postgres-db}"
-DB_RESTORE_DB_NAME="${DB_BACKUP_DB_NAME:-klippers_test}"
-DB_RESTORE_DB_USER="${DB_BACKUP_DB_USER:-klippersuser}"
+DB_RESTORE_CONTAINER_NAME="${DB_BACKUP_CONTAINER_NAME:-subtiter-postgres-db}"
+DB_RESTORE_DB_NAME="${DB_BACKUP_DB_NAME:-subtiter_test}"
+DB_RESTORE_DB_USER="${DB_BACKUP_DB_USER:-subtiteruser}"
 DB_RESTORE_BACKUP_DIR="${DB_BACKUP_DIR:-/tmp/backups}"
 
 # --- Helper function for logging ---

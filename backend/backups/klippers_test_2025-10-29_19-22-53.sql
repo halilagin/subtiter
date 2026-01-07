@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: groups; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: groups; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.groups (
@@ -30,10 +30,10 @@ CREATE TABLE public.groups (
 );
 
 
-ALTER TABLE public.groups OWNER TO klippersuser;
+ALTER TABLE public.groups OWNER TO subtiteruser;
 
 --
--- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: klippersuser
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: subtiteruser
 --
 
 CREATE SEQUENCE public.groups_id_seq
@@ -45,17 +45,17 @@ CREATE SEQUENCE public.groups_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.groups_id_seq OWNER TO klippersuser;
+ALTER TABLE public.groups_id_seq OWNER TO subtiteruser;
 
 --
--- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: klippersuser
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: subtiteruser
 --
 
 ALTER SEQUENCE public.groups_id_seq OWNED BY public.groups.id;
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: roles; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.roles (
@@ -65,10 +65,10 @@ CREATE TABLE public.roles (
 );
 
 
-ALTER TABLE public.roles OWNER TO klippersuser;
+ALTER TABLE public.roles OWNER TO subtiteruser;
 
 --
--- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: klippersuser
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: subtiteruser
 --
 
 CREATE SEQUENCE public.roles_id_seq
@@ -80,17 +80,17 @@ CREATE SEQUENCE public.roles_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.roles_id_seq OWNER TO klippersuser;
+ALTER TABLE public.roles_id_seq OWNER TO subtiteruser;
 
 --
--- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: klippersuser
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: subtiteruser
 --
 
 ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
--- Name: stripe_document_meters; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: stripe_document_meters; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.stripe_document_meters (
@@ -100,10 +100,10 @@ CREATE TABLE public.stripe_document_meters (
 );
 
 
-ALTER TABLE public.stripe_document_meters OWNER TO klippersuser;
+ALTER TABLE public.stripe_document_meters OWNER TO subtiteruser;
 
 --
--- Name: user_groups; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: user_groups; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.user_groups (
@@ -113,10 +113,10 @@ CREATE TABLE public.user_groups (
 );
 
 
-ALTER TABLE public.user_groups OWNER TO klippersuser;
+ALTER TABLE public.user_groups OWNER TO subtiteruser;
 
 --
--- Name: user_roles; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.user_roles (
@@ -126,10 +126,10 @@ CREATE TABLE public.user_roles (
 );
 
 
-ALTER TABLE public.user_roles OWNER TO klippersuser;
+ALTER TABLE public.user_roles OWNER TO subtiteruser;
 
 --
--- Name: user_video_process_statuses; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: user_video_process_statuses; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.user_video_process_statuses (
@@ -141,10 +141,10 @@ CREATE TABLE public.user_video_process_statuses (
 );
 
 
-ALTER TABLE public.user_video_process_statuses OWNER TO klippersuser;
+ALTER TABLE public.user_video_process_statuses OWNER TO subtiteruser;
 
 --
--- Name: user_videos; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: user_videos; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.user_videos (
@@ -162,10 +162,10 @@ CREATE TABLE public.user_videos (
 );
 
 
-ALTER TABLE public.user_videos OWNER TO klippersuser;
+ALTER TABLE public.user_videos OWNER TO subtiteruser;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: klippersuser
+-- Name: users; Type: TABLE; Schema: public; Owner: subtiteruser
 --
 
 CREATE TABLE public.users (
@@ -186,24 +186,24 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO klippersuser;
+ALTER TABLE public.users OWNER TO subtiteruser;
 
 --
--- Name: groups id; Type: DEFAULT; Schema: public; Owner: klippersuser
+-- Name: groups id; Type: DEFAULT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.groups ALTER COLUMN id SET DEFAULT nextval('public.groups_id_seq'::regclass);
 
 
 --
--- Name: roles id; Type: DEFAULT; Schema: public; Owner: klippersuser
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
 
 
 --
--- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.groups (id, name) FROM stdin;
@@ -213,7 +213,7 @@ COPY public.groups (id, name) FROM stdin;
 
 
 --
--- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.roles (id, name, permissions) FROM stdin;
@@ -223,7 +223,7 @@ COPY public.roles (id, name, permissions) FROM stdin;
 
 
 --
--- Data for Name: stripe_document_meters; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: stripe_document_meters; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.stripe_document_meters (document_id, user_email, subscription_id) FROM stdin;
@@ -231,7 +231,7 @@ COPY public.stripe_document_meters (document_id, user_email, subscription_id) FR
 
 
 --
--- Data for Name: user_groups; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: user_groups; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.user_groups (user_id, group_id, created_at) FROM stdin;
@@ -243,7 +243,7 @@ ab4a03be-9a17-45d0-93d9-de60d61e8f54	2	2025-09-08 14:23:45.953411
 
 
 --
--- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.user_roles (user_id, role_id, created_at) FROM stdin;
@@ -254,7 +254,7 @@ ab4a03be-9a17-45d0-93d9-de60d61e8f54	2	2025-09-08 14:23:45.954383
 
 
 --
--- Data for Name: user_video_process_statuses; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: user_video_process_statuses; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.user_video_process_statuses (id, user_video_id, status, created_at, updated_at) FROM stdin;
@@ -298,7 +298,7 @@ a022fd26-3205-4a12-8657-695bef2104d0	f1f3106a-2a75-4ba6-8c31-2c13d0773721-fe8009
 
 
 --
--- Data for Name: user_videos; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: user_videos; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.user_videos (id, user_id, video_id, config_json, video_duration, processing_started_at, processing_completed_at, uploaded_at, created_at, status, meta_data) FROM stdin;
@@ -315,28 +315,28 @@ b1c7bdbc-2c43-4bf4-b07f-84853b3c1033	6275b414-c061-70ce-8048-c12ba5d9b728	8477b7
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: klippersuser
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: subtiteruser
 --
 
 COPY public.users (id, email, username, name, hashed_password, is_active, is_superuser, subscription_config_json, subscription_expires_at, subscription_status, subscription_created_at, subscription_updated_at, subscription_plan, subscription_id) FROM stdin;
 8c8ef5c7-f30e-44c4-a370-2011b837988d	admin@example.com	admin	\N	$2b$12$ntlpW3M4CGI10If.mRTdd.jEOgwD2c29ug3GJLISEkIF9OkRrAqRC	t	t	{"max_monthly_video_duration": 10000, "max_monthly_video_count": 1000, "max_monthly_video_count_per_user": 100, "max_monthly_video_count_per_user_per_week": 100, "max_monthly_video_count_per_user_per_month": 1000, "max_monthly_video_count_per_user_per_year": 10000}	\N	\N	\N	\N	\N	\N
 941c39a4-185b-4961-9fc8-642fe2f44e51	john@example.com	john_doe	\N	$2b$12$gUAGPQTeo.qcKkQq2qCOAeohE8W19PCFlbPr6jWo5UT2LrA7NU4M2	t	f	{"max_monthly_video_duration": 10000, "max_monthly_video_count": 1000, "max_monthly_video_count_per_user": 100, "max_monthly_video_count_per_user_per_week": 100, "max_monthly_video_count_per_user_per_month": 1000, "max_monthly_video_count_per_user_per_year": 10000}	\N	\N	\N	\N	\N	\N
 ab4a03be-9a17-45d0-93d9-de60d61e8f54	jane@example.com	jane_doe	\N	$2b$12$sxZ3qgPzEOY5fPabg/CkI.8.817jdo5i2d6Yn4Vb4eMCsrcuhYoWS	t	f	{"max_monthly_video_duration": 10000, "max_monthly_video_count": 1000, "max_monthly_video_count_per_user": 100, "max_monthly_video_count_per_user_per_week": 100, "max_monthly_video_count_per_user_per_month": 1000, "max_monthly_video_count_per_user_per_year": 10000}	\N	\N	\N	\N	\N	\N
-f1f3106a-2a75-4ba6-8c31-2c13d0773721	halil.agin+klippers@gmail.com	halilagintest	\N	$2b$12$m4/ZVI6r6sGMNUMKpHuKAeMuYlhWpOV2U501ozDm4DN5QZc11nyui	t	f	{"max_monthly_video_duration": 10000, "max_monthly_video_count": 1000, "max_monthly_video_count_per_user": 100, "max_monthly_video_count_per_user_per_week": 100, "max_monthly_video_count_per_user_per_month": 1000, "max_monthly_video_count_per_user_per_year": 10000}	2026-09-08 14:23:45.925379	\N	2025-09-08 14:23:45.925376	2025-09-08 14:23:45.925379	VOLUME_BASED_PAYMENT	sub_1RVEu3Gg0tCTvsYGY9Kh23RF
-21068a58-d017-4ed2-8750-72bed6e86967	berfin.agin+klippers213@gmail.com	9eb892ae-7735-4bf7-be40-173a72de2621	berfin agin	$2b$12$KcbU3i2WhE5hpAmJQMQ/3e949uNp2saWBszsZ3o87UMMoNsneY3rG	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-da4bfc9d-5ef4-4d3d-832f-efa6946277fa	berfin.agin+klippers214@gmail.com	9e674a53-ad90-47c0-a13c-80f34d7c4b59	berfin 	$2b$12$QqmBxlU7FN8eYyQ9uXZ9duURT7pnulOy8dUwfxx6oHa3L5x1QtQvW	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-72e6bfb6-d709-4962-a6c2-649bd1f763ba	berfin.agin+klippers215@gmail.com	d93c952f-4531-4ef4-ab25-feb27eaf58c3	berfin 	$2b$12$mEoh4cFpvMr0D0Fef20ZieQ7Jf2gM9naFr8QWqgQnAKQXAgWjAZIO	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-961b95cd-4c63-46fd-a3a3-3c1a107b36c7	berfin.agin+klippers216@gmail.com	7b1a9eaf-4cfe-4896-86e1-1c6a42f0814b	berfin agin	$2b$12$jB/BvcoF9GnHtdx0aa8bJeKwd4TUW7aJzytOTl/sdVxLEVtH.P33G	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-75ecc888-f71e-4297-a1f7-1931a207d95d	berfin.agin+klippers217@gmail.com	6b8a933e-6fcf-411b-8eb4-aec6eb34d347	berfin agin	$2b$12$rdQvUY1uE3YMFtZ/szdH.uYTfhD0ppvVSlWpVSqlmRg7r6j39wNEi	t	f	\N	\N	\N	\N	2025-09-08 14:36:24.029379	klippers_level1	sub_1S56B2Gg0tCTvsYGFf32UdEB
-a36b5caa-acb3-4e1e-8546-272a6f9ef1e9	berfin.agin+klippers219@gmail.com	cff23ef8-6d6b-4ed2-835f-294ed269fb07	berfin	$2b$12$nQ8W3XWW36XXI2VAAi7GW.Z.tH9KYDRZbuDMDcgWR0r5JnIkXyuee	t	f	\N	\N	\N	\N	2025-09-08 14:40:55.523299	klippers_level1	sub_1S56FQGg0tCTvsYGpZqB0aEt
-d53231bf-7c9e-4575-a923-581ae326e159	berfin.agin+klippers220@gmail.com	0c5d330b-0874-4edf-a7a2-6d02a3b74df4	berfin	$2b$12$weZcDYIf3SKzFlw95wtUvusQBwyrHb.WevC75H9kmVo/AVIN6C7je	t	f	\N	\N	\N	\N	2025-09-08 14:41:27.00128	klippers_level1	sub_1S56FvGg0tCTvsYGodz2hC1f
-a54936ec-6478-45f7-8738-399d10fba589	berfin.agin+klippers218@gmail.com	cbb7a9eb-b451-49a7-a756-c8f674601710	berfin	$2b$12$meGMNRY1VhYY49g/L.RPgOyapPB0sm3Lr.niQ3chn1WPrcz23Nzii	t	f	\N	\N	\N	\N	2025-09-08 17:21:20.148358	klippers_level1	sub_1S58keGg0tCTvsYGMHO20dYj
-562fc2f1-769d-45ad-9662-b02df1aa654b	berfin.agin+klippers221@gmail.com	8f104b70-cfa0-4bbf-9f63-428de242cfe2	berfin	$2b$12$2EevTj7/lkiFKaOtOkwlr.T7EepyPZdY09BpAHZShPi1mmquSk7IC	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-b1e7f067-b922-4015-aa19-d41b85a63941	berfin.agin+klippers222@gmail.com	7afe770a-f0f6-4cd1-98cd-28d3ca5d1e6b	berfin	$2b$12$LG/H4lvvF49hvkdCAcndRuV2gudrcCTNQy0thi6Mw03nxdcE71OCu	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-6705a8d6-55c9-4f9a-be71-dadcee33b445	berfin.agin+klippers223@gmail.com	d437583e-ef0a-4345-9ae6-09837ead7207	berfin	$2b$12$OY14vgoms7jP3yr.hKkYKObJ4uITGlhC0cPKwR.0CmX21n5T9hCRS	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-62fab4d8-9bb5-46f0-8bcf-974c4981f930	berfin.agin+klippers224@gmail.com	462f9ae0-7ffe-4512-812d-990703734a1e	berfin	$2b$12$KKkd3tTJEMGymbafN21LEehgYb/bI8aVJaaqDHm71D5eH.KuVcbYa	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-c1284c37-31c0-4350-ad20-54e90aa47c26	berfin.agin+klippers225@gmail.com	6561cf71-2258-4999-a8f5-e73bee860b5d	berfin	$2b$12$qQEoe8MUwzdkJiPkVnIBqOyIaQakBEe8Pnwb0tB0GvRRZ646RGSXO	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
-d72c1444-ca01-4030-9f2e-7faebb951e90	berfin.agin+klippers226@gmail.com	47cc6fee-669e-49cc-ba28-fbc6c494cb13	berfin	$2b$12$/uhk4drDvmR8QfoMYfj2H.dsecgrnXlcXlBRc8oEVlrkCIy7zwhoG	t	f	\N	\N	\N	\N	\N	klippers_level1	\N
+f1f3106a-2a75-4ba6-8c31-2c13d0773721	halil.agin+subtiter@gmail.com	halilagintest	\N	$2b$12$m4/ZVI6r6sGMNUMKpHuKAeMuYlhWpOV2U501ozDm4DN5QZc11nyui	t	f	{"max_monthly_video_duration": 10000, "max_monthly_video_count": 1000, "max_monthly_video_count_per_user": 100, "max_monthly_video_count_per_user_per_week": 100, "max_monthly_video_count_per_user_per_month": 1000, "max_monthly_video_count_per_user_per_year": 10000}	2026-09-08 14:23:45.925379	\N	2025-09-08 14:23:45.925376	2025-09-08 14:23:45.925379	VOLUME_BASED_PAYMENT	sub_1RVEu3Gg0tCTvsYGY9Kh23RF
+21068a58-d017-4ed2-8750-72bed6e86967	berfin.agin+subtiter213@gmail.com	9eb892ae-7735-4bf7-be40-173a72de2621	berfin agin	$2b$12$KcbU3i2WhE5hpAmJQMQ/3e949uNp2saWBszsZ3o87UMMoNsneY3rG	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+da4bfc9d-5ef4-4d3d-832f-efa6946277fa	berfin.agin+subtiter214@gmail.com	9e674a53-ad90-47c0-a13c-80f34d7c4b59	berfin 	$2b$12$QqmBxlU7FN8eYyQ9uXZ9duURT7pnulOy8dUwfxx6oHa3L5x1QtQvW	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+72e6bfb6-d709-4962-a6c2-649bd1f763ba	berfin.agin+subtiter215@gmail.com	d93c952f-4531-4ef4-ab25-feb27eaf58c3	berfin 	$2b$12$mEoh4cFpvMr0D0Fef20ZieQ7Jf2gM9naFr8QWqgQnAKQXAgWjAZIO	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+961b95cd-4c63-46fd-a3a3-3c1a107b36c7	berfin.agin+subtiter216@gmail.com	7b1a9eaf-4cfe-4896-86e1-1c6a42f0814b	berfin agin	$2b$12$jB/BvcoF9GnHtdx0aa8bJeKwd4TUW7aJzytOTl/sdVxLEVtH.P33G	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+75ecc888-f71e-4297-a1f7-1931a207d95d	berfin.agin+subtiter217@gmail.com	6b8a933e-6fcf-411b-8eb4-aec6eb34d347	berfin agin	$2b$12$rdQvUY1uE3YMFtZ/szdH.uYTfhD0ppvVSlWpVSqlmRg7r6j39wNEi	t	f	\N	\N	\N	\N	2025-09-08 14:36:24.029379	subtiter_level1	sub_1S56B2Gg0tCTvsYGFf32UdEB
+a36b5caa-acb3-4e1e-8546-272a6f9ef1e9	berfin.agin+subtiter219@gmail.com	cff23ef8-6d6b-4ed2-835f-294ed269fb07	berfin	$2b$12$nQ8W3XWW36XXI2VAAi7GW.Z.tH9KYDRZbuDMDcgWR0r5JnIkXyuee	t	f	\N	\N	\N	\N	2025-09-08 14:40:55.523299	subtiter_level1	sub_1S56FQGg0tCTvsYGpZqB0aEt
+d53231bf-7c9e-4575-a923-581ae326e159	berfin.agin+subtiter220@gmail.com	0c5d330b-0874-4edf-a7a2-6d02a3b74df4	berfin	$2b$12$weZcDYIf3SKzFlw95wtUvusQBwyrHb.WevC75H9kmVo/AVIN6C7je	t	f	\N	\N	\N	\N	2025-09-08 14:41:27.00128	subtiter_level1	sub_1S56FvGg0tCTvsYGodz2hC1f
+a54936ec-6478-45f7-8738-399d10fba589	berfin.agin+subtiter218@gmail.com	cbb7a9eb-b451-49a7-a756-c8f674601710	berfin	$2b$12$meGMNRY1VhYY49g/L.RPgOyapPB0sm3Lr.niQ3chn1WPrcz23Nzii	t	f	\N	\N	\N	\N	2025-09-08 17:21:20.148358	subtiter_level1	sub_1S58keGg0tCTvsYGMHO20dYj
+562fc2f1-769d-45ad-9662-b02df1aa654b	berfin.agin+subtiter221@gmail.com	8f104b70-cfa0-4bbf-9f63-428de242cfe2	berfin	$2b$12$2EevTj7/lkiFKaOtOkwlr.T7EepyPZdY09BpAHZShPi1mmquSk7IC	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+b1e7f067-b922-4015-aa19-d41b85a63941	berfin.agin+subtiter222@gmail.com	7afe770a-f0f6-4cd1-98cd-28d3ca5d1e6b	berfin	$2b$12$LG/H4lvvF49hvkdCAcndRuV2gudrcCTNQy0thi6Mw03nxdcE71OCu	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+6705a8d6-55c9-4f9a-be71-dadcee33b445	berfin.agin+subtiter223@gmail.com	d437583e-ef0a-4345-9ae6-09837ead7207	berfin	$2b$12$OY14vgoms7jP3yr.hKkYKObJ4uITGlhC0cPKwR.0CmX21n5T9hCRS	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+62fab4d8-9bb5-46f0-8bcf-974c4981f930	berfin.agin+subtiter224@gmail.com	462f9ae0-7ffe-4512-812d-990703734a1e	berfin	$2b$12$KKkd3tTJEMGymbafN21LEehgYb/bI8aVJaaqDHm71D5eH.KuVcbYa	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+c1284c37-31c0-4350-ad20-54e90aa47c26	berfin.agin+subtiter225@gmail.com	6561cf71-2258-4999-a8f5-e73bee860b5d	berfin	$2b$12$qQEoe8MUwzdkJiPkVnIBqOyIaQakBEe8Pnwb0tB0GvRRZ646RGSXO	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
+d72c1444-ca01-4030-9f2e-7faebb951e90	berfin.agin+subtiter226@gmail.com	47cc6fee-669e-49cc-ba28-fbc6c494cb13	berfin	$2b$12$/uhk4drDvmR8QfoMYfj2H.dsecgrnXlcXlBRc8oEVlrkCIy7zwhoG	t	f	\N	\N	\N	\N	\N	subtiter_level1	\N
 e7a6d2c8-22e8-40d2-ada1-01f20a4a1a29	berfin.aginnn@gmail.com	106568254401212752586	Berfin Agin	\N	t	f	\N	\N	\N	\N	\N	no_plan	\N
 b14afa7b-23a8-4844-9f55-f3442520e02f	berfin.agin+cognito101@gmail.com	227594d4-60d1-70f2-863d-79fa9229ab4e	berfin agin	\N	t	f	{"name": "no_plan", "max_monthly_video_duration": 0, "max_monthly_video_count": 0, "max_monthly_video_count_per_user": 0, "max_monthly_video_count_per_user_per_week": 0, "max_monthly_video_count_per_user_per_month": 0, "max_monthly_video_count_per_user_per_year": 0}	\N	\N	\N	\N	no_plan	no_plan
 c6875d74-37c8-4bc4-ba24-a298458b5c16	berfin.aginnn+cognito102@gmail.com	6275b414-c061-70ce-8048-c12ba5d9b728	berfin agin	\N	t	f	{"name": "no_plan", "max_monthly_video_duration": 0, "max_monthly_video_count": 0, "max_monthly_video_count_per_user": 0, "max_monthly_video_count_per_user_per_week": 0, "max_monthly_video_count_per_user_per_month": 0, "max_monthly_video_count_per_user_per_year": 0}	\N	\N	\N	\N	no_plan	no_plan
@@ -344,21 +344,21 @@ c6875d74-37c8-4bc4-ba24-a298458b5c16	berfin.aginnn+cognito102@gmail.com	6275b414
 
 
 --
--- Name: groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: klippersuser
+-- Name: groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: subtiteruser
 --
 
 SELECT pg_catalog.setval('public.groups_id_seq', 2, true);
 
 
 --
--- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: klippersuser
+-- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: subtiteruser
 --
 
 SELECT pg_catalog.setval('public.roles_id_seq', 2, true);
 
 
 --
--- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.groups
@@ -366,7 +366,7 @@ ALTER TABLE ONLY public.groups
 
 
 --
--- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.roles
@@ -374,7 +374,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- Name: stripe_document_meters stripe_document_meters_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: stripe_document_meters stripe_document_meters_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.stripe_document_meters
@@ -382,7 +382,7 @@ ALTER TABLE ONLY public.stripe_document_meters
 
 
 --
--- Name: user_groups user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_groups user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_groups
@@ -390,7 +390,7 @@ ALTER TABLE ONLY public.user_groups
 
 
 --
--- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_roles
@@ -398,7 +398,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: user_video_process_statuses user_video_process_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_video_process_statuses user_video_process_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_video_process_statuses
@@ -406,7 +406,7 @@ ALTER TABLE ONLY public.user_video_process_statuses
 
 
 --
--- Name: user_videos user_videos_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_videos user_videos_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_videos
@@ -414,7 +414,7 @@ ALTER TABLE ONLY public.user_videos
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.users
@@ -422,49 +422,49 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: ix_groups_id; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_groups_id; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE INDEX ix_groups_id ON public.groups USING btree (id);
 
 
 --
--- Name: ix_groups_name; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_groups_name; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE UNIQUE INDEX ix_groups_name ON public.groups USING btree (name);
 
 
 --
--- Name: ix_roles_id; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_roles_id; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE INDEX ix_roles_id ON public.roles USING btree (id);
 
 
 --
--- Name: ix_roles_name; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_roles_name; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE UNIQUE INDEX ix_roles_name ON public.roles USING btree (name);
 
 
 --
--- Name: ix_users_email; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_users_email; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE UNIQUE INDEX ix_users_email ON public.users USING btree (email);
 
 
 --
--- Name: ix_users_username; Type: INDEX; Schema: public; Owner: klippersuser
+-- Name: ix_users_username; Type: INDEX; Schema: public; Owner: subtiteruser
 --
 
 CREATE UNIQUE INDEX ix_users_username ON public.users USING btree (username);
 
 
 --
--- Name: user_groups user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_groups user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_groups
@@ -472,7 +472,7 @@ ALTER TABLE ONLY public.user_groups
 
 
 --
--- Name: user_groups user_groups_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_groups user_groups_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_groups
@@ -480,7 +480,7 @@ ALTER TABLE ONLY public.user_groups
 
 
 --
--- Name: user_roles user_roles_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_roles user_roles_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_roles
@@ -488,7 +488,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: klippersuser
+-- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: subtiteruser
 --
 
 ALTER TABLE ONLY public.user_roles

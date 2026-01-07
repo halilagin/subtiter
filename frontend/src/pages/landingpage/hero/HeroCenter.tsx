@@ -5,7 +5,7 @@ import {
     Typography,
   } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
-import klippersLogo2 from '../../../public/klippersnewlogo.png';
+import subtiterLogo2 from '../../../public/subtiternewlogo.png';
 import LandingPageVideoInput from '@/components/LandingPageVideoInput';
 
 

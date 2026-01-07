@@ -102,7 +102,7 @@ const GenerateSubtitleTaskCard = ({ onClick }: GenerateSubtitleTaskCardProps) =>
                                     left: 0,
                                 }}
                             >
-                                <source src="https://peralabs.co.uk/assets/klippers/landingpagevideo1.smaller240.mp4" type="video/mp4" />
+                                <source src="https://peralabs.co.uk/assets/subtiter/landingpagevideo1.smaller240.mp4" type="video/mp4" />
                             </video>
                             
                             {/* Subtitle Overlay */}

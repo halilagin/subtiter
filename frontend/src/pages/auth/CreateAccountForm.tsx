@@ -164,7 +164,7 @@ const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ onSuccess }) => {
       </Typography>
 
       <Typography variant="body1" className="form-subtitle">
-        Join Klippers and start creating amazing content
+        Join Subtiter and start creating amazing content
       </Typography>
 
       <Box sx={{ mb: 3 }}>

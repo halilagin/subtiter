@@ -64,7 +64,7 @@ const PodcastTemplatesSelection: React.FC<PodcastTemplatesSelectionProps> = () =
           >
             <Box
               component="video"
-              src="https://peralabs.co.uk/assets/klippers/podcasttaskvideo.mp4"
+              src="https://peralabs.co.uk/assets/subtiter/podcasttaskvideo.mp4"
               autoPlay
               loop
               muted

@@ -2,7 +2,7 @@
 
 ## Overview
 
-A complete AWS Step Functions state machine has been implemented to orchestrate Klippers video processing using a parent-child Fargate task pattern. This enables parallel processing of video segments, reducing processing time by 2.3x.
+A complete AWS Step Functions state machine has been implemented to orchestrate Subtiter video processing using a parent-child Fargate task pattern. This enables parallel processing of video segments, reducing processing time by 2.3x.
 
 ## What Was Implemented
 
@@ -11,10 +11,10 @@ A complete AWS Step Functions state machine has been implemented to orchestrate 
 **File**: `infra/resources/state_machine.tf`
 
 ✅ **Created Resources**:
-- AWS Step Functions state machine: `klippers-video-processing`
-- IAM role: `klippers-step-functions-role`
+- AWS Step Functions state machine: `subtiter-video-processing`
+- IAM role: `subtiter-step-functions-role`
 - IAM policies for ECS task execution and S3 access
-- CloudWatch log group: `/aws/stepfunctions/klippers-video-processing`
+- CloudWatch log group: `/aws/stepfunctions/subtiter-video-processing`
 
 ✅ **Key Features**:
 - Parent task execution (sequential preparation)
@@ -26,12 +26,12 @@ A complete AWS Step Functions state machine has been implemented to orchestrate 
 
 ### 2. Execution Scripts
 
-**Python Script**: `app/klipperscmd/state_machine_run.py`
+**Python Script**: `app/subtitercmd/state_machine_run.py`
 - Finds state machine by name
 - Constructs input from environment variables
 - Starts execution and provides monitoring commands
 
-**Shell Script**: `app/klipperscmd/run_state_machine.sh`
+**Shell Script**: `app/subtitercmd/run_state_machine.sh`
 - Bash alternative with colorized output
 - Same functionality as Python script
 - Executable and ready to use
@@ -118,7 +118,7 @@ Actions (per task):
 
 ```bash
 # 1. Deploy infrastructure
-cd /Users/halilagin/root/github/klippers.ai/backend/infra/resources
+cd /Users/halilagin/root/github/subtiter.ai/backend/infra/resources
 make state_machine_deploy
 
 # 2. Set environment variables
@@ -136,7 +136,7 @@ make state_machine_logs
 ### Using Python Script
 
 ```bash
-cd /Users/halilagin/root/github/klippers.ai/backend/app/klipperscmd
+cd /Users/halilagin/root/github/subtiter.ai/backend/app/subtitercmd
 export USER_ID="..." VIDEO_ID="..."
 python state_machine_run.py
 ```
@@ -144,7 +144,7 @@ python state_machine_run.py
 ### Using Shell Script
 
 ```bash
-cd /Users/halilagin/root/github/klippers.ai/backend/app/klipperscmd
+cd /Users/halilagin/root/github/subtiter.ai/backend/app/subtitercmd
 export USER_ID="..." VIDEO_ID="..."
 ./run_state_machine.sh
 ```
@@ -154,7 +154,7 @@ export USER_ID="..." VIDEO_ID="..."
 Before running, ensure your S3 bucket has:
 
 ```
-s3://BUCKET/klippers_warehouse/USER_ID/VIDEO_ID/
+s3://BUCKET/subtiter_warehouse/USER_ID/VIDEO_ID/
 ├── original.mp4          # Required: Original video
 ├── shorts_config.json    # Required: Must include "segment_count"
 └── thumbnail.png         # Required: Video thumbnail
@@ -176,7 +176,7 @@ s3://BUCKET/klippers_warehouse/USER_ID/VIDEO_ID/
 After successful execution:
 
 ```
-s3://BUCKET/klippers_warehouse/USER_ID/VIDEO_ID/
+s3://BUCKET/subtiter_warehouse/USER_ID/VIDEO_ID/
 ├── original.mp4
 ├── shorts_config.json
 ├── thumbnail.png
@@ -214,7 +214,7 @@ make fargate_logs
 
 1. **Step Functions**: https://console.aws.amazon.com/states/
 2. Select region: eu-west-1
-3. Click `klippers-video-processing`
+3. Click `subtiter-video-processing`
 4. View executions and workflow
 
 ### CLI Commands
@@ -285,7 +285,7 @@ Child tasks retry on failure:
 
 ```bash
 # Deploy state machine
-cd /Users/halilagin/root/github/klippers.ai/backend/infra/resources
+cd /Users/halilagin/root/github/subtiter.ai/backend/infra/resources
 make state_machine_deploy
 ```
 
@@ -296,14 +296,14 @@ make state_machine_deploy
 make fargate_logs
 
 # Verify S3 files exist
-aws s3 ls s3://BUCKET/klippers_warehouse/USER_ID/VIDEO_ID/
+aws s3 ls s3://BUCKET/subtiter_warehouse/USER_ID/VIDEO_ID/
 ```
 
 ### Cannot Read segment_count
 
 ```bash
 # Download and verify config
-aws s3 cp s3://BUCKET/klippers_warehouse/USER_ID/VIDEO_ID/shorts_config.json - | jq .segment_count
+aws s3 cp s3://BUCKET/subtiter_warehouse/USER_ID/VIDEO_ID/shorts_config.json - | jq .segment_count
 ```
 
 ### Child Tasks Fail
@@ -334,8 +334,8 @@ All documentation is in `infra/resources/`:
 - `infra/resources/DEPLOYMENT_GUIDE.md` - Deployment guide
 
 ### Scripts
-- `app/klipperscmd/state_machine_run.py` - Python execution script
-- `app/klipperscmd/run_state_machine.sh` - Shell execution script
+- `app/subtitercmd/state_machine_run.py` - Python execution script
+- `app/subtitercmd/run_state_machine.sh` - Shell execution script
 
 ### Documentation
 - `infra/resources/STATE_MACHINE_INDEX.md` - Documentation index

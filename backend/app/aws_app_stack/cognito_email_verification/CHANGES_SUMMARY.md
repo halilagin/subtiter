@@ -72,7 +72,7 @@ Updated the authentication system to support combined registration and confirmat
 
 **Before:**
 ```python
-# klippers_cognito.confirm_user_signup(
+# subtiter_cognito.confirm_user_signup(
 #     email=email.strip(),
 #     confirmation_code=confirmation_code
 # )
@@ -81,7 +81,7 @@ Updated the authentication system to support combined registration and confirmat
 **After:**
 ```python
 # Perform the actual confirmation with Cognito
-klippers_cognito.confirm_user_signup(
+subtiter_cognito.confirm_user_signup(
     email=email.strip(),
     confirmation_code=confirmation_code
 )
@@ -258,7 +258,7 @@ curl -X POST http://localhost:8000/api/v1/auth/register-and-confirm \
 
 1. Register a user
 2. Check email for verification link
-3. Click link: `https://klippers.ai/api/v1/auth/confirm-signup/test@example.com/123456`
+3. Click link: `https://subtiter.ai/api/v1/auth/confirm-signup/test@example.com/123456`
 4. Should see success page and user should be confirmed
 
 ---
@@ -338,7 +338,7 @@ For questions or issues:
 - Check `API_ENDPOINTS.md` for API documentation
 - Check `CODE_MAPPING.md` for how variables work
 - Check `FLOW_DIAGRAM.txt` for visual flow
-- Contact: support@klippers.ai
+- Contact: support@subtiter.ai
 
 ---
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #ENV_PATH=".env.docker.prod"
-ENV_PATH="/home/ubuntu/github/klippers_repo/klippers/backend/.env.docker.prod"
+ENV_PATH="/home/ubuntu/github/subtiter_repo/subtiter/backend/.env.docker.prod"
 
 # --- Source environment variables if .env file exists ---
 if [ -f "${ENV_PATH}" ]; then
@@ -21,14 +21,14 @@ fi
 
 # --- Configuration ---
 # Default values will be used if not set in .env
-DB_BACKUP_CONTAINER_NAME="${DB_BACKUP_CONTAINER_NAME:-klippers-postgres-db-prod}" # Or use CONTAINER_ID
-DB_BACKUP_DB_NAME="${DB_BACKUP_DB_NAME:-klippers_prod}"
-DB_BACKUP_DB_USER="${DB_BACKUP_DB_USER:-klippersuser_prod}"
+DB_BACKUP_CONTAINER_NAME="${DB_BACKUP_CONTAINER_NAME:-subtiter-postgres-db-prod}" # Or use CONTAINER_ID
+DB_BACKUP_DB_NAME="${DB_BACKUP_DB_NAME:-subtiter_prod}"
+DB_BACKUP_DB_USER="${DB_BACKUP_DB_USER:-subtiteruser_prod}"
 DB_BACKUP_DIR="${DB_BACKUP_DIR:-/tmp/backups}" # e.g., /mnt/backups/postgres
 DB_BACKUP_DATE_FORMAT=$(date +"%Y-%m-%d_%H-%M-%S")
 DB_BACKUP_FILE="${DB_BACKUP_DIR}/${DB_BACKUP_DB_NAME}_${DB_BACKUP_DATE_FORMAT}.sql" # Using .gz for compression
 DB_BACKUP_DAYS_TO_KEEP="${DB_BACKUP_DAYS_TO_KEEP:-7}"
-DB_BACKUP_S3_BUCKET_NAME="${DB_BACKUP_S3_BUCKET_NAME:-klippers-psql-backup}"
+DB_BACKUP_S3_BUCKET_NAME="${DB_BACKUP_S3_BUCKET_NAME:-subtiter-psql-backup}"
 
 # --- Create backup directory if it doesn't exist ---
 mkdir -p "${DB_BACKUP_DIR}"

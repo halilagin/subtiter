@@ -2,7 +2,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 from typing import List, Optional, Union, Dict
 from datetime import datetime
-from app.klipperscmd.clippercmd.model.short_config_model import VideoAspectRatio, VideoType, VideoFormat, SocialMediaPlatform
+from app.subtitercmd.clippercmd.model.short_config_model import VideoAspectRatio, VideoType, VideoFormat, SocialMediaPlatform
 from app.db.model_document import VideoProcessingApplication
 
 

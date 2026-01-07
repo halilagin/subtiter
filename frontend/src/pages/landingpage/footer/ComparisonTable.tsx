@@ -35,7 +35,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ selectedAlternative }
               fontFamily: "'Kelson Sans', 'Inter', sans-serif"
             }}
           >
-            Klippers vs {comparisonData[selectedAlternative as keyof typeof comparisonData]?.name}
+            Subtiter vs {comparisonData[selectedAlternative as keyof typeof comparisonData]?.name}
           </Typography>
           <Typography 
             variant="h6" 
@@ -46,7 +46,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ selectedAlternative }
               fontFamily: "'Kelson Sans', 'Inter', sans-serif"
             }}
           >
-            See why creators choose Klippers over {comparisonData[selectedAlternative as keyof typeof comparisonData]?.name}
+            See why creators choose Subtiter over {comparisonData[selectedAlternative as keyof typeof comparisonData]?.name}
           </Typography>
         </Box>
         <TableContainer component={Paper} elevation={0} sx={{
@@ -62,7 +62,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ selectedAlternative }
                   Feature
                 </TableCell>
                 <TableCell sx={{ color: '#000000', fontWeight: '600', textAlign: 'center', fontSize: '1.1rem' }}>
-                  Klippers
+                  Subtiter
                 </TableCell>
                 <TableCell sx={{ color: '#000000', fontWeight: '600', textAlign: 'center', fontSize: '1.1rem' }}>
                   {comparisonData[selectedAlternative as keyof typeof comparisonData]?.name}
@@ -83,15 +83,15 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ selectedAlternative }
                     </Box>
                   </TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>
-                    {typeof row.klippers === 'boolean' ? (
-                      row.klippers ? (
+                    {typeof row.subtiter === 'boolean' ? (
+                      row.subtiter ? (
                         <CheckCircle sx={{ color: '#132436', fontSize: 24 }} />
                       ) : (
                         <CancelIcon sx={{ color: '#ef4444', fontSize: 24 }} />
                       )
                     ) : (
                       <Typography variant="body2" sx={{ color: '#132436', fontWeight: 600 }}>
-                        {row.klippers}
+                        {row.subtiter}
                       </Typography>
                     )}
                   </TableCell>

@@ -7,7 +7,7 @@ Usage:
     python scripts/calculate_ai_costs.py <path_to_ai_cost_total.json>
     
 Example:
-    python scripts/calculate_ai_costs.py app/klippers_warehouse/user123/video456/ai_cost_total.json
+    python scripts/calculate_ai_costs.py app/subtiter_warehouse/user123/video456/ai_cost_total.json
 """
 
 import json
@@ -111,7 +111,7 @@ def main():
         print("Usage: python calculate_ai_costs.py <path_to_ai_cost_total.json>")
         print()
         print("Example:")
-        print("  python scripts/calculate_ai_costs.py app/klippers_warehouse/user123/video456/ai_cost_total.json")
+        print("  python scripts/calculate_ai_costs.py app/subtiter_warehouse/user123/video456/ai_cost_total.json")
         sys.exit(1)
     
     json_file_path = sys.argv[1]

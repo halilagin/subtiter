@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Klippers Database Restore Script
+# Subtiter Database Restore Script
 # This script restores the PostgreSQL database
 
 # Colors for output
@@ -11,9 +11,9 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-CONTAINER_NAME="klippers-postgres-db"
-DB_NAME="klippers_test"
-DB_USER="klippersuser"
+CONTAINER_NAME="subtiter-postgres-db"
+DB_NAME="subtiter_test"
+DB_USER="subtiteruser"
 BACKUP_DIR="./backups"
 
 # Functions
@@ -38,7 +38,7 @@ show_usage() {
     echo "Usage: $0 <backup_file>"
     echo ""
     echo "Examples:"
-    echo "  $0 klippers_test_2025-10-28_21-48-21.sql"
+    echo "  $0 subtiter_test_2025-10-28_21-48-21.sql"
     echo "  $0 latest  # Use the latest backup"
     echo ""
     echo "Available backups:"
@@ -54,7 +54,7 @@ check_container() {
     print_info "Checking container status..."
     if ! docker ps | grep -q "${CONTAINER_NAME}"; then
         print_error "Container '${CONTAINER_NAME}' is not running!"
-        print_info "To start the container: docker-compose up -d klippers_postgres_db"
+        print_info "To start the container: docker-compose up -d subtiter_postgres_db"
         exit 1
     fi
     print_success "Container is running"
@@ -136,7 +136,7 @@ restore_database() {
 # Main function
 main() {
     echo "=========================================="
-    echo "🔄 Klippers Database Restore Script"
+    echo "🔄 Subtiter Database Restore Script"
     echo "=========================================="
     
     # Parameter check

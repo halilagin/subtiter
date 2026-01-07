@@ -3,7 +3,7 @@ from ..db.model_document import PromotionCode, User, Role, Group, UserVideo, Lev
 from ..core.security import get_password_hash
 from .database import SessionLocal
 from datetime import datetime, timedelta, timezone
-from app.klipperscmd.clippercmd.model.short_config_model import LanguageCode, VideoAspectRatio, VideoType, VideoFormat
+from app.subtitercmd.clippercmd.model.short_config_model import LanguageCode, VideoAspectRatio, VideoType, VideoFormat
 from app.config import settings
 import os
 import shutil
@@ -147,7 +147,7 @@ def seed_users(db):
             User(
                 id="f1f3106a-2a75-4ba6-8c31-2c13d0773721",
                 username="halilagintest",
-                email="halil.agin+klippers@gmail.com",
+                email="halil.agin+subtiter@gmail.com",
                 hashed_password=get_password_hash("123456"),
                 subscription_config_json=Level1SubscriptionPlanInstanceMonthly.model_dump(),
                 is_active=True,

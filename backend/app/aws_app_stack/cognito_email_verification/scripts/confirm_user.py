@@ -21,7 +21,7 @@ load_dotenv()
 # Add parent directory to path to import app modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.aws_app_stack.cognito import klippers_cognito  # noqa: E402
+from app.aws_app_stack.cognito import subtiter_cognito  # noqa: E402
 
 def main():
     if len(sys.argv) < 2:
@@ -33,7 +33,7 @@ def main():
 
     try:
         print(f"Confirming user: {email}")
-        klippers_cognito.admin_confirm_user(email)
+        subtiter_cognito.admin_confirm_user(email)
         print(f"✓ User {email} confirmed successfully!")
         print("You can now login with this account.")
     except Exception as e:
