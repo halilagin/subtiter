@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import LandingPage from '@/pages/landingpage/LandingPage';
 import Dashboard from '@/pages/dashboard/dashboard/Dashboard';
 import { Account } from '@/pages/dashboard/account';
 // import { Usage } from '@/pages/dashboard/usage';
@@ -21,7 +20,6 @@ import PayForUpgrade from './pages/pricing/pay-for-upgrade/PayForUpgrade';
 import ApplyPromotionCode from './pages/dashboard/applypromotioncode/ApplyPromotionCode';
 // import BerfinTest from './pages/landingpage/sections/BerfinTest';
 import BerfinTest from './pages/landingpage/sections/BerfinTest';
-import SubtiterChatbot from './pages/mobileapp/SubtiterChatbot';
 import { SubtiterApp } from './subtiter.com';
 import ListTrimmedVideosPage from './pages/ListTrimmedVideosPage';
 
@@ -33,13 +31,16 @@ function App() {
   return (
       <Router>
         <Routes>
-        {/* Public routes with OuterLayout */}
-        <Route path="/" element={<OuterLayout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/create-account" element={<CreateAccountPage />} />
-          {/* Add more public routes here as needed */}
+        {/* Public routes */}
+        <Route path="/" element={<SubtiterApp />} />
+        <Route path="/pricing" element={<OuterLayout />}>
+          <Route index element={<PricingPage />} />
+        </Route>
+        <Route path="/payment" element={<OuterLayout />}>
+          <Route index element={<Payment />} />
+        </Route>
+        <Route path="/create-account" element={<OuterLayout />}>
+          <Route index element={<CreateAccountPage />} />
         </Route>
         
         {/* Pricing and Payment pages with their own layouts */}
@@ -56,7 +57,6 @@ function App() {
         <Route path="/berfin-test" element={<OuterLayout />}>
           <Route index element={<BerfinTest />} />
         </Route>
-        <Route path="/subtiter-chatbot" element={<SubtiterChatbot />} />
         <Route path="/subtiter" element={<SubtiterApp />} /> 
 
         {/* Protected routes with InnerLayout */}

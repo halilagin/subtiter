@@ -19,8 +19,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "strictPropertyInitialization": false,
-    "types": ["node", "jest", "vite/client"]
+    "strictPropertyInitialization": false
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

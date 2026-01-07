@@ -23,7 +23,6 @@ import {
 import AppConfig from '@/AppConfig';
 import LoginComponent from '@/components/LoginComponent';
 import NavBar from '@/components/NavBarOuter';
-import subtiterLogo from '/subtiternewlogo.png';
 
 
 const LoginAppBar = () => {
@@ -52,17 +51,7 @@ const LoginAppBar = () => {
                   cursor: 'pointer'
                 }}
               >
-                <img 
-                  src={subtiterLogo} 
-                  alt="Subtiter Logo" 
-                  style={{ 
-                           width: 32,
-                           height: 32,
-                           objectFit: 'contain'
-                         }}
-                         tabIndex={-1}
-                         onFocus={(e) => e.target.blur()}
-                />
+              
                 <Typography variant="h6" sx={{ 
                   fontWeight: '800', 
                   color: '#000000',

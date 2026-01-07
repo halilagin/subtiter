@@ -9,7 +9,6 @@ import {
   } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
-import subtiterLogo from '/subtiternewlogo.png';
 
 const NavBarOuter = () => {
 
@@ -44,17 +43,7 @@ sx={{
           cursor: 'pointer'
         }}
       >
-                      <img 
-        src={subtiterLogo} 
-        alt="Subtiter Logo" 
-        style={{ 
-          width: 32, 
-          height: 32,
-          objectFit: 'contain'
-        }} 
-        tabIndex={-1}
-        onFocus={(e) => e.target.blur()}
-      />
+                
         <Typography variant="h6" sx={{ 
           fontWeight: '800', 
           color: '#000000',

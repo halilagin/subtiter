@@ -7,7 +7,6 @@ import {
   Toolbar
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import subtiterLogo from '/subtiternewlogo.png';
 import ProfileDropdown from './ProfileDropdown';
 
 
@@ -54,15 +53,7 @@ const NavBarInner = () => {
               }}
               onClick={handleLogoClick}
             >
-              <img 
-                src={subtiterLogo} 
-                alt="Subtiter Logo" 
-                style={{ 
-                  width: 32, 
-                  height: 32,
-                  objectFit: 'contain'
-                }} 
-              />
+            
               <Typography variant="h6" sx={{ 
                 fontWeight: '800', 
                 color: '#2f2e2c',
