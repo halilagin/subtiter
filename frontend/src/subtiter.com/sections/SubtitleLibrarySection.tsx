@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Box, Typography, Button, Grid, IconButton } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
+import { Box, Typography, Button, Grid, IconButton, Slider, Tabs, Tab } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
 interface SubtitleLibrarySectionProps {
   onNext: () => void;
@@ -61,7 +63,20 @@ const generateSubtitleStyles = () => {
 
 const subtitleStyles = generateSubtitleStyles();
 
-const categories = ['Trending', 'Popular', 'New', 'Classic'];
+// Add some popular styles from the image
+const popularStyles = [
+  { id: 'karaoke', name: 'Karaoke', isNew: false },
+  { id: 'beasty', name: 'Beasty', isNew: false },
+  { id: 'deep_diver', name: 'Deep Diver', isNew: false },
+  { id: 'youshaei', name: 'Youshaei', isNew: false },
+  { id: 'pod_p', name: 'Pod P', isNew: false },
+  { id: 'mozi', name: 'Mozi', isNew: false },
+  { id: 'popline', name: 'Popline', isNew: false },
+  { id: 'glitch_infinite', name: 'Glitch Infinite', isNew: true },
+  { id: 'seamless_bounce', name: 'Seamless Bounce', isNew: true },
+];
+
+const allStyles = [...popularStyles, ...subtitleStyles.filter(s => !popularStyles.find(p => p.id === s.id))];
 
 export const SubtitleLibrarySection: React.FC<SubtitleLibrarySectionProps> = ({
   onNext,
@@ -70,23 +85,16 @@ export const SubtitleLibrarySection: React.FC<SubtitleLibrarySectionProps> = ({
   uploadedVideo,
 }) => {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('Trending');
   const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  
-  const itemsPerPage = 18;
-  const totalPages = Math.ceil(subtitleStyles.length / itemsPerPage);
-  const displayedStyles = subtitleStyles.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-  
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(0, prev - 1));
-  };
-  
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
-  };
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [videoAspectRatio, setVideoAspectRatio] = useState<number | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (uploadedVideo) {
       const url = URL.createObjectURL(uploadedVideo);
       setVideoPreviewUrl(url);
@@ -94,223 +102,281 @@ export const SubtitleLibrarySection: React.FC<SubtitleLibrarySectionProps> = ({
     }
   }, [uploadedVideo]);
 
+  // Video event handlers
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(video.currentTime);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(video.duration);
+      if (video.videoWidth && video.videoHeight) {
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        setVideoAspectRatio(aspectRatio);
+      }
+    };
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
+    const handleVolumeChange = () => {
+      setVolume(video.muted ? 0 : video.volume);
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('volumechange', handleVolumeChange);
+
+    // Initialize volume
+    if (video.volume === 0) {
+      video.volume = 1;
+    }
+
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('volumechange', handleVolumeChange);
+    };
+  }, [videoPreviewUrl]);
+
+
+
+  const formatTime = (seconds: number): string => {
+    if (!isFinite(seconds) || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const handleSelect = (style: any) => {
     setSelectedStyle(style.id);
     onSubtitleSelected(style);
   };
 
+  const renderCaptionPreview = (styleId: string) => {
+    switch (styleId) {
+      case 'no_captions':
+        return (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                border: '3px solid rgba(255, 255, 255, 0.5)',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%) rotate(45deg)',
+                  width: '80%',
+                  height: '3px',
+                  bgcolor: 'rgba(255, 255, 255, 0.5)',
+                },
+              }}
+            />
+          </Box>
+        );
+      case 'karaoke':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>TO GET</Typography>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>STARTED</Typography>
+          </Box>
+        );
+      case 'beasty':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>TO GET</Typography>
+          </Box>
+        );
+      case 'deep_diver':
+        return (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', px: 2 }}>
+            <Box sx={{ bgcolor: 'rgba(255, 255, 255, 0.9)', borderRadius: 1, px: 1.5, py: 0.75 }}>
+              <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.5rem', fontWeight: 400, color: '#000000', lineHeight: 1 }}>To get started</Typography>
+            </Box>
+          </Box>
+        );
+      case 'youshaei':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 400, color: '#90EE90', lineHeight: 1 }}>TO GET STARTED</Typography>
+          </Box>
+        );
+      case 'pod_p':
+        return (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.7rem', fontWeight: 700, color: '#FF69B4', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>STARTED</Typography>
+          </Box>
+        );
+      case 'mozi':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>TO GET</Typography>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#00FF00', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>STARTED</Typography>
+          </Box>
+        );
+      case 'popline':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
+              <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>TO</Typography>
+              <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.45rem', fontWeight: 400, color: '#9370DB', lineHeight: 1 }}>get</Typography>
+            </Box>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: '#ffffff', textShadow: '2px 2px 0px #000000', lineHeight: 1 }}>STARTED</Typography>
+          </Box>
+        );
+      case 'glitch_infinite':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.55rem', fontWeight: 400, background: 'linear-gradient(135deg, #FF8C00, #FFD700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '2px 2px 0px #FF0000', lineHeight: 1 }}>To get</Typography>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.55rem', fontWeight: 400, background: 'linear-gradient(135deg, #FF8C00, #FFD700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '2px 2px 0px #FF0000', lineHeight: 1 }}>started</Typography>
+          </Box>
+        );
+      case 'seamless_bounce':
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0.5, width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.55rem', fontWeight: 400, color: '#90EE90', textShadow: '2px 2px 0px #006400', lineHeight: 1 }}>To get</Typography>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.55rem', fontWeight: 400, color: '#90EE90', textShadow: '2px 2px 0px #006400', lineHeight: 1 }}>started</Typography>
+          </Box>
+        );
+      default:
+        return (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', px: 2 }}>
+            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.5rem', color: 'rgba(255, 255, 255, 0.6)', textAlign: 'center' }}>{styleId}</Typography>
+          </Box>
+        );
+    }
+  };
+
+  // Get selected subtitle style for preview
+  const selectedSubtitleStyle = selectedStyle ? allStyles.find(s => s.id === selectedStyle) : null;
+
   return (
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         width: '100%',
         height: '100%',
-        justifyContent: 'center',
-        gap: 2,
+        p: 3,
+        justifyContent: 'space-between',
+        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'hidden',
       }}
     >
+      {/* Left Sidebar - Caption Settings */}
       <Box
+        data-subtitle-area="true"
         sx={{
+          width: '350px',
+          flexShrink: 0,
+          ml: 2,
+          bgcolor: 'rgba(26, 26, 26, 0.6)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          borderRadius: 3,
           display: 'flex',
-          gap: 2,
-          width: { xs: 'calc(100% - 24px)', sm: 'calc(100% - 48px)' },
-          maxWidth: { xs: '100%', sm: '1200px' },
-          mx: { xs: 1.5, sm: 3 },
-          height: { xs: '55vh', sm: '60vh' },
-          maxHeight: '500px',
+          flexDirection: 'column',
+          height: 'calc(100% - 24px)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
         }}
       >
-        {/* Video Preview */}
-        <Box
-          sx={{
-            width: '350px',
-            flexShrink: 0,
-            borderRadius: 1,
-            border: '1px solid #e5e5e5',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bgcolor: '#000000',
-          }}
-        >
-          {videoPreviewUrl ? (
-            <video
-              src={videoPreviewUrl}
-              controls
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          ) : (
+        {/* Caption Title */}
+        <Box sx={{ px: 3, py: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
             <Typography
               sx={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '0.875rem',
-                color: '#666666',
+              fontSize: '1.25rem',
+              fontWeight: 600,
+              color: '#ffffff',
               }}
             >
-              No video uploaded
+            Caption
             </Typography>
-          )}
         </Box>
 
-        {/* Subtitle Selection */}
-        <Box
-          data-subtitle-area="true"
+        {/* Tabs */}
+        <Box sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+          <Tabs
+            value={activeTab}
+            onChange={(_, newValue) => setActiveTab(newValue)}
           sx={{
-            flex: 1,
-            bgcolor: 'transparent',
-            borderRadius: 1,
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-          }}
-        >
-      {/* Title */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-        <Typography
-          sx={{
+              '& .MuiTab-root': {
+                color: 'rgba(255, 255, 255, 0.6)',
+                textTransform: 'none',
             fontFamily: "'Inter', sans-serif",
-            fontSize: { xs: '1.5rem', sm: '2rem' },
+                fontSize: '0.875rem',
             fontWeight: 400,
+                minHeight: 48,
+                '&.Mui-selected': {
             color: '#ffffff',
-            textAlign: 'center',
-          }}
-        >
-          Choose a subtitle
-        </Typography>
-      </Box>
-      
-      {/* Top Filter Labels */}
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 1,
-          px: 2,
-          py: 1.5,
-          borderBottom: 'none',
-          bgcolor: 'transparent',
-          justifyContent: 'center',
-        }}
-      >
-        {categories.map((category) => (
-          <Box
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            sx={{
-              cursor: 'pointer',
-              px: 2,
-              py: 0.75,
-              borderRadius: 6,
-              bgcolor: selectedCategory === category ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.08)',
-              border: `1px solid ${selectedCategory === category ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.15)'}`,
-              transition: 'all 0.15s ease',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.15)',
-                borderColor: 'rgba(255, 255, 255, 0.4)',
-                transform: 'translateY(-1px)',
+                  fontWeight: 500,
+                },
               },
-              '&:active': {
-                transform: 'translateY(0)',
+              '& .MuiTabs-indicator': {
+                bgcolor: '#f16838',
               },
             }}
           >
-            <Typography
-              sx={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.75rem',
-                fontWeight: selectedCategory === category ? 500 : 400,
-                color: '#ffffff',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              {category}
-            </Typography>
-          </Box>
-        ))}
+            <Tab label="Presets" />
+            <Tab label="Font" />
+            <Tab label="Effects" />
+          </Tabs>
       </Box>
 
-      {/* Subtitle Cards with Navigation Arrows */}
+        {/* Content based on active tab */}
+        {activeTab === 0 && (
       <Box
         sx={{
           flex: 1,
-          p: 1.5,
           overflow: 'hidden',
-          minWidth: 0,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        {/* Left Arrow */}
-        <IconButton
-          onClick={handlePreviousPage}
-          disabled={currentPage === 0}
-          sx={{
-            color: '#ffffff',
-            bgcolor: 'rgba(255, 255, 255, 0.1)',
-            '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.2)',
-            },
-            '&.Mui-disabled': {
-              color: 'rgba(255, 255, 255, 0.3)',
-              bgcolor: 'rgba(255, 255, 255, 0.05)',
-            },
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+          p: 1,
           }}
         >
-          <ArrowBackIosIcon sx={{ fontSize: '1.5rem' }} />
-        </IconButton>
-
-        {/* Grid Container */}
-        <Box
-          sx={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <Grid container spacing={0.75} sx={{ display: 'flex', flexWrap: 'wrap', margin: 0, flex: 1, alignContent: 'flex-start' }}>
-            {displayedStyles.map((style) => (
-            <Grid 
-              item 
-              key={style.id}
+            <Grid container spacing={2}>
+              {allStyles.map((style) => (
+                <Grid item xs={6} key={style.id}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+                    <Box
               onClick={() => handleSelect(style)}
               sx={{
-                width: 'calc(16.666% - 4.16px)',
-                flex: '0 0 calc(16.666% - 4.16px)',
-                maxWidth: 'calc(16.666% - 4.16px)',
-                minWidth: 0,
-                padding: 0,
+                        aspectRatio: '4 / 3',
+                        borderRadius: 3,
+                        bgcolor: selectedStyle === style.id 
+                          ? 'rgba(241, 104, 56, 0.15)' 
+                          : '#2a2a2a',
                 display: 'flex',
                 flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                '&:hover': {
-                  transform: 'translateY(-1px)',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  border: `1px solid ${selectedStyle === style.id ? '#ffffff' : 'rgba(255, 255, 255, 0.3)'}`,
-                  borderRadius: 1.5,
-                  bgcolor: '#000000',
-                  mb: 0.25,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
                   position: 'relative',
-                  transition: 'all 0.2s ease',
+                        p: 1,
                   '&:hover': {
-                    borderColor: '#ffffff',
+                          transform: 'translateY(-2px)',
+                          bgcolor: selectedStyle === style.id 
+                            ? 'rgba(241, 104, 56, 0.2)' 
+                            : '#333333',
                   },
                 }}
               >
@@ -318,72 +384,102 @@ export const SubtitleLibrarySection: React.FC<SubtitleLibrarySectionProps> = ({
                   <Box
                     sx={{
                       position: 'absolute',
-                      top: 0.5,
-                      right: 0.5,
-                      width: 6,
-                      height: 6,
+                            top: 6,
+                            right: 6,
+                            width: 16,
+                            height: 16,
                       borderRadius: '50%',
-                      bgcolor: '#1a1a1a',
+                            bgcolor: '#f16838',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                            zIndex: 2,
                     }}
                   >
-                    <CheckIcon sx={{ fontSize: 4, color: '#ffffff' }} />
+                          <CheckIcon sx={{ fontSize: 12, color: '#ffffff' }} />
                   </Box>
                 )}
+                      {(style as any).isNew && (
                 <Box
                   sx={{
-                    width: '40%',
-                    height: '40%',
-                    bgcolor: '#fafafa',
-                    borderRadius: 0.5,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                            position: 'absolute',
+                            top: 6,
+                            right: 6,
+                            bgcolor: '#90EE90',
+                            borderRadius: 0.75,
+                            px: 0.5,
+                            py: 0.15,
+                            zIndex: 2,
                   }}
                 >
                   <Typography
                     sx={{
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.3rem',
-                      color: '#666666',
-                      textAlign: 'center',
+                              fontSize: '0.45rem',
+                              fontWeight: 600,
+                              color: '#000000',
                       lineHeight: 1,
                     }}
                   >
-                    {style.preview}
+                            New
                   </Typography>
+                        </Box>
+                      )}
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                        {renderCaptionPreview(style.id)}
                 </Box>
               </Box>
               <Typography
                 sx={{
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.4rem',
+                        fontSize: '0.65rem',
                   fontWeight: 400,
                   color: '#ffffff',
                   textAlign: 'center',
-                  lineHeight: 1.1,
                 }}
               >
                 {style.name}
               </Typography>
+                  </Box>
             </Grid>
           ))}
         </Grid>
+          </Box>
+        )}
+
+        {activeTab === 1 && (
+          <Box sx={{ flex: 1, p: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography sx={{ color: 'rgba(255, 255, 255, 0.6)', fontFamily: "'Inter', sans-serif" }}>
+              Font settings coming soon
+            </Typography>
+          </Box>
+        )}
+
+        {activeTab === 2 && (
+          <Box sx={{ flex: 1, p: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography sx={{ color: 'rgba(255, 255, 255, 0.6)', fontFamily: "'Inter', sans-serif" }}>
+              Effects settings coming soon
+            </Typography>
+          </Box>
+        )}
+
+        {/* Continue Button */}
         {selectedStyle && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ p: 2, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
             <Button
               variant="contained"
-              onClick={onNext}
+              fullWidth
+              onClick={(e) => {
+                e.stopPropagation();
+                onNext();
+              }}
               sx={{
                 bgcolor: '#f16838',
                 color: '#ffffff',
                 borderRadius: 1,
-                px: 4,
-                py: 1,
+                py: 1.5,
                 fontFamily: "'Inter', sans-serif",
-                fontWeight: 400,
+                fontWeight: 500,
                 fontSize: '0.875rem',
                 textTransform: 'none',
                 '&:hover': {
@@ -397,25 +493,240 @@ export const SubtitleLibrarySection: React.FC<SubtitleLibrarySectionProps> = ({
         )}
         </Box>
 
-        {/* Right Arrow */}
+      {/* Right Side - Video Preview Container */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ml: 3,
+        }}
+      >
+        <Box
+          data-video-preview="true"
+          sx={{
+            width: videoAspectRatio 
+              ? `min(750px, calc((100vh - 80px) * ${videoAspectRatio}))`
+              : '750px',
+            height: videoAspectRatio
+              ? `min(calc(100vh - 80px), calc(750px / ${videoAspectRatio}))`
+              : 'calc(100vh - 80px)',
+            maxWidth: '750px',
+            maxHeight: 'calc(100vh - 80px)',
+            flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            bgcolor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: 3,
+            position: 'relative',
+            overflow: 'hidden',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+        {videoPreviewUrl ? (
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <video
+              ref={videoRef}
+              src={videoPreviewUrl}
+              playsInline
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                borderRadius: '12px',
+              }}
+            />
+              
+            {/* Caption Preview Overlay */}
+            {selectedSubtitleStyle && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: '20%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  px: 3,
+                  py: 2,
+                  bgcolor: 'rgba(0, 0, 0, 0.5)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 2,
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '1.25rem',
+                    fontWeight: 500,
+                    color: '#ffffff',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  MULTIPLE LINES PER PAGE
+                </Typography>
+              </Box>
+            )}
+
+            {/* Demo Badge */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: 16,
+                px: 1.5,
+                py: 0.5,
+                bgcolor: 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: 1,
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  color: '#ffffff',
+                }}
+              >
+                Demo
+              </Typography>
+            </Box>
+
+            {/* Video Controls Overlay */}
+            <Box
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                bgcolor: 'rgba(0, 0, 0, 0.6)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                borderBottomLeftRadius: '12px',
+                borderBottomRightRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                px: 2,
+                py: 1.5,
+              }}
+            >
+              {/* Play/Pause Button */}
         <IconButton
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages - 1}
+                onClick={() => {
+                  const video = videoRef.current;
+                  if (video) {
+                    if (video.paused) {
+                      video.play();
+                    } else {
+                      video.pause();
+                    }
+                  }
+                }}
           sx={{
             color: '#ffffff',
+                  '&:hover': {
             bgcolor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                }}
+              >
+                {isPlaying ? (
+                  <PauseIcon sx={{ fontSize: '1.5rem' }} />
+                ) : (
+                  <PlayArrowIcon sx={{ fontSize: '1.5rem' }} />
+                )}
+              </IconButton>
+              
+              {/* Timeline */}
+              <Slider
+                value={duration > 0 ? (currentTime / duration) * 100 : 0}
+                onChange={(_, value) => {
+                  const video = videoRef.current;
+                  if (video && duration > 0) {
+                    video.currentTime = ((value as number) / 100) * duration;
+                  }
+                }}
+                sx={{
+                  flex: 1,
+                  color: '#f16838',
+                  '& .MuiSlider-thumb': {
+                    width: 12,
+                    height: 12,
+                  },
+                  '& .MuiSlider-track': {
+                    height: 4,
+                  },
+                  '& .MuiSlider-rail': {
+                    height: 4,
+                    bgcolor: 'rgba(255, 255, 255, 0.3)',
+                  },
+                }}
+              />
+              
+              {/* Volume Control */}
+              <IconButton
+                onClick={() => {
+                  const video = videoRef.current;
+                  if (video) {
+                    video.muted = !video.muted;
+                    setVolume(video.muted ? 0 : 1);
+                  }
+                }}
+                sx={{
+                  color: '#ffffff',
             '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.2)',
-            },
-            '&.Mui-disabled': {
-              color: 'rgba(255, 255, 255, 0.3)',
-              bgcolor: 'rgba(255, 255, 255, 0.05)',
+                    bgcolor: 'rgba(255, 255, 255, 0.1)',
             },
           }}
         >
-          <ArrowForwardIosIcon sx={{ fontSize: '1.5rem' }} />
+                {volume === 0 ? (
+                  <VolumeOffIcon sx={{ fontSize: '1.25rem' }} />
+                ) : (
+                  <VolumeUpIcon sx={{ fontSize: '1.25rem' }} />
+                )}
         </IconButton>
       </Box>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '1rem',
+                color: 'rgba(255, 255, 255, 0.6)',
+              }}
+            >
+              No video uploaded
+            </Typography>
+          </Box>
+        )}
       </Box>
       </Box>
     </Box>

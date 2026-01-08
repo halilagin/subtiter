@@ -77,6 +77,9 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
         display: 'flex',
         flexDirection: 'column',
         gap: 3,
+        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'hidden',
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

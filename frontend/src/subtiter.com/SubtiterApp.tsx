@@ -26,8 +26,8 @@ export const SubtiterApp: React.FC = () => {
   };
 
   const handlePrevious = () => {
-    if (currentSectionRef.current > 0) {
-      const prev = currentSectionRef.current - 1;
+    if (currentSection > 0) {
+      const prev = currentSection - 1;
       currentSectionRef.current = prev;
       setCurrentSection(prev);
     }
@@ -39,19 +39,28 @@ export const SubtiterApp: React.FC = () => {
   }, [currentSection]);
 
   useEffect(() => {
-    const handleWheel = (e: Event) => {
-      const wheelEvent = e as WheelEvent;
-      
+    const handleWheel = (e: WheelEvent) => {
       // Check if scrolling within subtitle selection area
-      const target = wheelEvent.target as HTMLElement;
+      const target = e.target as HTMLElement;
       
-      // Check if we're inside a scrollable subtitle area or navigation buttons
+      // Check if we're inside a scrollable subtitle area, navigation buttons, or video preview
       const isInSubtitleGrid = target.closest('[data-subtitle-area="true"]');
-      const isInNavigationButton = target.closest('.MuiIconButton-root');
+      const isInNavigationButton = target.closest('.MuiIconButton-root') || target.closest('button[class*="MuiIconButton"]');
+      const isInVideoPreview = target.closest('[data-video-preview="true"]');
+      const isVideoElement = target.tagName === 'VIDEO' || target.closest('video');
+      const isButton = target.tagName === 'BUTTON' || target.closest('button');
+      const isInput = target.tagName === 'INPUT' || target.closest('input');
+      // Check for video controls (they're in shadow DOM)
+      const isVideoControl = target.closest('video') || (target.parentElement && target.parentElement.closest('video'));
+      const isClickable = isButton || isInput || isVideoControl;
       
-      if (isInSubtitleGrid || isInNavigationButton) {
+      if (isInSubtitleGrid || isInNavigationButton || isInVideoPreview || isVideoElement || isClickable) {
         return; // Allow normal scrolling/interaction
       }
+      
+      // Only handle wheel events inside cube-container
+      const container = target.closest('.cube-container');
+      if (!container) return;
       
       // Check if scrolling within content
       const scrollableContent = target.closest('.cube-face');
@@ -61,29 +70,29 @@ export const SubtiterApp: React.FC = () => {
         const isAtTop = scrollableContent.scrollTop === 0;
         const isAtBottom = scrollableContent.scrollTop + scrollableContent.clientHeight >= scrollableContent.scrollHeight - 1;
         
-        if (hasScroll && ((wheelEvent.deltaY > 0 && !isAtBottom) || (wheelEvent.deltaY < 0 && !isAtTop))) {
+        if (hasScroll && ((e.deltaY > 0 && !isAtBottom) || (e.deltaY < 0 && !isAtTop))) {
           return;
         }
       }
       
       if (isScrollingRef.current) return;
       
-      wheelEvent.preventDefault();
+      e.preventDefault();
       isScrollingRef.current = true;
 
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
 
-      if (wheelEvent.deltaY > 0) {
-        const current = currentSectionRef.current;
+      const current = currentSectionRef.current;
+      
+      if (e.deltaY > 0) {
         if (current < 3) {
           const next = current + 1;
           currentSectionRef.current = next;
           setCurrentSection(next);
         }
       } else {
-        const current = currentSectionRef.current;
         if (current > 0) {
           const prev = current - 1;
           currentSectionRef.current = prev;
@@ -96,52 +105,67 @@ export const SubtiterApp: React.FC = () => {
       }, 800);
     };
 
-    const container = document.querySelector('.cube-container');
-    if (container) {
-      container.addEventListener('wheel', handleWheel, { passive: false });
-    }
+    // Add wheel listener to document, not container
+    document.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      if (container) {
-        container.removeEventListener('wheel', handleWheel);
-      }
+      document.removeEventListener('wheel', handleWheel);
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, []); // Remove currentSection dependency
+  }, [currentSection]); // Add currentSection dependency to ensure ref is updated
 
   // Touch events for mobile
   useEffect(() => {
-    const handleTouchStart = (e: Event) => {
-      const touchEvent = e as TouchEvent;
-      const target = touchEvent.target as HTMLElement;
+    const handleTouchStart = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
       
-      // Check if touch started within subtitle selection area
+      // Check if touch started within subtitle selection area, video preview, or navigation buttons
       const isInSubtitleGrid = target.closest('[data-subtitle-area="true"]');
-      const isInNavigationButton = target.closest('.MuiIconButton-root');
+      const isInNavigationButton = target.closest('.MuiIconButton-root') || target.closest('button[class*="MuiIconButton"]');
+      const isInVideoPreview = target.closest('[data-video-preview="true"]');
+      const isVideoElement = target.tagName === 'VIDEO' || target.closest('video');
+      const isButton = target.tagName === 'BUTTON' || target.closest('button');
+      const isInput = target.tagName === 'INPUT' || target.closest('input');
+      // Check for video controls (they're in shadow DOM, so check parent)
+      const isVideoControl = target.closest('video') || (target.parentElement && target.parentElement.closest('video'));
       
-      if (isInSubtitleGrid || isInNavigationButton) {
+      if (isInSubtitleGrid || isInNavigationButton || isInVideoPreview || isVideoElement || isButton || isInput || isVideoControl) {
         return; // Allow normal interaction
       }
       
-      touchStartYRef.current = touchEvent.touches[0].clientY;
+      // Only handle touches inside cube-container
+      const container = target.closest('.cube-container');
+      if (!container) return;
+      
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
-    const handleTouchEnd = (e: Event) => {
+    const handleTouchEnd = (e: TouchEvent) => {
       if (isScrollingRef.current) return;
       
-      // Check if touch ended within subtitle selection area
-      const touchEvent = e as TouchEvent;
-      const target = touchEvent.target as HTMLElement;
-      const isInSubtitleGrid = target.closest('[data-subtitle-area="true"]');
-      const isInNavigationButton = target.closest('.MuiIconButton-root');
+      const target = e.target as HTMLElement;
       
-      if (isInSubtitleGrid || isInNavigationButton) {
+      // Check if touch ended within subtitle selection area, video preview, or navigation buttons
+      const isInSubtitleGrid = target.closest('[data-subtitle-area="true"]');
+      const isInNavigationButton = target.closest('.MuiIconButton-root') || target.closest('button[class*="MuiIconButton"]');
+      const isInVideoPreview = target.closest('[data-video-preview="true"]');
+      const isVideoElement = target.tagName === 'VIDEO' || target.closest('video');
+      const isButton = target.tagName === 'BUTTON' || target.closest('button');
+      const isInput = target.tagName === 'INPUT' || target.closest('input');
+      // Check for video controls
+      const isVideoControl = target.closest('video') || (target.parentElement && target.parentElement.closest('video'));
+      
+      if (isInSubtitleGrid || isInNavigationButton || isInVideoPreview || isVideoElement || isButton || isInput || isVideoControl) {
         return; // Allow normal interaction
       }
       
-      const touchEndY = touchEvent.changedTouches[0].clientY;
+      // Only handle touches inside cube-container
+      const container = target.closest('.cube-container');
+      if (!container) return;
+      
+      const touchEndY = e.changedTouches[0].clientY;
       const diff = touchStartYRef.current - touchEndY;
 
       if (Math.abs(diff) > 50) {
@@ -169,19 +193,26 @@ export const SubtiterApp: React.FC = () => {
       }
     };
 
-    const container = document.querySelector('.cube-container');
-    if (container) {
-      container.addEventListener('touchstart', handleTouchStart, { passive: true });
-      container.addEventListener('touchend', handleTouchEnd, { passive: true });
-    }
+    // Add touch listeners to document, not container
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
-      if (container) {
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchend', handleTouchEnd);
-      }
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, []); // Remove currentSection dependency
+  }, [currentSection]); // Add currentSection dependency
+
+  useEffect(() => {
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
 
   return (
     <Box
@@ -189,7 +220,9 @@ export const SubtiterApp: React.FC = () => {
         width: '100vw',
         height: '100vh',
         overflow: 'hidden',
-        position: 'relative',
+        position: 'fixed',
+        top: 0,
+        left: 0,
         bgcolor: '#001111',
       }}
     >
@@ -210,44 +243,61 @@ export const SubtiterApp: React.FC = () => {
         }}
       >
         <Box
-          className={`cube ${currentSection === 0 ? 'show-front' : currentSection === 1 ? 'show-top' : currentSection === 2 ? 'show-back' : 'show-bottom'}`}
           sx={{
             width: '100%',
             height: '100%',
             position: 'relative',
-            transformStyle: 'preserve-3d',
-            transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+            overflow: 'hidden',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
           }}
         >
           {/* Front Face - Video Upload */}
           <Box
-            className="cube-face cube-face-front"
             sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              width: '100%',
-              height: '100%',
+              opacity: currentSection === 0 ? 1 : 0,
+              transform: currentSection === 0 ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(50px)',
+              pointerEvents: currentSection === 0 ? 'auto' : 'none',
+              transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              zIndex: currentSection === 0 ? 10 : 1,
+              willChange: 'transform',
+              overflow: 'hidden',
             }}
           >
             <VideoUploadSection
               onNext={handleNext}
               onVideoUploaded={(file) => {
                 setUploadedVideo(file);
-                handleNext();
               }}
             />
           </Box>
 
           {/* Top Face - Subtitle Library */}
           <Box
-            className="cube-face cube-face-top"
             sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              width: '100%',
-              height: '100%',
+              opacity: currentSection === 1 ? 1 : 0,
+              transform: currentSection === 1 ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(50px)',
+              pointerEvents: currentSection === 1 ? 'auto' : 'none',
+              transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              zIndex: currentSection === 1 ? 10 : 1,
+              willChange: 'transform',
+              overflow: 'hidden',
             }}
           >
             <SubtitleLibrarySection
@@ -255,20 +305,29 @@ export const SubtiterApp: React.FC = () => {
               onPrevious={handlePrevious}
               onSubtitleSelected={(subtitle) => {
                 setSelectedSubtitle(subtitle);
-                handleNext();
               }}
+              uploadedVideo={uploadedVideo}
             />
           </Box>
 
           {/* Back Face - Summary */}
           <Box
-            className="cube-face cube-face-back"
             sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              width: '100%',
-              height: '100%',
+              opacity: currentSection === 2 ? 1 : 0,
+              transform: currentSection === 2 ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(50px)',
+              pointerEvents: currentSection === 2 ? 'auto' : 'none',
+              transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              zIndex: currentSection === 2 ? 10 : 1,
+              willChange: 'transform',
+              overflow: 'hidden',
             }}
           >
             <SummarySection
@@ -285,13 +344,22 @@ export const SubtiterApp: React.FC = () => {
 
           {/* Bottom Face - Payment */}
           <Box
-            className="cube-face cube-face-bottom"
             sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              width: '100%',
-              height: '100%',
+              opacity: currentSection === 3 ? 1 : 0,
+              transform: currentSection === 3 ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(50px)',
+              pointerEvents: currentSection === 3 ? 'auto' : 'none',
+              transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              zIndex: currentSection === 3 ? 10 : 1,
+              willChange: 'transform',
+              overflow: 'hidden',
             }}
           >
             <PaymentSection
